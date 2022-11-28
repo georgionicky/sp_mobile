@@ -21,51 +21,19 @@ class _profilState extends State<profil> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text("22/11/22",
-                  style: TextStyle(fontWeight: FontWeight.w700)),
-            )
-          ],
+          title: Text("Menu Profil",
+              style: TextStyle(fontWeight: FontWeight.w700)),
+          centerTitle: true,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back,
+                color: Color.fromARGB(255, 255, 255, 255)),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Color.fromRGBO(39, 174, 96, 100),
         ),
-        drawer: new Drawer(
-          child: new ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              new UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 174, 96, 100),
-                ),
-                accountName: new Text("Georgio Nicky"),
-                accountEmail: new Text("Petugas Lapangan"),
-                currentAccountPicture:
-                    Icon(Icons.account_circle, size: 90.0, color: Colors.grey),
-              ),
-              ListTile(
-                leading: Icon(Icons.home),
-                title: Text('Beranda'),
-                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new beranda())),
-              ),
-              ListTile(
-                leading: Icon(Icons.info_rounded),
-                title: Text('Tentang'),
-                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new tentang())),
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Keluar'),
-                onTap: () => null,
-              ),
-            ],
-          ),
-        ),
         body: Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            margin: EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            margin: EdgeInsets.only(bottom: 40, top: 50),
             child: Card(
               elevation: 10,
               child: Form(
@@ -155,7 +123,8 @@ class _profilState extends State<profil> {
                               fontWeight: FontWeight.bold),
                         )),
                       )),
-                    )
+                    ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -170,6 +139,7 @@ class _profilState extends State<profil> {
           if (value!.isEmpty) return "Kata Sandi Lama Tidak Boleh Kosong";
           return null;
         },
+        style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -197,6 +167,7 @@ class _profilState extends State<profil> {
           if (value!.isEmpty) return "Kata Sandi Baru Tidak Boleh Kosong";
           return null;
         },
+        style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -224,6 +195,7 @@ class _profilState extends State<profil> {
           if (value!.isEmpty) return "Konfirmasi Tidak Boleh Kosong";
           return null;
         },
+        style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(

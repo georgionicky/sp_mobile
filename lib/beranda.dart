@@ -1,7 +1,9 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors, unnecessary_new, avoid_returning_null_for_void, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/page/cek_lapak.dart';
 import 'package:sp_mobile/page/retribusi.dart';
+import 'package:sp_mobile/page/tabung.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/page/cek_saldo.dart';
 import 'package:sp_mobile/profil.dart';
@@ -220,7 +222,11 @@ class _berandaState extends State<beranda> {
                                 Column(
                                   children: <Widget>[
                                     ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () => Navigator.of(context)
+                                            .push(new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new cek_Lapak())),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
                                           padding: EdgeInsets.all(10),
@@ -247,7 +253,11 @@ class _berandaState extends State<beranda> {
                                 Column(
                                   children: <Widget>[
                                     ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () => Navigator.of(context)
+                                            .push(new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new retribusi())),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
                                           padding: EdgeInsets.all(10),
@@ -255,7 +265,7 @@ class _berandaState extends State<beranda> {
                                               Color.fromRGBO(39, 174, 96, 100),
                                         ),
                                         child: new Icon(
-                                          Icons.monetization_on,
+                                          Icons.qr_code_scanner,
                                           size: 30,
                                         )),
                                     SizedBox(
@@ -274,7 +284,11 @@ class _berandaState extends State<beranda> {
                                 Column(
                                   children: <Widget>[
                                     ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () => Navigator.of(context)
+                                            .push(new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new tabung())),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
                                           padding: EdgeInsets.all(10),
@@ -492,7 +506,7 @@ class _berandaState extends State<beranda> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
         child: Icon(
-          Icons.monetization_on,
+          Icons.qr_code_scanner,
           color: currentTab == 0
               ? Color.fromARGB(255, 255, 255, 255)
               : Colors.grey,

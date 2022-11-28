@@ -17,57 +17,25 @@ class _cek_SaldoState extends State<cek_Saldo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-                Text("22/11/22", style: TextStyle(fontWeight: FontWeight.w700)),
-          )
-        ],
-        backgroundColor: Color.fromRGBO(39, 174, 96, 100),
-      ),
-      drawer: new Drawer(
-        child: new ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(39, 174, 96, 100),
-              ),
-              accountName: new Text("Georgio Nicky"),
-              accountEmail: new Text("Petugas Lapangan"),
-              currentAccountPicture:
-                  Icon(Icons.account_circle, size: 90.0, color: Colors.grey),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Beranda'),
-              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new beranda())),
-            ),
-            ListTile(
-              leading: Icon(Icons.info_rounded),
-              title: Text('Tentang'),
-              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new tentang())),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Keluar'),
-              onTap: () => null,
-            ),
-          ],
+        title: Text("Menu Cek Saldo",
+            style: TextStyle(fontWeight: FontWeight.w700)),
+        centerTitle: true,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back,
+              color: Color.fromARGB(255, 255, 255, 255)),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 40),
+          margin: EdgeInsets.only(bottom: 100, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
               key: _globalkey,
               child: ListView(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 children: <Widget>[
                   Center(
                     child: Text(
@@ -142,33 +110,39 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 25),
                   //Kalo Nd butuh, hapus jo nih button
-                  InkWell(
-                    onTap: () {
-                      if (_globalkey.currentState!.validate()) {
-                        print("validate");
-                      }
-                    },
-                    child: Center(
-                        child: Container(
-                      width: 200,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(39, 174, 96, 100),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                          child: Text(
-                        "Cari",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    )),
-                  )
                 ],
               ),
             ),
           )),
+      floatingActionButton: SizedBox(
+        height: 50,
+        width: 300,
+        child: FloatingActionButton(
+          child: Center(
+              child: Container(
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(39, 174, 96, 100),
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              "Cari",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+          )), //child widget inside this button
+          shape:
+              BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          onPressed: () {
+            if (_globalkey.currentState!.validate()) {
+              print("validate");
+            }
+            //task to execute when this button is pressed
+          },
+          backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -176,10 +150,12 @@ class _cek_SaldoState extends State<cek_Saldo> {
     return TextFormField(
         obscureText: true,
         controller: _norek,
+        keyboardType: TextInputType.number,
         validator: (String? value) {
           if (value!.isEmpty) return "Nomor Rekening Tidak Boleh Kosong";
           return null;
         },
+        style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(

@@ -560,7 +560,7 @@ class _berandaState extends State<beranda> {
                 onPressed: () {
                   setState(() {
                     currentScreen = tentang();
-                    currentTab = 1;
+                    currentTab = 0;
                   });
                 },
                 child: Column(

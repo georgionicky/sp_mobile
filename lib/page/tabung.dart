@@ -132,9 +132,7 @@ class _tabungState extends State<tabung> {
         child: FloatingActionButton(
           child: Center(
               child: Container(
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(39, 174, 96, 100),
-                borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: Text(
               "Tabung",
               style: TextStyle(

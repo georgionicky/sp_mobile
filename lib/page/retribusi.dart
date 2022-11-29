@@ -8,6 +8,7 @@ class retribusi extends StatefulWidget {
 }
 
 class _retribusiState extends State<retribusi> {
+  bool? check1 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,7 @@ class _retribusiState extends State<retribusi> {
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 200, top: 50),
+          margin: EdgeInsets.only(bottom: 150, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
@@ -109,6 +110,26 @@ class _retribusiState extends State<retribusi> {
                     ),
                   ),
                   SizedBox(height: 25),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        "Kehadiran Pemilik",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Checkbox(
+                          //only check box
+                          value: check1, //unchecked
+                          onChanged: (bool? value) {
+                            //value returned when checkbox is clicked
+                            setState(() {
+                              check1 = value;
+                            });
+                          })
+                    ],
+                  )
                   //Kalo Nd butuh, hapus jo nih button
                 ],
               ),
@@ -120,9 +141,7 @@ class _retribusiState extends State<retribusi> {
         child: FloatingActionButton(
           child: Center(
               child: Container(
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(39, 174, 96, 100),
-                borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: Text(
               "Bayar",
               style: TextStyle(

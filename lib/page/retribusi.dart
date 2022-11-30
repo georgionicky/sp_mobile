@@ -135,25 +135,29 @@ class _retribusiState extends State<retribusi> {
               ),
             ),
           )),
-      floatingActionButton: SizedBox(
-        height: 50,
-        width: 300,
-        child: FloatingActionButton(
-          child: Center(
-              child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              "Bayar",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-          )), //child widget inside this button
-          shape:
-              BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          onPressed: () {},
-          backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: SizedBox(
+          height: 50,
+          width: 300,
+          child: FloatingActionButton(
+            child: Center(
+                child: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                "Bayar",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+            )), //child widget inside this button
+            shape:
+                BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            onPressed: () {},
+            backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

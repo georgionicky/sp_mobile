@@ -115,11 +115,8 @@ class _LocationAppState extends State<LocationApp> {
                           borderRadius: BorderRadius.circular(25),
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          child: Icon(
-                            Icons.account_circle_outlined,
-                            color: Colors.grey[600],
-                            size: 150.0,
-                          ),
+                          child: Image.asset("assets/logo_sumowono.png",
+                              width: 150),
                         ),
                         Text(
                           "Selamat Datang",

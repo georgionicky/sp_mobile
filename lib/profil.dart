@@ -32,14 +32,14 @@ class _profilState extends State<profil> {
           backgroundColor: Color.fromRGBO(39, 174, 96, 100),
         ),
         body: Container(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            margin: EdgeInsets.only(bottom: 40, top: 50),
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            margin: EdgeInsets.only(bottom: 30, top: 50),
             child: Card(
               elevation: 10,
               child: Form(
                 key: _globalkey,
                 child: ListView(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   children: <Widget>[
                     Center(
                       child: Stack(children: <Widget>[

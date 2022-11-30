@@ -7,6 +7,7 @@ import 'package:sp_mobile/page/tabung.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/page/cek_saldo.dart';
 import 'package:sp_mobile/profil.dart';
+import 'package:sp_mobile/page/qr_codeScanner.dart';
 
 class beranda extends StatefulWidget {
   const beranda({super.key});
@@ -257,7 +258,7 @@ class _berandaState extends State<beranda> {
                                             .push(new MaterialPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        new retribusi())),
+                                                        new qrScan())),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
                                           padding: EdgeInsets.all(10),

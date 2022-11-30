@@ -1,118 +1,180 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sp_mobile/page/retribusi.dart';
 
 class qrScan extends StatelessWidget {
-  const qrScan({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Scan Retribusi',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const scanRetribusi(),
-    );
-  }
-}
-
-class scanRetribusi extends StatefulWidget {
-  const scanRetribusi({super.key});
-
-  @override
-  State<scanRetribusi> createState() => _scanRetribusiState();
-}
-
-class _scanRetribusiState extends State<scanRetribusi> {
-  MobileScannerController cameraController = MobileScannerController();
-  bool _screenOpened = false;
+  const qrScan({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Mobile Scanner"),
-        actions: [
-          IconButton(
-            color: Colors.white,
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.torchState,
-              builder: (context, state, child) {
-                switch (state as TorchState) {
-                  case TorchState.off:
-                    return const Icon(Icons.flash_off, color: Colors.grey);
-                  case TorchState.on:
-                    return const Icon(Icons.flash_on, color: Colors.yellow);
-                }
-              },
-            ),
-            iconSize: 32.0,
-            onPressed: () => cameraController.toggleTorch(),
-          ),
-          IconButton(
-            color: Colors.white,
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.cameraFacingState,
-              builder: (context, state, child) {
-                switch (state as CameraFacing) {
-                  case CameraFacing.front:
-                    return const Icon(Icons.camera_front);
-                  case CameraFacing.back:
-                    return const Icon(Icons.camera_rear);
-                }
-              },
-            ),
-            iconSize: 32.0,
-            onPressed: () => cameraController.switchCamera(),
-          ),
+        appBar: AppBar(
+          title: const Text('Scan Retribusi'),
+          backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+        ),
+        body: QRViewExample());
+  }
+}
+
+class QRViewExample extends StatefulWidget {
+  const QRViewExample({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _QRViewExampleState();
+}
+
+class _QRViewExampleState extends State<QRViewExample> {
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() async {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      await controller!.resumeCamera();
+    }
+    controller!.pauseCamera();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(flex: 4, child: _buildQrView(context)),
+
+          /* Tampilkan Link code (data) */
+          // Expanded(
+          //   flex: 1,
+          //   child: FittedBox(
+          //     fit: BoxFit.contain,
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: <Widget>[
+          //         if (result != null)
+          //           Text(
+          //               'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+          //         else
+          //           const Text('Scan a code'),
+          //       ],
+          //     ),
+          //   ),
+          // )
         ],
       ),
-      body: MobileScanner(
-        allowDuplicates: true,
-        controller: cameraController,
-        onDetect: _foundBarcode,
+      bottomNavigationBar: BottomAppBar(
+        color: Color.fromRGBO(39, 174, 96, 100),
+        shape: CircularNotchedRectangle(),
+        notchMargin: 10,
+        child: Container(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () async {
+                    await controller?.toggleFlash();
+                    setState(() {});
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(39, 174, 96, 100)),
+                  child: FutureBuilder(
+                    future: controller?.getFlashStatus(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data == true) {
+                        return Icon(
+                          Icons.flash_on,
+                          size: 30,
+                        );
+                      } else {
+                        return Icon(
+                          Icons.flash_off,
+                          size: 30,
+                        );
+                      }
+                    },
+                  )),
+              ElevatedButton(
+                  onPressed: () async {
+                    await controller?.flipCamera();
+                    setState(() {});
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(39, 174, 96, 100)),
+                  child: FutureBuilder(
+                    future: controller?.getCameraInfo(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data != null) {
+                        return Icon(
+                          Icons.flip_camera_ios,
+                          size: 30,
+                        );
+                      } else {
+                        return const Text('loading');
+                      }
+                    },
+                  )),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  void _foundBarcode(Barcode barcode, MobileScannerArguments? args) {
-    /// open screen
-    if (!_screenOpened) {
-      final String code = barcode.rawValue ?? "---";
-      debugPrint('Barcode found! $code');
-      _screenOpened = true;
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                FoundCodeScreen(screenClosed: _screenWasClosed, value: code),
-          ));
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 250.0
+        : 400.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+      controller.resumeCamera();
+    });
+    controller.scannedDataStream.listen((scanData) {
+      controller.dispose();
+      result = scanData;
+      describeEnum(result!.format);
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new retribusi()));
+    });
+  }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
     }
   }
 
-  void _screenWasClosed() {
-    _screenOpened = false;
-  }
-}
-
-class FoundCodeScreen extends StatefulWidget {
-  final String value;
-  final Function() screenClosed;
-  const FoundCodeScreen({
-    Key? key,
-    required this.value,
-    required this.screenClosed,
-  }) : super(key: key);
-
   @override
-  State<FoundCodeScreen> createState() => _FoundCodeScreenState();
-}
-
-class _FoundCodeScreenState extends State<FoundCodeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: retribusi());
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

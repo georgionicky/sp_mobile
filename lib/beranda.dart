@@ -512,7 +512,8 @@ class _berandaState extends State<beranda> {
               : Colors.grey,
           size: 40.0,
         ),
-        onPressed: () {},
+        onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+            builder: (BuildContext context) => new qrScan())),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/beranda.dart';
 
 class retribusi extends StatefulWidget {
   const retribusi({super.key});
@@ -19,7 +20,8 @@ class _retribusiState extends State<retribusi> {
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda())),
         ),
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),

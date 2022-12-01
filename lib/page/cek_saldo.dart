@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 
+import '../model/cekSaldoApi.dart';
+
 class cek_Saldo extends StatefulWidget {
   const cek_Saldo({super.key});
 
@@ -10,6 +12,8 @@ class cek_Saldo extends StatefulWidget {
 }
 
 class _cek_SaldoState extends State<cek_Saldo> {
+  late String blok = '';
+  late SaldoBlok? saldoBlok = null;
   final _globalkey = GlobalKey<FormState>();
   TextEditingController _norek = TextEditingController();
 
@@ -70,7 +74,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "A001",
+                    (saldoBlok!.jml != 0) ? blok : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -86,7 +90,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Stevanus Evan",
+                    (saldoBlok != null) ? saldoBlok!.pemilik : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -102,7 +106,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. 50000",
+                    (saldoBlok != null) ? 'Rp. ' + saldoBlok!.saldo : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -138,6 +142,20 @@ class _cek_SaldoState extends State<cek_Saldo> {
               if (_globalkey.currentState!.validate()) {
                 print("validate");
               }
+
+              SaldoBlok.connectToAPI(_norek.text).then((value) {
+                saldoBlok = value;
+                setState(() {});
+                // print(saldoBlok!.noBlok);
+                blok = '';
+                for (var i = 0; i < saldoBlok!.jml; i++) {
+                  if (i == saldoBlok!.jml - 1) {
+                    blok += saldoBlok!.noBlok[i]['kode'];
+                  } else {
+                    blok += saldoBlok!.noBlok[i]['kode'] + ', ';
+                  }
+                }
+              });
               //task to execute when this button is pressed
             },
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
@@ -150,7 +168,6 @@ class _cek_SaldoState extends State<cek_Saldo> {
 
   Widget nomorRekening() {
     return TextFormField(
-        obscureText: true,
         controller: _norek,
         keyboardType: TextInputType.number,
         validator: (String? value) {

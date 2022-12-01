@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'beranda.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,11 @@ class LocationApp extends StatefulWidget {
 }
 
 class _LocationAppState extends State<LocationApp> {
+  TextEditingController txtUsername = new TextEditingController();
+  TextEditingController txtPassword = new TextEditingController();
+
+  bool _passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +151,7 @@ class _LocationAppState extends State<LocationApp> {
                           shadowColor: Colors.black,
                           child: TextField(
                             keyboardType: TextInputType.emailAddress,
+                            controller: txtUsername,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -151,7 +159,7 @@ class _LocationAppState extends State<LocationApp> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                hintText: "E-mail",
+                                hintText: "Username",
                                 prefixIcon:
                                     Icon(Icons.email, color: Colors.grey[600])),
                           ),
@@ -165,9 +173,25 @@ class _LocationAppState extends State<LocationApp> {
                           elevation: 10.0,
                           shadowColor: Colors.black,
                           child: TextField(
-                            obscureText: true,
+                            obscureText: !_passwordVisible,
                             keyboardType: TextInputType.emailAddress,
+                            controller: txtPassword,
                             decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    // Based on passwordVisible state choose the icon
+                                    _passwordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                                  onPressed: () {
+                                    // Update the state i.e. toogle the state of passwordVisible variable
+                                    setState(() {
+                                      _passwordVisible = !_passwordVisible;
+                                    });
+                                  },
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                   borderSide: BorderSide.none,
@@ -194,10 +218,9 @@ class _LocationAppState extends State<LocationApp> {
 
                               // foreground
                             ),
-                            onPressed: () => Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new beranda())),
+                            onPressed: () {
+                              _doLogin();
+                            },
                             child: Text('Masuk'),
                           ),
                         ),
@@ -211,5 +234,35 @@ class _LocationAppState extends State<LocationApp> {
         ),
       ),
     );
+  }
+
+  Future _doLogin() async {
+    if (txtUsername.text.isEmpty || txtPassword.text.isEmpty) {
+      // Validasi
+      Alert(
+              context: context,
+              title: "Username dan Password tidak boleh kosong!",
+              type: AlertType.warning)
+          .show();
+      return;
+    }
+
+    final response = await http.post(
+        Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
+        body: {'username': txtUsername.text, 'password': txtPassword.text},
+        headers: {'Accept': 'application/json'});
+
+    if (response.statusCode == 200) {
+      print('Berhasil');
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new beranda()));
+    } else {
+      // Alert jika user dan pass salah
+      Alert(
+              context: context,
+              title: "Login Gagal, Username atau Password salah!",
+              type: AlertType.error)
+          .show();
+    }
   }
 }

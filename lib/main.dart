@@ -63,7 +63,7 @@ class _LocationAppState extends State<LocationApp> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Login",
+                        "Masuk",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 46.0,

@@ -74,7 +74,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (saldoBlok!.jml != 0) ? blok : 'Tidak Memiliki Blok',
+                    (blok != '') ? blok : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

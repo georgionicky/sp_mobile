@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SaldoBlok {
   final saldo;
@@ -10,11 +11,16 @@ class SaldoBlok {
   SaldoBlok({this.saldo, this.noBlok, this.pemilik, this.jml});
 
   factory SaldoBlok.getSaldoBlok(Map<String, dynamic> object) {
-    return SaldoBlok(
-        saldo: object['saldo'],
-        noBlok: object['nomor_blok'],
-        pemilik: object['pemilik_blok'],
-        jml: object['nomor_blok'].length);
+    if (object == null) {
+      return SaldoBlok(saldo: '', noBlok: '', pemilik: '', jml: '');
+    } else {
+      int len = object['nomor_blok'].length! ?? 0;
+      return SaldoBlok(
+          saldo: object['saldo'],
+          noBlok: object['nomor_blok'],
+          pemilik: object['pemilik_blok'],
+          jml: len);
+    }
   }
 
   static Future<SaldoBlok> connectToAPI(String no_rek) async {
@@ -29,6 +35,7 @@ class SaldoBlok {
       print('Berhasil');
     } else {
       print('Gagal');
+      print(jsonObject['pesan']);
     }
     return SaldoBlok.getSaldoBlok(jsonObject);
   }

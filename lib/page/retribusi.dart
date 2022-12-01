@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/model/RetribusiModel.dart';
 
 class retribusi extends StatefulWidget {
-  const retribusi({super.key});
+  String? url;
+  retribusi(this.url, {super.key});
 
   @override
-  State<retribusi> createState() => _retribusiState();
+  State<retribusi> createState() => _retribusiState(url!);
 }
 
 class _retribusiState extends State<retribusi> {
+  String apiUrl;
+
+  late RetribusiModel? dataRetribusi = null;
+
+  _retribusiState(this.apiUrl);
+
+  getData() async {
+    RetribusiModel.connectToAPI(apiUrl).then((value) {
+      dataRetribusi = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
   bool? check1 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +80,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "123445678",
+                    (dataRetribusi != null) ? dataRetribusi!.no_rek : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -73,7 +96,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "A001",
+                    (dataRetribusi != null) ? dataRetribusi!.no_blok : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -89,7 +112,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Stevanus Evan",
+                    (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -105,7 +128,9 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. 50000",
+                    (dataRetribusi != null)
+                        ? dataRetribusi!.jumlah_retribusi
+                        : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

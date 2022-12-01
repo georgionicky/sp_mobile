@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sp_mobile/Controller/RetribusiController.dart';
 import 'package:sp_mobile/page/retribusi.dart';
 
 class qrScan extends StatelessWidget {
@@ -157,9 +159,12 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       controller.dispose();
       result = scanData;
+      String? url = result!.code; //Api
+      print(url);
+      // RetribusiApi(url!);
       describeEnum(result!.format);
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new retribusi()));
+          builder: (BuildContext context) => new retribusi(url)));
     });
   }
 

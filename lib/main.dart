@@ -247,11 +247,15 @@ class _LocationAppState extends State<LocationApp> {
       return;
     }
 
+    // final ProgressDialog pr = ProgressDialog(context);
+    // pr.style(message: "Loading...");
+    // pr.show();
     final response = await http.post(
         Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
         body: {'username': txtUsername.text, 'password': txtPassword.text},
         headers: {'Accept': 'application/json'});
 
+    // pr.hide();
     if (response.statusCode == 200) {
       print('Berhasil');
       Navigator.of(context).push(new MaterialPageRoute(

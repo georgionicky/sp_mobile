@@ -1,43 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:sp_mobile/page/scannerCekSaldo.dart';
-import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/model/RetribusiModel.dart';
 
-import '../model/cekSaldoApi.dart';
-
-class cek_Saldo extends StatefulWidget {
-  const cek_Saldo({super.key});
+class konfirmRt extends StatefulWidget {
+  const konfirmRt({super.key});
 
   @override
-  State<cek_Saldo> createState() => _cek_SaldoState();
+  State<konfirmRt> createState() => _konfirmRtState();
 }
 
-class _cek_SaldoState extends State<cek_Saldo> {
-  late String blok = '';
-  late SaldoBlok? saldoBlok = null;
-  final _globalkey = GlobalKey<FormState>();
-  TextEditingController _norek = TextEditingController();
-
+class _konfirmRtState extends State<konfirmRt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: Text("Menu Cek Saldo",
+        title: Text("Menu Retribusi",
             style: TextStyle(fontWeight: FontWeight.w700)),
         centerTitle: true,
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda())),
         ),
-        actions: [
-          IconButton(
-            icon: new Icon(Icons.qr_code,
-                color: Color.fromARGB(255, 255, 255, 255)),
-            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new scanCekSaldo())),
-          ),
-        ],
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
       body: Container(
@@ -46,13 +31,12 @@ class _cek_SaldoState extends State<cek_Saldo> {
           child: Card(
             elevation: 10,
             child: Form(
-              key: _globalkey,
               child: ListView(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Informasi Saldo",
+                      "Konfirmasi Retribusi",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -72,8 +56,14 @@ class _cek_SaldoState extends State<cek_Saldo> {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
-                  nomorRekening(),
-                  SizedBox(height: 30),
+                  Text(
+                    ("0000001001101"),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 15),
                   Text(
                     "Nomor Blok",
                     style: TextStyle(
@@ -83,13 +73,13 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (blok != '') ? blok : 'Tidak Memiliki Blok',
+                    ("A001"),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 15),
                   Text(
                     "Nama Pemilik Blok",
                     style: TextStyle(
@@ -99,15 +89,16 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (saldoBlok != null) ? saldoBlok!.pemilik : 'kosong',
+                    ("Georgio Nicky"),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
                     ),
                   ),
-                  SizedBox(height: 25),
+
+                  SizedBox(height: 15),
                   Text(
-                    "Jumlah Tabungan",
+                    "Jenis Pembayaran",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -115,7 +106,39 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (saldoBlok != null) ? 'Rp. ' + saldoBlok!.saldo : 'kosong',
+                    ("Tabungan"),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "Kehadiran Pemilik",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    ("Hadir"),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "Jumlah Retribusi",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    ("Rp.50000"),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -138,7 +161,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: Text(
-                "Cari",
+                "Cetak Struk",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -147,59 +170,12 @@ class _cek_SaldoState extends State<cek_Saldo> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () {
-              if (_globalkey.currentState!.validate()) {
-                print("validate");
-              }
-
-              SaldoBlok.connectToAPI(_norek.text).then((value) {
-                saldoBlok = value;
-                setState(() {});
-                // print(saldoBlok!.noBlok);
-                blok = '';
-                for (var i = 0; i < saldoBlok!.jml; i++) {
-                  if (i == saldoBlok!.jml - 1) {
-                    blok += saldoBlok!.noBlok[i]['kode'];
-                  } else {
-                    blok += saldoBlok!.noBlok[i]['kode'] + ', ';
-                  }
-                }
-              });
-              //task to execute when this button is pressed
-            },
-            backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+            onPressed: () {},
+            backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  Widget nomorRekening() {
-    return TextFormField(
-        controller: _norek,
-        keyboardType: TextInputType.number,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Nomor Rekening Tidak Boleh Kosong";
-          return null;
-        },
-        style: TextStyle(fontSize: 12.0, height: 0.5),
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-            )),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-              width: 2,
-            )),
-            prefixIcon: Icon(
-              Icons.account_balance_wallet,
-              color: Colors.grey,
-            ),
-            labelText: "Nomor Rekening",
-            helperText: "Nomor Rekening Tidak Boleh Kosong",
-            hintText: "Nomor Rekening"));
   }
 }

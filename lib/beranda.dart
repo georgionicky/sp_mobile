@@ -2,7 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/page/cek_lapak.dart';
+import 'package:sp_mobile/page/history.dart';
+import 'package:sp_mobile/page/navfoot.dart';
 import 'package:sp_mobile/page/retribusi.dart';
+import 'package:sp_mobile/page/scannerCekSaldo.dart';
+import 'package:sp_mobile/page/scannerTabung.dart';
 import 'package:sp_mobile/page/tabung.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/page/cek_saldo.dart';
@@ -17,14 +21,7 @@ class beranda extends StatefulWidget {
 }
 
 class _berandaState extends State<beranda> {
-  int currentTab = 0;
-  final List<Widget> screens = [
-    beranda(),
-    retribusi(null),
-    tentang(),
-  ];
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = beranda();
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +29,8 @@ class _berandaState extends State<beranda> {
       appBar: new AppBar(
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-                Text("22/11/22", style: TextStyle(fontWeight: FontWeight.w700)),
+            padding: const EdgeInsets.all(10.0),
+            child: Image.asset("assets/logo_sumowono.png", width: 40),
           )
         ],
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
@@ -408,7 +404,7 @@ class _berandaState extends State<beranda> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          "Bayar tapi Tidak Hadir",
+                                          "Lapak Tutup",
                                           style: TextStyle(
                                               fontSize: 16,
                                               color:
@@ -507,13 +503,49 @@ class _berandaState extends State<beranda> {
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
         child: Icon(
           Icons.qr_code_scanner,
-          color: currentTab == 0
-              ? Color.fromARGB(255, 255, 255, 255)
-              : Colors.grey,
           size: 40.0,
         ),
-        onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-            builder: (BuildContext context) => new qrScan())),
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Pilihan Scanner'),
+            actions: <Widget>[
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new scanCekSaldo())),
+                      child: const Text('Cek Saldo'),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => new qrScan())),
+                      child: const Text('Retribusi'),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new scanTabung())),
+                      child: const Text('Tabung'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -527,51 +559,34 @@ class _berandaState extends State<beranda> {
             children: [
               MaterialButton(
                 minWidth: 40,
-                onPressed: () {
-                  setState(() {
-                    currentScreen = beranda();
-                    currentTab = 0;
-                  });
-                },
+                onPressed: () {},
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.home,
-                        color: currentTab == 0
-                            ? Colors.grey
-                            : Color.fromARGB(255, 255, 255, 255),
+                        color: Color.fromARGB(171, 255, 255, 255),
                         size: 40.0,
                       ),
                     ]),
               ),
               MaterialButton(
                 minWidth: 40,
-                onPressed: () {
-                  setState(() {
-                    currentScreen = beranda();
-                    currentTab = 0;
-                  });
-                },
+                onPressed: () {},
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center, children: []),
               ),
               MaterialButton(
                 minWidth: 40,
-                onPressed: () {
-                  setState(() {
-                    currentScreen = tentang();
-                    currentTab = 0;
-                  });
-                },
+                onPressed: () => Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new navbarFooter())),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.info_rounded,
-                        color: currentTab == 0
-                            ? Color.fromARGB(255, 255, 255, 255)
-                            : Colors.grey,
+                        Icons.history,
+                        color: Color.fromARGB(255, 255, 255, 255),
                         size: 40.0,
                       ),
                     ]),

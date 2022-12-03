@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sp_mobile/page/konfirmRetribusi.dart';
-import 'package:sp_mobile/page/konfirmTabung.dart';
-import 'package:sp_mobile/page/scannerTabung.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 
-class tabung extends StatefulWidget {
-  const tabung({super.key});
+class konfirmTb extends StatefulWidget {
+  const konfirmTb({super.key});
 
   @override
-  State<tabung> createState() => _tabungState();
+  State<konfirmTb> createState() => _konfirmTbState();
 }
 
-class _tabungState extends State<tabung> {
+class _konfirmTbState extends State<konfirmTb> {
   final _globalkey = GlobalKey<FormState>();
-
-  TextEditingController _jmltabung = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +24,11 @@ class _tabungState extends State<tabung> {
               color: Color.fromARGB(255, 255, 255, 255)),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          IconButton(
-            icon: new Icon(Icons.qr_code,
-                color: Color.fromARGB(255, 255, 255, 255)),
-            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new scanTabung())),
-          ),
-        ],
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 70, top: 50),
+          margin: EdgeInsets.only(bottom: 100, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
@@ -51,7 +38,7 @@ class _tabungState extends State<tabung> {
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Masukkan Data Tabungan",
+                      "Konfirmasi Data Tabungan",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
@@ -72,8 +59,14 @@ class _tabungState extends State<tabung> {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
-                  nomorRekening(),
-                  SizedBox(height: 30),
+                  Text(
+                    "00000100001",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 25),
                   Text(
                     "Nomor Blok",
                     style: TextStyle(
@@ -82,7 +75,13 @@ class _tabungState extends State<tabung> {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
-                  noBlok(),
+                  Text(
+                    "A001",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
                   SizedBox(height: 25),
                   Text(
                     "Nama Pemilik Blok",
@@ -124,7 +123,13 @@ class _tabungState extends State<tabung> {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
-                  jmlTabung(),
+                  Text(
+                    "Rp. 100000",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
                   SizedBox(height: 10),
                   //Kalo Nd butuh, hapus jo nih button
                 ],
@@ -142,7 +147,7 @@ class _tabungState extends State<tabung> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: Text(
-                "Tabung",
+                "Cetak Struk",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -152,92 +157,13 @@ class _tabungState extends State<tabung> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
-              if (_globalkey.currentState!.validate()) {
-                print("validate");
-                Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new konfirmTb()));
-              }
               //task to execute when this button is pressed
             },
-            backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+            backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  Widget nomorRekening() {
-    return TextFormField(
-        keyboardType: TextInputType.number,
-        style: TextStyle(fontSize: 12.0, height: 0.5),
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-            )),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-              width: 2,
-            )),
-            prefixIcon: Icon(
-              Icons.account_balance_wallet,
-              color: Colors.grey,
-            ),
-            labelText: "Nomor Rekening",
-            helperText: "Nomor Rekening Tidak Boleh Kosong",
-            hintText: "Nomor Rekening"));
-  }
-
-  Widget noBlok() {
-    return TextFormField(
-        keyboardType: TextInputType.number,
-        style: TextStyle(fontSize: 12.0, height: 0.5),
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-            )),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-              width: 2,
-            )),
-            prefixIcon: Icon(
-              Icons.account_balance_wallet,
-              color: Colors.grey,
-            ),
-            labelText: "Nomor Blok",
-            helperText: "Nomor BlokTidak Boleh Kosong",
-            hintText: "Nomor Blok"));
-  }
-
-  Widget jmlTabung() {
-    return TextFormField(
-        controller: _jmltabung,
-        keyboardType: TextInputType.number,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Tidak Boleh Kosong";
-          return null;
-        },
-        style: TextStyle(fontSize: 12.0, height: 0.5),
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-            )),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-              width: 2,
-            )),
-            prefixIcon: Icon(
-              Icons.savings_rounded,
-              color: Colors.grey,
-            ),
-            labelText: "Jumlah yang akan ditabung",
-            helperText: "Tidak Boleh Kosong",
-            hintText: "Jumlah yang akan ditabung"));
   }
 }

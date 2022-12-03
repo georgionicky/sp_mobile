@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
+import 'package:sp_mobile/page/konfirmRetribusi.dart';
 
 class retribusi extends StatefulWidget {
   String? url;
@@ -32,7 +33,7 @@ class _retribusiState extends State<retribusi> {
   }
 
   bool? check1 = false;
-
+  String selectedValue = "tabungan";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +51,7 @@ class _retribusiState extends State<retribusi> {
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 150, top: 50),
+          margin: EdgeInsets.only(bottom: 50, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
@@ -119,24 +120,26 @@ class _retribusiState extends State<retribusi> {
                     ),
                   ),
                   SizedBox(height: 25),
+
                   Text(
-                    "Jumlah Retribusi",
+                    "Jenis Pembayaran",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
+
                   SizedBox(height: 5),
-                  Text(
-                    (dataRetribusi != null)
-                        ? dataRetribusi!.jumlah_retribusi
-                        : 'kosong',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
+                  DropdownButton(
+                    value: selectedValue,
+                    items: dropdownItems,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedValue = newValue!;
+                      });
+                    },
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 5),
                   Row(
                     children: <Widget>[
                       Text(
@@ -156,7 +159,26 @@ class _retribusiState extends State<retribusi> {
                             });
                           })
                     ],
-                  )
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Jumlah Retribusi",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    (dataRetribusi != null)
+                        ? dataRetribusi!.jumlah_retribusi
+                        : 'kosong',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 25),
                   //Kalo Nd butuh, hapus jo nih button
                 ],
               ),
@@ -182,12 +204,22 @@ class _retribusiState extends State<retribusi> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new konfirmRt())),
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  List<DropdownMenuItem<String>> get dropdownItems {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Tabungan"), value: "tabungan"),
+      DropdownMenuItem(child: Text("Air"), value: "air"),
+      DropdownMenuItem(child: Text("Sampah"), value: "sampah"),
+    ];
+    return menuItems;
   }
 }

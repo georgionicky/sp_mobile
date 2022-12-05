@@ -58,14 +58,6 @@ class _cek_SaldoState extends State<cek_Saldo> {
           onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
               builder: (BuildContext context) => new beranda())),
         ),
-        actions: [
-          IconButton(
-            icon: new Icon(Icons.qr_code,
-                color: Color.fromARGB(255, 255, 255, 255)),
-            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new scanCekSaldo())),
-          ),
-        ],
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
       body: Container(
@@ -74,7 +66,6 @@ class _cek_SaldoState extends State<cek_Saldo> {
           child: Card(
             elevation: 10,
             child: Form(
-              key: _globalkey,
               child: ListView(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 children: <Widget>[
@@ -232,6 +223,11 @@ class _cek_SaldoState extends State<cek_Saldo> {
             prefixIcon: Icon(
               Icons.account_balance_wallet,
               color: Colors.grey,
+            ),
+            suffixIcon: IconButton(
+              onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new scanCekSaldo())),
+              icon: Icon(Icons.qr_code, color: Color.fromARGB(255, 0, 0, 0)),
             ),
             labelText: "Nomor Rekening",
             helperText: "Nomor Rekening Tidak Boleh Kosong",

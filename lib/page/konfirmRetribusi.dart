@@ -98,22 +98,6 @@ class _konfirmRtState extends State<konfirmRt> {
 
                   SizedBox(height: 15),
                   Text(
-                    "Jenis Pembayaran",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    ("Tabungan"),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Text(
                     "Kehadiran Pemilik",
                     style: TextStyle(
                         color: Colors.black,

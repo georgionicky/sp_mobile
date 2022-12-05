@@ -29,14 +29,6 @@ class _tabungState extends State<tabung> {
               color: Color.fromARGB(255, 255, 255, 255)),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          IconButton(
-            icon: new Icon(Icons.qr_code,
-                color: Color.fromARGB(255, 255, 255, 255)),
-            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new scanTabung())),
-          ),
-        ],
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
       body: Container(
@@ -83,37 +75,9 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   noBlok(),
+
                   SizedBox(height: 25),
-                  InkWell(
-                    onTap: () {},
-                    child: Center(
-                        child: Container(
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(39, 174, 96, 100),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                          child: Text(
-                        "Cari",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    )),
-                  ),
-                  SizedBox(height: 25),
-                  Text(
-                    "Detail",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                  ),
+
                   Text(
                     "Nama Pemilik Blok",
                     style: TextStyle(
@@ -213,6 +177,11 @@ class _tabungState extends State<tabung> {
               Icons.account_balance_wallet,
               color: Colors.grey,
             ),
+            suffixIcon: IconButton(
+              onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new scanTabung())),
+              icon: Icon(Icons.qr_code, color: Color.fromARGB(255, 0, 0, 0)),
+            ),
             labelText: "Nomor Rekening",
             helperText: "Nomor Rekening Tidak Boleh Kosong",
             hintText: "Nomor Rekening"));
@@ -235,6 +204,11 @@ class _tabungState extends State<tabung> {
             prefixIcon: Icon(
               Icons.account_balance_wallet,
               color: Colors.grey,
+            ),
+            suffixIcon: IconButton(
+              onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new scanTabung())),
+              icon: Icon(Icons.qr_code, color: Color.fromARGB(255, 0, 0, 0)),
             ),
             labelText: "Nomor Blok",
             helperText: "Nomor BlokTidak Boleh Kosong",

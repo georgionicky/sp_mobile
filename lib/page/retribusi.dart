@@ -121,25 +121,6 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 25),
 
-                  Text(
-                    "Jenis Pembayaran",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-
-                  SizedBox(height: 5),
-                  DropdownButton(
-                    value: selectedValue,
-                    items: dropdownItems,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedValue = newValue!;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 5),
                   Row(
                     children: <Widget>[
                       Text(
@@ -212,14 +193,5 @@ class _retribusiState extends State<retribusi> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  List<DropdownMenuItem<String>> get dropdownItems {
-    List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Tabungan"), value: "tabungan"),
-      DropdownMenuItem(child: Text("Air"), value: "air"),
-      DropdownMenuItem(child: Text("Sampah"), value: "sampah"),
-    ];
-    return menuItems;
   }
 }

@@ -4,9 +4,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:sp_mobile/Controller/RetribusiController.dart';
-import 'package:sp_mobile/page/retribusi.dart';
 import 'package:sp_mobile/page/tabung.dart';
 
 class scanTabung extends StatelessWidget {

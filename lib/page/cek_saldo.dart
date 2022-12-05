@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/model/cekSaldoApiScan.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
@@ -6,20 +7,46 @@ import 'package:sp_mobile/beranda.dart';
 import '../model/cekSaldoApi.dart';
 
 class cek_Saldo extends StatefulWidget {
-  const cek_Saldo({super.key});
+  String? url;
+  cek_Saldo(this.url, {super.key});
 
   @override
-  State<cek_Saldo> createState() => _cek_SaldoState();
+  State<cek_Saldo> createState() => _cek_SaldoState(url!);
 }
 
 class _cek_SaldoState extends State<cek_Saldo> {
+  String apiUrl;
   late String blok = '';
   late SaldoBlok? saldoBlok = null;
   final _globalkey = GlobalKey<FormState>();
   TextEditingController _norek = TextEditingController();
 
+  late SaldoBlokScan? dataBlok = null;
+
+  _cek_SaldoState(this.apiUrl);
+
+  getData() async {
+    SaldoBlokScan.connectToAPI(apiUrl).then((value) {
+      dataBlok = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (apiUrl != '') {
+      getData();
+      super.initState();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('Data Blok');
+    print((dataBlok != null) ? dataBlok!.jumlah_tabungan : 'kosong');
+    print('Data Saldo');
+    print((saldoBlok != null) ? saldoBlok!.saldo : 'kosong');
     return Scaffold(
       appBar: new AppBar(
         title: Text("Menu Cek Saldo",
@@ -28,7 +55,8 @@ class _cek_SaldoState extends State<cek_Saldo> {
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda())),
         ),
         actions: [
           IconButton(
@@ -83,7 +111,13 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (blok != '') ? blok : 'Tidak Memiliki Blok',
+                    (blok != '' || dataBlok != null)
+                        ? (blok != '')
+                            ? blok
+                            : (dataBlok != null)
+                                ? dataBlok!.no_blok
+                                : 'Tidak Memiliki Blok'
+                        : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -99,7 +133,11 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (saldoBlok != null) ? saldoBlok!.pemilik : 'kosong',
+                    (saldoBlok != null || dataBlok != null)
+                        ? (saldoBlok != null)
+                            ? saldoBlok!.pemilik
+                            : dataBlok!.pemilik
+                        : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -115,7 +153,11 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (saldoBlok != null) ? 'Rp. ' + saldoBlok!.saldo : 'kosong',
+                    (saldoBlok != null || dataBlok != null)
+                        ? (saldoBlok != null)
+                            ? 'Rp. ' + saldoBlok!.saldo
+                            : 'Rp. ' + dataBlok!.jumlah_tabungan
+                        : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -154,6 +196,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
 
               SaldoBlok.connectToAPI(_norek.text).then((value) {
                 saldoBlok = value;
+                dataBlok = null;
                 setState(() {});
                 // print(saldoBlok!.noBlok);
                 blok = '';

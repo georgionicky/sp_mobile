@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class RetribusiModel {
+class SaldoBlokScan {
   final no_rek;
   final no_blok;
   final pemilik;
   final jumlah_retribusi;
   final jumlah_tabungan;
 
-  const RetribusiModel({
+  const SaldoBlokScan({
     this.no_rek,
     this.no_blok,
     this.pemilik,
@@ -16,8 +16,8 @@ class RetribusiModel {
     this.jumlah_tabungan,
   });
 
-  factory RetribusiModel.getDataRetribusi(Map<String, dynamic> object) {
-    return RetribusiModel(
+  factory SaldoBlokScan.getDataRetribusi(Map<String, dynamic> object) {
+    return SaldoBlokScan(
       no_rek: object['no_rek'],
       no_blok: object['no_blok'],
       pemilik: object['nama_pemilik'],
@@ -26,7 +26,7 @@ class RetribusiModel {
     );
   }
 
-  static Future<RetribusiModel> connectToAPI(String url) async {
+  static Future<SaldoBlokScan> connectToAPI(String url) async {
     var apiResult = await http.get(Uri.parse(url));
     var jsonObject = json.decode(apiResult.body);
 
@@ -35,6 +35,6 @@ class RetribusiModel {
     } else {
       print('Gagal Konek API');
     }
-    return RetribusiModel.getDataRetribusi(jsonObject);
+    return SaldoBlokScan.getDataRetribusi(jsonObject);
   }
 }

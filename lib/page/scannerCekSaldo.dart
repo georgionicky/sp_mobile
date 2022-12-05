@@ -4,10 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:sp_mobile/Controller/RetribusiController.dart';
 import 'package:sp_mobile/page/cek_saldo.dart';
-import 'package:sp_mobile/page/retribusi.dart';
 
 class scanCekSaldo extends StatelessWidget {
   const scanCekSaldo({Key? key}) : super(key: key);
@@ -165,7 +162,7 @@ class _QRViewExampleState extends State<QRViewExample> {
       // RetribusiApi(url!);
       describeEnum(result!.format);
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new cek_Saldo()));
+          builder: (BuildContext context) => new cek_Saldo(url)));
     });
   }
 

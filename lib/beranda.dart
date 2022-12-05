@@ -191,7 +191,7 @@ class _berandaState extends State<beranda> {
                                             .push(new MaterialPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        new cek_Saldo())),
+                                                        new cek_Saldo(''))),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
                                           padding: EdgeInsets.all(10),

@@ -84,6 +84,36 @@ class _tabungState extends State<tabung> {
                   SizedBox(height: 5),
                   noBlok(),
                   SizedBox(height: 25),
+                  InkWell(
+                    onTap: () {},
+                    child: Center(
+                        child: Container(
+                      width: 100,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(39, 174, 96, 100),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                          child: Text(
+                        "Cari",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    )),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    "Detail",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                  ),
                   Text(
                     "Nama Pemilik Blok",
                     style: TextStyle(

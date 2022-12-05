@@ -18,7 +18,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
   String apiUrl;
   late String blok = '';
   late SaldoBlok? saldoBlok = null;
-  final _globalkey = GlobalKey<FormState>();
+
   TextEditingController _norek = TextEditingController();
 
   late SaldoBlokScan? dataBlok = null;
@@ -190,10 +190,6 @@ class _cek_SaldoState extends State<cek_Saldo> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
-              if (_globalkey.currentState!.validate()) {
-                print("validate");
-              }
-
               SaldoBlok.connectToAPI(_norek.text).then((value) {
                 saldoBlok = value;
                 dataBlok = null;
@@ -222,10 +218,6 @@ class _cek_SaldoState extends State<cek_Saldo> {
     return TextFormField(
         controller: _norek,
         keyboardType: TextInputType.number,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Nomor Rekening Tidak Boleh Kosong";
-          return null;
-        },
         style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(

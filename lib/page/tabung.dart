@@ -182,11 +182,9 @@ class _tabungState extends State<tabung> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
-              if (_globalkey.currentState!.validate()) {
-                print("validate");
-                Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new konfirmTb()));
-              }
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new konfirmTb()));
+
               //task to execute when this button is pressed
             },
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
@@ -247,10 +245,6 @@ class _tabungState extends State<tabung> {
     return TextFormField(
         controller: _jmltabung,
         keyboardType: TextInputType.number,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Tidak Boleh Kosong";
-          return null;
-        },
         style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(

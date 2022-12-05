@@ -102,11 +102,7 @@ class _profilState extends State<profil> {
                     konfirmasiPassword(),
                     SizedBox(height: 10),
                     InkWell(
-                      onTap: () {
-                        if (_globalkey.currentState!.validate()) {
-                          print("validate");
-                        }
-                      },
+                      onTap: () {},
                       child: Center(
                           child: Container(
                         width: 200,
@@ -135,10 +131,6 @@ class _profilState extends State<profil> {
     return TextFormField(
         obscureText: true,
         controller: _psLama,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Kata Sandi Lama Tidak Boleh Kosong";
-          return null;
-        },
         style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -163,10 +155,6 @@ class _profilState extends State<profil> {
     return TextFormField(
         obscureText: true,
         controller: _psBaru,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Kata Sandi Baru Tidak Boleh Kosong";
-          return null;
-        },
         style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -191,10 +179,6 @@ class _profilState extends State<profil> {
     return TextFormField(
         obscureText: true,
         controller: _konfirmasi,
-        validator: (String? value) {
-          if (value!.isEmpty) return "Konfirmasi Tidak Boleh Kosong";
-          return null;
-        },
         style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(

@@ -104,37 +104,65 @@ class _cek_LapakState extends State<cek_Lapak> {
                           topRight: Radius.circular(70))),
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
-                    child: ListView(
+                    child: GridView.count(
+                      primary: false,
+                      padding: const EdgeInsets.all(4),
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 4,
                       children: [
                         Container(
-                            padding: EdgeInsets.all(5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                for (var i = 0; i < 4; i++)
-                                  Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        child: Card(
-                                            color: Color.fromRGBO(
-                                                39, 174, 96, 100),
-                                            child: Center(
-                                              child: Text(
-                                                  '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w700)),
-                                            )),
-                                      )
-                                    ],
-                                  ),
-                              ],
-                            )),
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: Text(
+                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          color: Color.fromRGBO(39, 174, 96, 100),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: Text(
+                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          color: Color.fromRGBO(39, 174, 96, 100),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: Text(
+                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          color: Color.fromRGBO(39, 174, 96, 100),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: Text(
+                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          color: Color.fromRGBO(39, 174, 96, 100),
+                        ),
                       ],
                     ),
                   ),

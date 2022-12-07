@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sp_mobile/model/tabungRekApi.dart';
-import 'package:sp_mobile/page/konfirmRetribusi.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/model/tabungApiScan.dart';
 import 'package:sp_mobile/page/konfirmTabung.dart';
 import 'package:sp_mobile/page/scannerTabung.dart';
-import 'package:sp_mobile/page/tentang.dart';
-import 'package:sp_mobile/beranda.dart';
 
 class tabung extends StatefulWidget {
   String? url;
@@ -19,15 +18,18 @@ class _tabungState extends State<tabung> {
   String apiUrl;
   final _globalkey = GlobalKey<FormState>();
 
+  TextEditingController _txtRek = TextEditingController();
   TextEditingController _jmltabung = TextEditingController();
 
-  late TabungRekScan? dataBlok = null;
+  late TabungScan? dataTabung = null;
+
+  late String blok = '';
 
   _tabungState(this.apiUrl);
 
   getData() async {
-    TabungRekScan.connectToAPI(apiUrl).then((value) {
-      dataBlok = value;
+    TabungScan.connectToAPI(apiUrl).then((value) {
+      dataTabung = value;
       setState(() {});
     });
   }
@@ -43,6 +45,24 @@ class _tabungState extends State<tabung> {
 
   @override
   Widget build(BuildContext context) {
+    if (dataTabung?.by == 'rekening') {
+      blok = '';
+      for (var i = 0; i < dataTabung?.no_blok.length; i++) {
+        if (i == dataTabung?.no_blok.length - 1) {
+          blok += dataTabung!.no_blok[i]['kode'];
+        } else {
+          blok += dataTabung!.no_blok[i]['kode'] + ', ';
+        }
+      }
+    }
+
+    String noRek = (dataTabung != null) ? dataTabung!.no_rek : 'kosong';
+    String noBlok = (dataTabung != null) ? '${dataTabung?.no_blok}' : 'kosong';
+    String pemilik = (dataTabung != null) ? dataTabung!.pemilik : 'kosong';
+    String tabungan =
+        (dataTabung != null) ? dataTabung!.jumlah_tabungan : 'kosong';
+    (dataTabung != null) ? _txtRek.text = noRek : '';
+
     return Scaffold(
       appBar: new AppBar(
         title:
@@ -51,7 +71,8 @@ class _tabungState extends State<tabung> {
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda())),
         ),
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
@@ -89,16 +110,6 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   nomorRekening(),
-                  SizedBox(height: 30),
-                  Text(
-                    "Nomor Blok",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  noBlok(),
 
                   SizedBox(height: 25),
 
@@ -111,7 +122,27 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Stevanus Evan",
+                    pemilik,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    "Nomor Blok",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    (blok != '')
+                        ? blok
+                        : (dataTabung != null)
+                            ? noBlok
+                            : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -127,7 +158,7 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. 50000",
+                    tabungan,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -170,10 +201,19 @@ class _tabungState extends State<tabung> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new konfirmTb()));
+              if (_txtRek.text.isEmpty || _jmltabung.text.isEmpty) {
+                Alert(
+                        context: context,
+                        title:
+                            "Nomor Rekening atau jumlah tabungan tidak boleh kosong",
+                        type: AlertType.warning)
+                    .show();
+                return;
+              }
 
-              //task to execute when this button is pressed
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new konfirmTb(
+                      noRek, noBlok, pemilik, tabungan, _jmltabung.text)));
             },
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
@@ -185,6 +225,7 @@ class _tabungState extends State<tabung> {
 
   Widget nomorRekening() {
     return TextFormField(
+        controller: _txtRek,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 12.0, height: 0.5),
         decoration: InputDecoration(
@@ -209,34 +250,6 @@ class _tabungState extends State<tabung> {
             labelText: "Nomor Rekening",
             helperText: "Nomor Rekening Tidak Boleh Kosong",
             hintText: "Nomor Rekening"));
-  }
-
-  Widget noBlok() {
-    return TextFormField(
-        keyboardType: TextInputType.number,
-        style: TextStyle(fontSize: 12.0, height: 0.5),
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-            )),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-              color: Color.fromRGBO(39, 174, 96, 100),
-              width: 2,
-            )),
-            prefixIcon: Icon(
-              Icons.account_balance_wallet,
-              color: Colors.grey,
-            ),
-            suffixIcon: IconButton(
-              onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new scanTabung())),
-              icon: Icon(Icons.qr_code, color: Color.fromARGB(255, 0, 0, 0)),
-            ),
-            labelText: "Nomor Blok",
-            helperText: "Nomor BlokTidak Boleh Kosong",
-            hintText: "Nomor Blok"));
   }
 
   Widget jmlTabung() {

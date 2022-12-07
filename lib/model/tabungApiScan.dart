@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class TabungRekScan {
+class TabungScan {
+  final by;
   final no_rek;
   final no_blok;
   final pemilik;
   final jumlah_retribusi;
   final jumlah_tabungan;
 
-  const TabungRekScan({
+  const TabungScan({
+    this.by,
     this.no_rek,
     this.no_blok,
     this.pemilik,
@@ -16,8 +18,9 @@ class TabungRekScan {
     this.jumlah_tabungan,
   });
 
-  factory TabungRekScan.getDataBlokScan(Map<String, dynamic> object) {
-    return TabungRekScan(
+  factory TabungScan.getDataRetribusi(Map<String, dynamic> object) {
+    return TabungScan(
+      by: object['by'],
       no_rek: object['no_rek'],
       no_blok: object['no_blok'],
       pemilik: object['nama_pemilik'],
@@ -26,7 +29,7 @@ class TabungRekScan {
     );
   }
 
-  static Future<TabungRekScan> connectToAPI(String url) async {
+  static Future<TabungScan> connectToAPI(String url) async {
     var apiResult = await http.get(Uri.parse(url));
     var jsonObject = json.decode(apiResult.body);
 
@@ -35,6 +38,6 @@ class TabungRekScan {
     } else {
       print('Gagal Konek API');
     }
-    return TabungRekScan.getDataBlokScan(jsonObject);
+    return TabungScan.getDataRetribusi(jsonObject);
   }
 }

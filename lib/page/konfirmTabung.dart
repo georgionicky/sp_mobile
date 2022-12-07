@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 
 class konfirmTb extends StatefulWidget {
-  const konfirmTb({super.key});
+  final String? noRek;
+  final String? noBlok;
+  final String? pemilik;
+  final String? tabungan;
+  final String? setor;
+
+  const konfirmTb(
+      this.noRek, this.noBlok, this.pemilik, this.tabungan, this.setor,
+      {super.key});
 
   @override
-  State<konfirmTb> createState() => _konfirmTbState();
+  State<konfirmTb> createState() =>
+      _konfirmTbState(noRek!, noBlok!, pemilik!, tabungan!, setor!);
 }
 
 class _konfirmTbState extends State<konfirmTb> {
   final _globalkey = GlobalKey<FormState>();
+
+  String _noRek;
+  String _noBlok;
+  String _pemilik;
+  String _tabungan;
+  String _setor;
+
+  late SetorTabungan? dataSetor = null;
+
+  _konfirmTbState(
+      this._noRek, this._noBlok, this._pemilik, this._tabungan, this._setor);
+
+  getData() async {
+    SetorTabungan.connectToAPI(_noRek, _setor, _noBlok).then((value) {
+      dataSetor = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +57,8 @@ class _konfirmTbState extends State<konfirmTb> {
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda())),
         ),
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
@@ -60,7 +96,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "00000100001",
+                    _noRek,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -76,7 +112,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "A001",
+                    _noBlok,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -92,7 +128,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Stevanus Evan",
+                    _pemilik,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -108,7 +144,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. 50000",
+                    "Rp. " + _tabungan,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -124,12 +160,28 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. 100000",
+                    "Rp. " + _setor,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
                     ),
                   ),
+                  // SizedBox(height: 25),
+                  // Text(
+                  //   "Status",
+                  //   style: TextStyle(
+                  //       color: Colors.black,
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
+                  // SizedBox(height: 5),
+                  // Text(
+                  //   '${dataSetor!.pesan}' ?? 'Status Tidak Ditemukan',
+                  //   style: TextStyle(
+                  //     color: Colors.black,
+                  //     fontSize: 12,
+                  //   ),
+                  // ),
                   SizedBox(height: 10),
                   //Kalo Nd butuh, hapus jo nih button
                 ],

@@ -52,13 +52,10 @@ class _konfirmRtState extends State<konfirmRt> {
     String _status = '';
     int? status = (dataBayar != null) ? dataBayar!.status : 0;
     if (status == 1) {
-      print('Pembayaran Berhasil');
       _status = "Pembayaran Berhasil";
     } else if (status == 0) {
-      print('Pembayaran Telah Dilakukan');
       _status = "Pembayaran Telah Dilakukan Untuk Hari Ini";
     } else {
-      print('Pembayaran Gagal');
       _status = "Pembayaran Gagal";
     }
     return Scaffold(

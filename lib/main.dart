@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'beranda.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,6 +33,7 @@ class LocationApp extends StatefulWidget {
 }
 
 class _LocationAppState extends State<LocationApp> {
+  late DataLogin? dataLogin = null;
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
 
@@ -247,17 +249,17 @@ class _LocationAppState extends State<LocationApp> {
       return;
     }
 
-    // final ProgressDialog pr = ProgressDialog(context);
-    // pr.style(message: "Loading...");
-    // pr.show();
+    // DataLogin.connectToAPI(txtUsername.text, txtPassword.text).then((value) {
+    //   dataLogin = value;
+    //   setState(() {});
+    // });
+
     final response = await http.post(
         Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
         body: {'username': txtUsername.text, 'password': txtPassword.text},
         headers: {'Accept': 'application/json'});
 
-    // pr.hide();
     if (response.statusCode == 200) {
-      print('Berhasil');
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new beranda()));
     } else {

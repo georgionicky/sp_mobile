@@ -67,7 +67,7 @@ class _profilState extends State<profil> {
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "Email Pegawai",
+                      "Kode Anggota",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -75,7 +75,7 @@ class _profilState extends State<profil> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "georgionicky@gmail.com",
+                      "01.000001",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,

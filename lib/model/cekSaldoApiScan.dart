@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SaldoBlokScan {
+  final by;
   final no_rek;
   final no_blok;
   final pemilik;
@@ -9,6 +10,7 @@ class SaldoBlokScan {
   final jumlah_tabungan;
 
   const SaldoBlokScan({
+    this.by,
     this.no_rek,
     this.no_blok,
     this.pemilik,
@@ -18,6 +20,7 @@ class SaldoBlokScan {
 
   factory SaldoBlokScan.getDataRetribusi(Map<String, dynamic> object) {
     return SaldoBlokScan(
+      by: object['by'],
       no_rek: object['no_rek'],
       no_blok: object['no_blok'],
       pemilik: object['nama_pemilik'],

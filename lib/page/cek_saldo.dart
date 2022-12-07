@@ -43,10 +43,16 @@ class _cek_SaldoState extends State<cek_Saldo> {
 
   @override
   Widget build(BuildContext context) {
-    print('Data Blok');
-    print((dataBlok != null) ? dataBlok!.jumlah_tabungan : 'kosong');
-    print('Data Saldo');
-    print((saldoBlok != null) ? saldoBlok!.saldo : 'kosong');
+    if (dataBlok?.by == 'rekening') {
+      blok = '';
+      for (var i = 0; i < dataBlok?.no_blok.length; i++) {
+        if (i == dataBlok?.no_blok.length - 1) {
+          blok += dataBlok!.no_blok[i]['kode'];
+        } else {
+          blok += dataBlok!.no_blok[i]['kode'] + ', ';
+        }
+      }
+    }
     return Scaffold(
       appBar: new AppBar(
         title: Text("Menu Cek Saldo",
@@ -102,13 +108,11 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (blok != '' || dataBlok != null)
-                        ? (blok != '')
-                            ? blok
-                            : (dataBlok != null)
-                                ? dataBlok!.no_blok
-                                : 'Tidak Memiliki Blok'
-                        : 'Tidak Memiliki Blok',
+                    (blok != '')
+                        ? blok
+                        : (dataBlok != null)
+                            ? dataBlok?.no_blok
+                            : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -181,9 +185,9 @@ class _cek_SaldoState extends State<cek_Saldo> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
+              dataBlok = null;
               SaldoBlok.connectToAPI(_norek.text).then((value) {
                 saldoBlok = value;
-                dataBlok = null;
                 setState(() {});
                 // print(saldoBlok!.noBlok);
                 blok = '';

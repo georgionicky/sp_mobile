@@ -32,10 +32,17 @@ class _retribusiState extends State<retribusi> {
     super.initState();
   }
 
-  bool? check1 = false;
   String selectedValue = "tabungan";
   @override
   Widget build(BuildContext context) {
+    String noRek = (dataRetribusi != null) ? dataRetribusi!.no_rek : 'kosong';
+    String noBlok = (dataRetribusi != null) ? dataRetribusi!.no_blok : 'kosong';
+    String pemilik =
+        (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong';
+    String retribusi =
+        (dataRetribusi != null) ? dataRetribusi!.jumlah_retribusi : 'kosong';
+    bool? check1 = false;
+
     return Scaffold(
       appBar: new AppBar(
         title: Text("Menu Retribusi",
@@ -81,7 +88,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (dataRetribusi != null) ? dataRetribusi!.no_rek : 'kosong',
+                    noRek,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -97,7 +104,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (dataRetribusi != null) ? dataRetribusi!.no_blok : 'kosong',
+                    noBlok,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -113,7 +120,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong',
+                    pemilik,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -151,9 +158,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    (dataRetribusi != null)
-                        ? dataRetribusi!.jumlah_retribusi
-                        : 'kosong',
+                    retribusi,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -186,7 +191,8 @@ class _retribusiState extends State<retribusi> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new konfirmRt())),
+                builder: (BuildContext context) =>
+                    new konfirmRt(noRek, noBlok, pemilik, retribusi, check1))),
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
         ),

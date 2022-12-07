@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/model/daftarBlok.dart';
 
 class cek_Lapak extends StatefulWidget {
@@ -30,6 +31,7 @@ class _cek_LapakState extends State<cek_Lapak> {
 
   @override
   Widget build(BuildContext context) {
+    int? len = daftarBlok?.jmlBlok ?? 0;
     return Scaffold(
       appBar: new AppBar(
         title: Text("Menu Cari Blok",
@@ -38,7 +40,8 @@ class _cek_LapakState extends State<cek_Lapak> {
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda())),
         ),
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
@@ -111,58 +114,27 @@ class _cek_LapakState extends State<cek_Lapak> {
                       mainAxisSpacing: 10,
                       crossAxisCount: 4,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: Text(
-                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
+                        for (var i = 0; i < len!; i++)
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Center(
+                              child: Text(
+                                  '${daftarBlok?.daftar[i]['kode'] ?? "Kosong"}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                            color: (daftarBlok?.daftar[i]
+                                        ['riwayat_retribusi'] ==
+                                    [])
+                                ? Colors.grey
+                                : (daftarBlok?.daftar[i]['riwayat_retribusi'] ==
+                                        0)
+                                    ? Color.fromRGBO(39, 174, 96, 100)
+                                    : Color.fromARGB(156, 255, 2, 2),
                           ),
-                          color: Color.fromRGBO(39, 174, 96, 100),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: Text(
-                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          color: Color.fromRGBO(39, 174, 96, 100),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: Text(
-                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          color: Color.fromRGBO(39, 174, 96, 100),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: Text(
-                                '${daftarBlok?.daftar[0]['kode'] ?? "Data Kosong"}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          color: Color.fromRGBO(39, 174, 96, 100),
-                        ),
                       ],
                     ),
                   ),

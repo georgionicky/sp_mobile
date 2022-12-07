@@ -9,7 +9,7 @@ class DaftarBlok {
   DaftarBlok({this.daftar, this.jmlBlok});
 
   factory DaftarBlok.getDaftarBlok(Map<String, dynamic> object) {
-    int len = object['daftar'].length! ?? 0;
+    int? len = object['daftar'].length! ?? 0;
     return DaftarBlok(daftar: object['daftar'], jmlBlok: len);
   }
 

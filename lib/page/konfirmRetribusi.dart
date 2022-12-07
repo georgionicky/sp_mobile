@@ -1,17 +1,66 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
+import 'package:sp_mobile/model/bayarRetribusi.dart';
 
 class konfirmRt extends StatefulWidget {
-  const konfirmRt({super.key});
+  final String? noRek;
+  final String? noBlok;
+  final String? pemilik;
+  final String? retribusi;
+  final bool? check;
+
+  konfirmRt(this.noRek, this.noBlok, this.pemilik, this.retribusi, this.check,
+      {super.key});
 
   @override
-  State<konfirmRt> createState() => _konfirmRtState();
+  State<konfirmRt> createState() =>
+      _konfirmRtState(noRek!, noBlok!, pemilik!, retribusi!, check!);
 }
 
 class _konfirmRtState extends State<konfirmRt> {
+  String _noRek;
+  String _noBlok;
+  String _pemilik;
+  String _retribusi;
+  bool _check;
+
+  late BayarRetribusi? dataBayar = null;
+
+  _konfirmRtState(
+      this._noRek, this._noBlok, this._pemilik, this._retribusi, this._check);
+
+  getData() async {
+    BayarRetribusi.connectToAPI(_noBlok, '1').then((value) {
+      dataBayar = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    String _status = '';
+    int? status = (dataBayar != null) ? dataBayar!.status : 0;
+    if (status == 1) {
+      print('Pembayaran Berhasil');
+      _status = "Pembayaran Berhasil";
+    } else if (status == 0) {
+      print('Pembayaran Telah Dilakukan');
+      _status = "Pembayaran Telah Dilakukan Untuk Hari Ini";
+    } else {
+      print('Pembayaran Gagal');
+      _status = "Pembayaran Gagal";
+    }
     return Scaffold(
       appBar: new AppBar(
         title: Text("Menu Retribusi",
@@ -57,7 +106,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    ("0000001001101"),
+                    _noRek,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -73,7 +122,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    ("A001"),
+                    _noBlok,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -89,7 +138,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    ("Georgio Nicky"),
+                    _pemilik,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -106,7 +155,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    ("Hadir"),
+                    (_check == true) ? 'Hadir' : 'Tidak Hadir',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -122,7 +171,23 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    ("Rp.50000"),
+                    _retribusi,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "Status",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _status,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

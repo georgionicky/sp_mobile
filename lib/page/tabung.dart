@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/model/tabungRekApi.dart';
 import 'package:sp_mobile/page/konfirmRetribusi.dart';
 import 'package:sp_mobile/page/konfirmTabung.dart';
 import 'package:sp_mobile/page/scannerTabung.dart';
@@ -6,16 +7,39 @@ import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 
 class tabung extends StatefulWidget {
-  const tabung({super.key});
+  String? url;
+
+  tabung(this.url, {super.key});
 
   @override
-  State<tabung> createState() => _tabungState();
+  State<tabung> createState() => _tabungState(url!);
 }
 
 class _tabungState extends State<tabung> {
+  String apiUrl;
   final _globalkey = GlobalKey<FormState>();
 
   TextEditingController _jmltabung = TextEditingController();
+
+  late TabungRekScan? dataBlok = null;
+
+  _tabungState(this.apiUrl);
+
+  getData() async {
+    TabungRekScan.connectToAPI(apiUrl).then((value) {
+      dataBlok = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (apiUrl != '') {
+      getData();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

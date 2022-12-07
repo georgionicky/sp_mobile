@@ -162,7 +162,7 @@ class _QRViewExampleState extends State<QRViewExample> {
       // RetribusiApi(url!);
       describeEnum(result!.format);
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new tabung()));
+          builder: (BuildContext context) => new tabung(url)));
     });
   }
 

@@ -126,12 +126,13 @@ class _cek_LapakState extends State<cek_Lapak> {
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700)),
                             ),
-                            color: (daftarBlok?.daftar[i]
-                                        ['riwayat_retribusi'] ==
-                                    [])
+                            color: (daftarBlok?.daftar[i]['riwayat_retribusi']
+                                        .length ==
+                                    0)
                                 ? Colors.grey
-                                : (daftarBlok?.daftar[i]['riwayat_retribusi'] ==
-                                        0)
+                                : (daftarBlok?.daftar[i]['riwayat_retribusi'][0]
+                                            ['status_kehadiran'] ==
+                                        "1")
                                     ? Color.fromRGBO(39, 174, 96, 100)
                                     : Color.fromARGB(156, 255, 2, 2),
                           ),

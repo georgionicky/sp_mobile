@@ -302,7 +302,7 @@ class _berandaState extends State<beranda> {
                                             .push(new MaterialPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        new tabung())),
+                                                        new tabung(''))),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
                                           padding: EdgeInsets.all(10),

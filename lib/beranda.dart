@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors, unnecessary_new, avoid_returning_null_for_void, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/model/keteranganDashboard.dart';
 import 'package:sp_mobile/page/cek_lapak.dart';
 import 'package:sp_mobile/page/history.dart';
 import 'package:sp_mobile/page/navfoot.dart';
@@ -21,10 +22,27 @@ class beranda extends StatefulWidget {
 }
 
 class _berandaState extends State<beranda> {
+  late KeteranganDashboard? ketBlok = null;
   final PageStorageBucket bucket = PageStorageBucket();
+
+  getData() async {
+    KeteranganDashboard.connectToAPI().then((value) {
+      ketBlok = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var tutup = ketBlok?.lapakTutup;
+    print('Keterangan');
     return new Scaffold(
       appBar: new AppBar(
         actions: <Widget>[
@@ -361,7 +379,7 @@ class _berandaState extends State<beranda> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          "5",
+                                          '${ketBlok?.sudahBayar ?? "Data Kosong"}',
                                           style: TextStyle(
                                               fontSize: 18,
                                               color:
@@ -415,7 +433,7 @@ class _berandaState extends State<beranda> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          "10",
+                                          '${ketBlok?.lapakTutup ?? "Data Kosong"}',
                                           style: TextStyle(
                                               fontSize: 18,
                                               color:
@@ -467,7 +485,7 @@ class _berandaState extends State<beranda> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          "7",
+                                          '${ketBlok?.belumDicek ?? "Data Kosong"}',
                                           style: TextStyle(
                                               fontSize: 18,
                                               color:

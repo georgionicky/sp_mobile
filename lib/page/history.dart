@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/model/riwayatApi.dart';
 
 class historyAll extends StatefulWidget {
   const historyAll({super.key});
@@ -9,56 +10,78 @@ class historyAll extends StatefulWidget {
 }
 
 class _historyAllState extends State<historyAll> {
-  List<String> titles = [
-    "Retribusi",
-    "Tabung",
-    "Retribusi",
-  ];
-  final subtitles = [
-    "22/12/22, 13:00",
-    "23/12/22, 13:30",
-    "22/12/22, 14:00",
-  ];
+  late Riwayat? dataRiwayat = null;
 
-  final uang = [
-    "Rp.5000",
-    "Rp.15000",
-    "Rp.25000",
-  ];
-  final nama = [
-    "Georgio Nicky",
-    "Stevanus Evan",
-    "Bofly Eta",
-  ];
-  final noblok = [
-    "A001",
-    "A002",
-    "A003",
-  ];
+  getData() async {
+    Riwayat.connectToAPI().then((value) {
+      dataRiwayat = value;
+      setState(() {});
+    });
+  }
+
+  // List<String> titles = [
+  //   "Retribusi",
+  //   "Tabung",
+  //   "Retribusi",
+  // ];
+  // final subtitles = [
+  //   "22/12/22, 13:00",
+  //   "23/12/22, 13:30",
+  //   "22/12/22, 14:00",
+  // ];
+
+  // final uang = [
+  //   "Rp.5000",
+  //   "Rp.15000",
+  //   "Rp.25000",
+  // ];
+  // final nama = [
+  //   "Georgio Nicky",
+  //   "Stevanus Evan",
+  //   "Bofly Eta",
+  // ];
+  // final noblok = [
+  //   "A001",
+  //   "A002",
+  //   "A003",
+  // ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    int jml = dataRiwayat?.riwayatRetribusi.length +
+        dataRiwayat?.riwayatTabungan.length;
+    print("Jumlah Length $jml");
     return ListView.builder(
-        itemCount: titles.length,
+        itemCount: jml,
         itemBuilder: (context, index) {
           return Card(
               child: ListTile(
             onTap: () {},
-            title: Text(titles[index]),
+            title: Text(dataRiwayat?.riwayatTabungan['keterangan'][index]),
             subtitle: Column(children: [
               SizedBox(height: 5),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(subtitles[index]),
+                child: Text(dataRiwayat?.riwayatTabungan['created_at'][index]),
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(nama[index]),
+                child: Text(dataRiwayat?.riwayatTabungan['operator'][index]),
               ),
               Align(
-                  alignment: Alignment.centerLeft, child: Text(noblok[index])),
+                  alignment: Alignment.centerLeft,
+                  child: Text(dataRiwayat?.riwayatTabungan['simpanan'][0]
+                      ['no_rek'][index])),
             ]),
             trailing: Text(
-              uang[index],
+              dataRiwayat?.riwayatTabungan['jumlah'][index],
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ));

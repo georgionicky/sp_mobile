@@ -6,6 +6,7 @@ import 'package:sp_mobile/page/konfirmRetribusi.dart';
 class retribusi extends StatefulWidget {
   String? url;
   retribusi(this.url, {super.key});
+  bool? check1 = false;
 
   @override
   State<retribusi> createState() => _retribusiState(url!);
@@ -32,6 +33,7 @@ class _retribusiState extends State<retribusi> {
     super.initState();
   }
 
+  bool? check1 = false;
   String selectedValue = "tabungan";
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,6 @@ class _retribusiState extends State<retribusi> {
         (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong';
     String retribusi =
         (dataRetribusi != null) ? dataRetribusi!.jumlah_retribusi : 'kosong';
-    bool? check1 = false;
 
     return Scaffold(
       appBar: new AppBar(
@@ -137,15 +138,7 @@ class _retribusiState extends State<retribusi> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
-                      Checkbox(
-                          //only check box
-                          value: check1, //unchecked
-                          onChanged: (bool? value) {
-                            //value returned when checkbox is clicked
-                            setState(() {
-                              check1 = value;
-                            });
-                          })
+                      cekbox(),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -198,6 +191,17 @@ class _retribusiState extends State<retribusi> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget cekbox() {
+    return Checkbox(
+      value: check1,
+      onChanged: (value) {
+        setState(() {
+          check1 = value!;
+        });
+      },
     );
   }
 }

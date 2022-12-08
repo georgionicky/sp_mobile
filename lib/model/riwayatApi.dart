@@ -3,16 +3,12 @@ import 'package:http/http.dart' as http;
 
 class Riwayat {
   final status;
-  final riwayatTabungan;
-  final riwayatRetribusi;
+  final riwayat;
 
-  Riwayat({this.status, this.riwayatTabungan, this.riwayatRetribusi});
+  Riwayat({this.status, this.riwayat});
 
   factory Riwayat.getRiwayat(Map<String, dynamic> object) {
-    return Riwayat(
-        status: object['status'],
-        riwayatTabungan: object['riwayat-tabungan'],
-        riwayatRetribusi: object['riwayat-retribusi']);
+    return Riwayat(status: object['status'], riwayat: object['riwayat']);
   }
 
   static Future<Riwayat> connectToAPI() async {

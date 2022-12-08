@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/riwayatApi.dart';
 
 class historyAll extends StatefulWidget {
@@ -55,34 +56,39 @@ class _historyAllState extends State<historyAll> {
 
   @override
   Widget build(BuildContext context) {
-    int lenTabungan = dataRiwayat?.riwayatTabungan.length ?? 0;
-    int lenRetribusi = dataRiwayat?.riwayatRetribusi.length ?? 0;
-    int jml = lenTabungan + lenRetribusi;
-    print("Jumlah Length $jml");
+    int lenTabungan = dataRiwayat?.riwayat.length ?? 0;
     return ListView.builder(
-        itemCount: jml,
-        itemBuilder: (context, index) {
+        itemCount: lenTabungan,
+        itemBuilder: (context, int index) {
           return Card(
               child: ListTile(
             onTap: () {},
-            title: Text('${dataRiwayat?.riwayatTabungan['keterangan']}'[index]),
+            title: Text(dataRiwayat?.riwayat[index]['keterangan'],
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             subtitle: Column(children: [
               SizedBox(height: 5),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(dataRiwayat?.riwayatTabungan['created_at'][index]),
+                child: Text(dataRiwayat?.riwayat[index]['created_at']),
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(dataRiwayat?.riwayatTabungan['operator'][index]),
+                child:
+                    Text("Operator " + dataRiwayat?.riwayat[index]['operator']),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(dataRiwayat?.riwayatTabungan['simpanan'][0]
-                      ['no_rek'][index])),
+                  child: Text("Rek. " +
+                      dataRiwayat?.riwayat[index]['simpanan']['no_rek'])),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Jenis Setoran : " +
+                      dataRiwayat?.riwayat[index]['simpanan']
+                          ['jenis_setoran'])),
             ]),
             trailing: Text(
-              dataRiwayat?.riwayatTabungan['jumlah'][index],
+              RupiahFormat.convertToIdr(
+                  int.parse(dataRiwayat?.riwayat[index]['jumlah']), 0),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ));

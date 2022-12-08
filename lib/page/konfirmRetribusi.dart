@@ -34,7 +34,8 @@ class _konfirmRtState extends State<konfirmRt> {
       this._noRek, this._noBlok, this._pemilik, this._retribusi, this._check);
 
   getData() async {
-    BayarRetribusi.connectToAPI(_noBlok, '1').then((value) {
+    BayarRetribusi.connectToAPI(_noBlok, (_check == true) ? '1' : '2')
+        .then((value) {
       dataBayar = value;
       setState(() {});
     });

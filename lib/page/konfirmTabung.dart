@@ -49,6 +49,15 @@ class _konfirmTbState extends State<konfirmTb> {
 
   @override
   Widget build(BuildContext context) {
+    String _status = '';
+    int? status = (dataSetor != null) ? dataSetor!.status : 0;
+    if (status == 1) {
+      _status = "Setoran Berhasil";
+    } else if (status == 0) {
+      _status = "Rekening Tidak Ditemukan";
+    } else {
+      _status = "Setoran Gagal";
+    }
     return Scaffold(
       appBar: new AppBar(
         title:
@@ -166,22 +175,22 @@ class _konfirmTbState extends State<konfirmTb> {
                       fontSize: 12,
                     ),
                   ),
-                  // SizedBox(height: 25),
-                  // Text(
-                  //   "Status",
-                  //   style: TextStyle(
-                  //       color: Colors.black,
-                  //       fontSize: 16,
-                  //       fontWeight: FontWeight.bold),
-                  // ),
-                  // SizedBox(height: 5),
-                  // Text(
-                  //   '${dataSetor!.pesan}' ?? 'Status Tidak Ditemukan',
-                  //   style: TextStyle(
-                  //     color: Colors.black,
-                  //     fontSize: 12,
-                  //   ),
-                  // ),
+                  SizedBox(height: 25),
+                  Text(
+                    "Status",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _status,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
                   SizedBox(height: 10),
                   //Kalo Nd butuh, hapus jo nih button
                 ],

@@ -55,8 +55,9 @@ class _historyAllState extends State<historyAll> {
 
   @override
   Widget build(BuildContext context) {
-    int jml = dataRiwayat?.riwayatRetribusi.length +
-        dataRiwayat?.riwayatTabungan.length;
+    int lenTabungan = dataRiwayat?.riwayatTabungan.length ?? 0;
+    int lenRetribusi = dataRiwayat?.riwayatRetribusi.length ?? 0;
+    int jml = lenTabungan + lenRetribusi;
     print("Jumlah Length $jml");
     return ListView.builder(
         itemCount: jml,
@@ -64,7 +65,7 @@ class _historyAllState extends State<historyAll> {
           return Card(
               child: ListTile(
             onTap: () {},
-            title: Text(dataRiwayat?.riwayatTabungan['keterangan'][index]),
+            title: Text('${dataRiwayat?.riwayatTabungan['keterangan']}'[index]),
             subtitle: Column(children: [
               SizedBox(height: 5),
               Align(

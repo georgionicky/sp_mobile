@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/page/cek_saldo.dart';
 
 class SaldoBlok {
   final saldo;
@@ -11,20 +13,15 @@ class SaldoBlok {
   SaldoBlok({this.saldo, this.noBlok, this.pemilik, this.jml});
 
   factory SaldoBlok.getSaldoBlok(Map<String, dynamic> object) {
-    if (object == null) {
-      return SaldoBlok(saldo: '', noBlok: '', pemilik: '', jml: '');
-    } else {
-      int len = object['nomor_blok'].length! ?? 0;
-      return SaldoBlok(
-          saldo: object['saldo'],
-          noBlok: object['nomor_blok'],
-          pemilik: object['pemilik_blok'],
-          jml: len);
-    }
+    int len = object['nomor_blok'].length! ?? 0;
+    return SaldoBlok(
+        saldo: object['saldo'],
+        noBlok: object['nomor_blok'],
+        pemilik: object['pemilik_blok'],
+        jml: len);
   }
 
-  static Future<SaldoBlok> connectToAPI(String no_rek) async {
-    // String apiUrl = Uri.parse('http://localhost:8000/api/cek-saldo');
+  static Future<SaldoBlok?> connectToAPI(String no_rek) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/cek-saldo";
 
     var apiResult = await http
@@ -33,10 +30,11 @@ class SaldoBlok {
 
     if (apiResult.statusCode == 200) {
       print('Berhasil');
+      return SaldoBlok.getSaldoBlok(jsonObject);
     } else {
       print('Gagal');
       print(jsonObject['pesan']);
+      return null;
     }
-    return SaldoBlok.getSaldoBlok(jsonObject);
   }
 }

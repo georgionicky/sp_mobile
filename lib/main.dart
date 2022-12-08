@@ -254,21 +254,36 @@ class _LocationAppState extends State<LocationApp> {
     //   setState(() {});
     // });
 
-    final response = await http.post(
-        Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
-        body: {'username': txtUsername.text, 'password': txtPassword.text},
-        headers: {'Accept': 'application/json'});
+    try {
+      final response = await http.post(
+          Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
+          body: {'username': txtUsername.text, 'password': txtPassword.text},
+          headers: {'Accept': 'application/json'});
 
-    if (response.statusCode == 200) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new beranda()));
-    } else {
-      // Alert jika user dan pass salah
+      if (response.statusCode == 200) {
+        Navigator.of(context).push(new MaterialPageRoute(
+            builder: (BuildContext context) => new beranda()));
+      } else if (response.statusCode == 500) {
+        Alert(
+                context: context,
+                title: "Jaringan Internet Terputus!",
+                type: AlertType.error)
+            .show();
+      } else {
+        // Alert jika user dan pass salah
+        Alert(
+                context: context,
+                title: "Login Gagal, Username atau Password salah!",
+                type: AlertType.error)
+            .show();
+      }
+    } catch (e) {
       Alert(
               context: context,
-              title: "Login Gagal, Username atau Password salah!",
+              title: "Gagal Login, Mohon Periksa Jaringan Internet Anda!",
               type: AlertType.error)
           .show();
+      return null;
     }
   }
 }

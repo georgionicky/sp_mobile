@@ -35,7 +35,7 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: Text("Menu Retribusi",
+        title: Text("Menu Riwayat Retribusi",
             style: TextStyle(fontWeight: FontWeight.w700)),
         centerTitle: true,
         leading: new IconButton(

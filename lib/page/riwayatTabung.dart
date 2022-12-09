@@ -36,8 +36,8 @@ class _riwayatTabungState extends State<riwayatTabung> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title:
-            Text("Menu Tabung", style: TextStyle(fontWeight: FontWeight.w700)),
+        title: Text("Menu Riwayat Tabung",
+            style: TextStyle(fontWeight: FontWeight.w700)),
         centerTitle: true,
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,

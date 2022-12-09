@@ -6,6 +6,7 @@ import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
+import 'package:sp_mobile/page/nota_retribusi.dart';
 
 class konfirmRt extends StatefulWidget {
   final String? noRek;
@@ -218,7 +219,8 @@ class _konfirmRtState extends State<konfirmRt> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new MyApp())),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

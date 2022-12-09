@@ -173,7 +173,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    retribusi,
+                    RupiahFormat.convertToIdr(int.parse(retribusi), 0),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

@@ -178,7 +178,8 @@ class _riwayatTabungState extends State<riwayatTabung> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new MyApp2())),
+                builder: (BuildContext context) =>
+                    new MyApp2(_pemilik, _setor, _tabungan))),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

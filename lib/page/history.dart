@@ -50,13 +50,9 @@ class _historyAllState extends State<historyAll> {
                         dataRiwayat?.riwayat[index]['simpanan']['no_rek'],
                         blok,
                         dataRiwayat?.riwayat[index]['anggota']['nama'],
-                        RupiahFormat.convertToIdr(
-                            int.parse(dataRiwayat?.riwayat[index]['simpanan']
-                                ['nilai_simpanan']),
-                            0),
-                        RupiahFormat.convertToIdr(
-                            int.parse(dataRiwayat?.riwayat[index]['jumlah']),
-                            0))));
+                        dataRiwayat?.riwayat[index]['simpanan']
+                            ['nilai_simpanan'],
+                        dataRiwayat?.riwayat[index]['jumlah'])));
               } else {
                 Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new riwayatRetribusi(
@@ -91,7 +87,7 @@ class _historyAllState extends State<historyAll> {
             ]),
             trailing: Text(
               RupiahFormat.convertToIdr(
-                  int.parse(dataRiwayat?.riwayat[index]['jumlah']), 0),
+                  dataRiwayat?.riwayat[index]['jumlah'], 0),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ));

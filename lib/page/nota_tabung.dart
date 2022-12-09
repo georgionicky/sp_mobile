@@ -223,7 +223,7 @@ class _MyApp2State extends State<MyApp2> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Nama Pemilik: ' + _pemilik,
+                                    content: 'Nama Nasabah : ' + _pemilik,
                                     weight: 1,
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,

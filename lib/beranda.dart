@@ -56,16 +56,14 @@ class _berandaState extends State<beranda> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             new UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 174, 96, 100),
-                ),
-                accountName: new Text("Nama Pegawai"),
-                accountEmail: new Text("Petugas Lapangan"),
-                currentAccountPicture: Icon(
-                  Icons.account_circle_outlined,
-                  size: 90,
-                  color: Colors.white,
-                )),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(39, 174, 96, 100),
+              ),
+              accountName: new Text("Nama Pegawai"),
+              accountEmail: new Text("Petugas Lapangan"),
+              currentAccountPicture:
+                  new Image.asset("assets/profil_pegawai.png"),
+            ),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Beranda'),
@@ -145,11 +143,8 @@ class _berandaState extends State<beranda> {
                         Padding(
                           padding: EdgeInsets.only(left: 0.0),
                           child: TextButton(
-                            child: Icon(
-                              Icons.account_circle_outlined,
-                              size: 90,
-                              color: Colors.white,
-                            ),
+                            child: new Image.asset("assets/profil_pegawai.png",
+                                width: 90),
                             onPressed: () => Navigator.of(context).push(
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>

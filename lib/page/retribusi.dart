@@ -205,9 +205,40 @@ class _retribusiState extends State<retribusi> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new konfirmRt(
-                    noRek, noBlok, pemilik, retribusi, check1, tabungan))),
+            onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Apakah data sudah benar ? '),
+                actions: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).push(
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new konfirmRt(noRek, noBlok, pemilik,
+                                          retribusi, check1, tabungan))),
+                          child: const Text('Benar'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Periksa Kembali'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
         ),

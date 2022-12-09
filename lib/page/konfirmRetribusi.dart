@@ -128,7 +128,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    "Nama Pemilik Blok",
+                    "Pemilik Blok",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,

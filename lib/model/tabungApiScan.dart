@@ -29,15 +29,14 @@ class TabungScan {
     );
   }
 
-  static Future<TabungScan> connectToAPI(String url) async {
+  static Future<TabungScan?> connectToAPI(String url) async {
     var apiResult = await http.get(Uri.parse(url));
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil Konek API');
+      return TabungScan.getDataRetribusi(jsonObject);
     } else {
-      print('Gagal Konek API');
+      return null;
     }
-    return TabungScan.getDataRetribusi(jsonObject);
   }
 }

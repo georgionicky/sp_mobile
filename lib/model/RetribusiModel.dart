@@ -26,15 +26,14 @@ class RetribusiModel {
     );
   }
 
-  static Future<RetribusiModel> connectToAPI(String url) async {
+  static Future<RetribusiModel?> connectToAPI(String url) async {
     var apiResult = await http.get(Uri.parse(url));
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil Konek API');
+      return RetribusiModel.getDataRetribusi(jsonObject);
     } else {
-      print('Gagal Konek API');
+      return null;
     }
-    return RetribusiModel.getDataRetribusi(jsonObject);
   }
 }

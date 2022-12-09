@@ -29,7 +29,6 @@ class KeteranganDashboard {
 
     if (apiResult.statusCode == 200) {
       print('Berhasil API Dashboard');
-      print(apiResult.body);
     } else {
       print('Gagal APi Dashboard');
     }

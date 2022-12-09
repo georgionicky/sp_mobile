@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
@@ -35,8 +36,26 @@ class _konfirmTbState extends State<konfirmTb> {
 
   getData() async {
     SetorTabungan.connectToAPI(_noRek, _setor, _noBlok).then((value) {
-      dataSetor = value;
-      setState(() {});
+      if (value != null) {
+        dataSetor = value;
+        setState(() {});
+      } else {
+        Alert(
+                context: context,
+                title: "Nomor rekening atau blok tidak ditemukan!",
+                buttons: [
+                  DialogButton(
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    width: 120,
+                  )
+                ],
+                type: AlertType.error)
+            .show();
+      }
     });
   }
 
@@ -58,6 +77,7 @@ class _konfirmTbState extends State<konfirmTb> {
     } else {
       _status = "Setoran Gagal";
     }
+
     return Scaffold(
       appBar: new AppBar(
         title:
@@ -129,7 +149,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 25),
                   Text(
-                    "Nama Pemilik Blok",
+                    "Pemilik Blok",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -153,7 +173,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. " + _tabungan,
+                    _tabungan,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -161,7 +181,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 25),
                   Text(
-                    "Jumlah yang akan ditabung",
+                    "Jumlah Yang Ditabung",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -169,7 +189,7 @@ class _konfirmTbState extends State<konfirmTb> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Rp. " + _setor,
+                    _setor,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

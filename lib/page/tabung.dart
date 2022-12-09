@@ -29,8 +29,26 @@ class _tabungState extends State<tabung> {
 
   getData() async {
     TabungScan.connectToAPI(apiUrl).then((value) {
-      dataTabung = value;
-      setState(() {});
+      if (value != null) {
+        dataTabung = value;
+        setState(() {});
+      } else {
+        Alert(
+                context: context,
+                title: "Nomor rekening atau blok tidak ditemukan!",
+                buttons: [
+                  DialogButton(
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    width: 120,
+                  )
+                ],
+                type: AlertType.error)
+            .show();
+      }
     });
   }
 
@@ -213,7 +231,11 @@ class _tabungState extends State<tabung> {
 
               Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) => new konfirmTb(
-                      noRek, noBlok, pemilik, tabungan, _jmltabung.text)));
+                      noRek,
+                      (blok != '') ? blok : noBlok,
+                      pemilik,
+                      tabungan,
+                      _jmltabung.text)));
             },
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),

@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/model/keteranganDashboard.dart';
 import 'package:sp_mobile/page/cek_lapak.dart';
-import 'package:sp_mobile/page/history.dart';
 import 'package:sp_mobile/page/navfoot.dart';
-import 'package:sp_mobile/page/retribusi.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
 import 'package:sp_mobile/page/scannerTabung.dart';
 import 'package:sp_mobile/page/tabung.dart';
@@ -61,7 +59,7 @@ class _berandaState extends State<beranda> {
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(39, 174, 96, 100),
                 ),
-                accountName: new Text("Georgio Nicky"),
+                accountName: new Text("Nama Pegawai"),
                 accountEmail: new Text("Petugas Lapangan"),
                 currentAccountPicture:
                     Image.asset("assets/profil_pegawai.png", width: 90)),
@@ -158,7 +156,7 @@ class _berandaState extends State<beranda> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Georgio Nicky",
+                                "Nama Pegawai",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
@@ -379,7 +377,7 @@ class _berandaState extends State<beranda> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          '${ketBlok?.sudahBayar ?? "Data Kosong"}',
+                                          '${ketBlok?.sudahBayar ?? "data kosong"}',
                                           style: TextStyle(
                                               fontSize: 18,
                                               color:
@@ -433,7 +431,7 @@ class _berandaState extends State<beranda> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          '${ketBlok?.lapakTutup ?? "Data Kosong"}',
+                                          '${ketBlok?.lapakTutup ?? "data kosong"}',
                                           style: TextStyle(
                                               fontSize: 18,
                                               color:
@@ -485,7 +483,7 @@ class _berandaState extends State<beranda> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          '${ketBlok?.belumDicek ?? "Data Kosong"}',
+                                          '${ketBlok?.belumDicek ?? "data kosong"}',
                                           style: TextStyle(
                                               fontSize: 18,
                                               color:

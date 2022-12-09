@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/riwayatApi.dart';
+import 'package:sp_mobile/page/riwayatRetribusi.dart';
+import 'package:sp_mobile/page/riwayatTabung.dart';
 
 class historyAll extends StatefulWidget {
   const historyAll({super.key});
@@ -20,33 +21,6 @@ class _historyAllState extends State<historyAll> {
     });
   }
 
-  // List<String> titles = [
-  //   "Retribusi",
-  //   "Tabung",
-  //   "Retribusi",
-  // ];
-  // final subtitles = [
-  //   "22/12/22, 13:00",
-  //   "23/12/22, 13:30",
-  //   "22/12/22, 14:00",
-  // ];
-
-  // final uang = [
-  //   "Rp.5000",
-  //   "Rp.15000",
-  //   "Rp.25000",
-  // ];
-  // final nama = [
-  //   "Georgio Nicky",
-  //   "Stevanus Evan",
-  //   "Bofly Eta",
-  // ];
-  // final noblok = [
-  //   "A001",
-  //   "A002",
-  //   "A003",
-  // ];
-
   @override
   void initState() {
     // TODO: implement initState
@@ -62,7 +36,36 @@ class _historyAllState extends State<historyAll> {
         itemBuilder: (context, int index) {
           return Card(
               child: ListTile(
-            onTap: () {},
+            onTap: () {
+              if (dataRiwayat?.riwayat[index]['kode'] == "02") {
+                String blok = '';
+                for (var i = 0;
+                    i < dataRiwayat?.riwayat[index]['blok'].length;
+                    i++) {
+                  blok += dataRiwayat?.riwayat[index]['blok'][i]['kode'] + ', ';
+                }
+
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new riwayatTabung(
+                        dataRiwayat?.riwayat[index]['simpanan']['no_rek'],
+                        blok,
+                        dataRiwayat?.riwayat[index]['anggota']['nama'],
+                        RupiahFormat.convertToIdr(
+                            int.parse(dataRiwayat?.riwayat[index]['simpanan']
+                                ['nilai_simpanan']),
+                            0),
+                        RupiahFormat.convertToIdr(
+                            int.parse(dataRiwayat?.riwayat[index]['jumlah']),
+                            0))));
+              } else {
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new riwayatRetribusi(
+                        dataRiwayat?.riwayat[index]['simpanan']['no_rek'],
+                        dataRiwayat?.riwayat[index]['blok']['kode'],
+                        dataRiwayat?.riwayat[index]['anggota']['nama'],
+                        dataRiwayat?.riwayat[index]['jumlah'])));
+              }
+            },
             title: Text(dataRiwayat?.riwayat[index]['keterangan'],
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             subtitle: Column(children: [

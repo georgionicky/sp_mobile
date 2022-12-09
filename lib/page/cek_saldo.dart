@@ -28,8 +28,26 @@ class _cek_SaldoState extends State<cek_Saldo> {
 
   getData() async {
     SaldoBlokScan.connectToAPI(apiUrl).then((value) {
-      dataBlok = value;
-      setState(() {});
+      if (value != null) {
+        dataBlok = value;
+        setState(() {});
+      } else {
+        Alert(
+                context: context,
+                title: "Nomor rekening atau blok tidak ditemukan!",
+                buttons: [
+                  DialogButton(
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    width: 120,
+                  )
+                ],
+                type: AlertType.error)
+            .show();
+      }
     });
   }
 

@@ -17,7 +17,7 @@ class SetorTabungan {
     );
   }
 
-  static Future<SetorTabungan> connectToAPI(
+  static Future<SetorTabungan?> connectToAPI(
       String noRek, String setor, String blok) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/setor-tabungan";
 
@@ -31,12 +31,9 @@ class SetorTabungan {
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil');
-      print(apiResult.body);
+      return SetorTabungan.getSetorTabungan(jsonObject);
     } else {
-      print('Gagal');
-      print(jsonObject['pesan']);
+      return null;
     }
-    return SetorTabungan.getSetorTabungan(jsonObject);
   }
 }

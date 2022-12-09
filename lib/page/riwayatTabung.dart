@@ -1,93 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/beranda.dart';
-import 'package:sp_mobile/model/RetribusiModel.dart';
-import 'package:sp_mobile/page/konfirmRetribusi.dart';
 
-class retribusi extends StatefulWidget {
-  String? url;
-  retribusi(this.url, {super.key});
-  bool? check1 = false;
+class riwayatTabung extends StatefulWidget {
+  final String? noRek;
+  final String? noBlok;
+  final String? pemilik;
+  final String? tabungan;
+  final String? setor;
+
+  const riwayatTabung(
+      this.noRek, this.noBlok, this.pemilik, this.tabungan, this.setor,
+      {super.key});
 
   @override
-  State<retribusi> createState() => _retribusiState(url!);
+  State<riwayatTabung> createState() =>
+      _riwayatTabungState(noRek!, noBlok!, pemilik!, tabungan!, setor!);
 }
 
-class _retribusiState extends State<retribusi> {
-  String apiUrl;
+class _riwayatTabungState extends State<riwayatTabung> {
+  final _globalkey = GlobalKey<FormState>();
 
-  late RetribusiModel? dataRetribusi = null;
+  String _noRek;
+  String _noBlok;
+  String _pemilik;
+  String _tabungan;
+  String _setor;
 
-  _retribusiState(this.apiUrl);
+  late SetorTabungan? dataSetor = null;
 
-  getData() async {
-    RetribusiModel.connectToAPI(apiUrl).then((value) {
-      if (value != null) {
-        dataRetribusi = value;
-        setState(() {});
-      } else {
-        Alert(
-                context: context,
-                title: "Nomor rekening atau blok tidak ditemukan!",
-                buttons: [
-                  DialogButton(
-                    child: Text(
-                      "Ok",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    width: 120,
-                  )
-                ],
-                type: AlertType.error)
-            .show();
-      }
-    });
-  }
+  _riwayatTabungState(
+      this._noRek, this._noBlok, this._pemilik, this._tabungan, this._setor);
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    getData();
-    super.initState();
-  }
-
-  bool? check1 = false;
-  String selectedValue = "tabungan";
   @override
   Widget build(BuildContext context) {
-    String noRek = (dataRetribusi != null) ? dataRetribusi!.no_rek : 'kosong';
-    String noBlok = (dataRetribusi != null) ? dataRetribusi!.no_blok : 'kosong';
-    String pemilik =
-        (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong';
-    String retribusi =
-        (dataRetribusi != null) ? dataRetribusi!.jumlah_retribusi : 'kosong';
-
     return Scaffold(
       appBar: new AppBar(
-        title: Text("Menu Retribusi",
-            style: TextStyle(fontWeight: FontWeight.w700)),
+        title:
+            Text("Menu Tabung", style: TextStyle(fontWeight: FontWeight.w700)),
         centerTitle: true,
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromARGB(255, 255, 255, 255)),
-          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new beranda())),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Color.fromRGBO(39, 174, 96, 100),
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 50, top: 50),
+          margin: EdgeInsets.only(bottom: 100, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
+              key: _globalkey,
               child: ListView(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Informasi Retribusi",
+                      "Riwayat Tabungan",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -108,7 +80,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    noRek,
+                    _noRek,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -124,7 +96,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    noBlok,
+                    _noBlok,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -132,7 +104,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 25),
                   Text(
-                    "Nama Pemilik Blok",
+                    "Pemilik Blok",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -140,43 +112,45 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    pemilik,
+                    _pemilik,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
                     ),
                   ),
                   SizedBox(height: 25),
-
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Kehadiran Pemilik",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      cekbox(),
-                    ],
+                  Text(
+                    "Jumlah Tabungan",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _tabungan,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    "Jumlah Yang Ditabung",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _setor,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    "Jumlah Retribusi",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    retribusi,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
-                  ),
-                  SizedBox(height: 25),
                   //Kalo Nd butuh, hapus jo nih button
                 ],
               ),
@@ -193,7 +167,7 @@ class _retribusiState extends State<retribusi> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: Text(
-                "Bayar",
+                "Cetak Struk",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -202,25 +176,14 @@ class _retribusiState extends State<retribusi> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    new konfirmRt(noRek, noBlok, pemilik, retribusi, check1))),
-            backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+            onPressed: () {
+              //task to execute when this button is pressed
+            },
+            backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-
-  Widget cekbox() {
-    return Checkbox(
-      value: check1,
-      onChanged: (value) {
-        setState(() {
-          check1 = value!;
-        });
-      },
     );
   }
 }

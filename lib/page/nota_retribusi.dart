@@ -5,18 +5,34 @@ import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 
 class MyApp extends StatefulWidget {
+  final String? noBlok;
+  final String? retribusi;
+  final String? tabungan;
+  final String? operator;
+  MyApp(this.noBlok, this.retribusi, this.tabungan, this.operator);
+
   @override
-  _MyAppState createState() => _MyAppState();
+  _MyAppState createState() =>
+      _MyAppState(noBlok!, retribusi!, tabungan!, operator!);
 }
 
 class _MyAppState extends State<MyApp> {
   BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
 
+  String _noBlok;
+  String _retribusi;
+  String _tabungan;
+  String _operator;
+
   bool _connected = false;
   BluetoothDevice? _device;
   String tips = 'no device connect';
+
+  _MyAppState(this._noBlok, this._retribusi, this._tabungan, this._operator);
 
   @override
   void initState() {
@@ -190,7 +206,8 @@ class _MyAppState extends State<MyApp> {
                                     linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: '20/12/22, 00:00:00',
+                                    content:
+                                        DateTime.now().toString().split('.')[0],
                                     weight: 1,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
@@ -217,7 +234,7 @@ class _MyAppState extends State<MyApp> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'No Blok: A001',
+                                    content: 'No Blok: ' + _noBlok,
                                     weight: 1,
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,
@@ -236,7 +253,8 @@ class _MyAppState extends State<MyApp> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Rp.',
+                                    content:
+                                        '${RupiahFormat.convertToIdr(int.parse(_retribusi), 0)}',
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,
                                     relativeX: 0,
@@ -253,7 +271,8 @@ class _MyAppState extends State<MyApp> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Rp.',
+                                    content:
+                                        '${RupiahFormat.convertToIdr(int.parse(_tabungan), 0)}',
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,
                                     relativeX: 0,
@@ -277,7 +296,7 @@ class _MyAppState extends State<MyApp> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Nama Operator',
+                                    content: _operator,
                                     weight: 1,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));

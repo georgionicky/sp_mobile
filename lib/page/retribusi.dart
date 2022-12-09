@@ -63,6 +63,8 @@ class _retribusiState extends State<retribusi> {
         (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong';
     String retribusi =
         (dataRetribusi != null) ? dataRetribusi!.jumlah_retribusi : 'kosong';
+    String tabungan =
+        (dataRetribusi != null) ? dataRetribusi!.jumlah_tabungan : 'kosong';
 
     return Scaffold(
       appBar: new AppBar(
@@ -169,9 +171,9 @@ class _retribusiState extends State<retribusi> {
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
-                    RupiahFormat.convertToIdr(int.parse(retribusi), 0),
+                    retribusi,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -204,8 +206,8 @@ class _retribusiState extends State<retribusi> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    new konfirmRt(noRek, noBlok, pemilik, retribusi, check1))),
+                builder: (BuildContext context) => new konfirmRt(
+                    noRek, noBlok, pemilik, retribusi, check1, tabungan))),
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
         ),

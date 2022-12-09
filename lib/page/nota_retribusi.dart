@@ -1,71 +1,310 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class nota_retribusi extends StatefulWidget {
-  final List<Map<String, dynamic>> data;
-  nota_retribusi(this.data);
-
+class MyApp extends StatefulWidget {
   @override
-  State<nota_retribusi> createState() => _nota_retribusiState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _nota_retribusiState extends State<nota_retribusi> {
+class _MyAppState extends State<MyApp> {
   BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
-  List<BluetoothDevice> _devices = [];
-  String _deviceMsg = "";
+
+  bool _connected = false;
+  BluetoothDevice? _device;
+  String tips = 'no device connect';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => {initPrinter()});
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => initBluetooth());
   }
 
-  Future<void> initPrinter() async {
-    bluetoothPrint.startScan(timeout: Duration(seconds: 2));
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initBluetooth() async {
+    bluetoothPrint.startScan(timeout: Duration(seconds: 4));
+
+    bool isConnected = await bluetoothPrint.isConnected ?? false;
+
+    bluetoothPrint.state.listen((state) {
+      print('******************* cur device status: $state');
+
+      switch (state) {
+        case BluetoothPrint.CONNECTED:
+          setState(() {
+            _connected = true;
+            tips = 'connect success';
+          });
+          break;
+        case BluetoothPrint.DISCONNECTED:
+          setState(() {
+            _connected = false;
+            tips = 'disconnect success';
+          });
+          break;
+        default:
+          break;
+      }
+    });
 
     if (!mounted) return;
-    bluetoothPrint.scanResults.listen((val) {
-      if (!mounted) return;
-      setState(() => {_devices = val});
-      if (_devices.isEmpty)
-        setState(() {
-          _deviceMsg = "No Devices";
-        });
-    });
+
+    if (isConnected) {
+      setState(() {
+        _connected = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
         appBar: new AppBar(
-          title: Text("Select Printer",
+          title: Text("Print Retribusi",
               style: TextStyle(fontWeight: FontWeight.w700)),
           centerTitle: true,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back,
-                color: Color.fromARGB(255, 255, 255, 255)),
-            onPressed: () {},
-          ),
           backgroundColor: Color.fromRGBO(39, 174, 96, 100),
         ),
-        body: _devices.isEmpty
-            ? Center(
-                child: Text(_deviceMsg ?? ''),
-              )
-            : ListView.builder(
-                itemCount: _devices.length,
-                itemBuilder: (context, int index) {
-                  return ListTile(
-                    leading: Icon(Icons.print),
-                    title: Text(_devices[index].name),
-                    subtitle: Text(_devices[index].address),
-                    onTap: () {},
-                  );
-                },
-              ));
+        body: RefreshIndicator(
+          onRefresh: () =>
+              bluetoothPrint.startScan(timeout: Duration(seconds: 4)),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      child: Text(tips),
+                    ),
+                  ],
+                ),
+                Divider(),
+                StreamBuilder<List<BluetoothDevice>>(
+                  stream: bluetoothPrint.scanResults,
+                  initialData: [],
+                  builder: (c, snapshot) => Column(
+                    children: snapshot.data!
+                        .map((d) => ListTile(
+                              title: Text(d.name ?? ''),
+                              subtitle: Text(d.address ?? ''),
+                              onTap: () async {
+                                setState(() {
+                                  _device = d;
+                                });
+                              },
+                              trailing: _device != null &&
+                                      _device!.address == d.address
+                                  ? Icon(
+                                      Icons.check,
+                                      color: Colors.green,
+                                    )
+                                  : null,
+                            ))
+                        .toList(),
+                  ),
+                ),
+                Divider(),
+                Container(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          OutlinedButton(
+                            child: Text('connect'),
+                            onPressed: _connected
+                                ? null
+                                : () async {
+                                    if (_device != null &&
+                                        _device!.address != null) {
+                                      setState(() {
+                                        tips = 'connecting...';
+                                      });
+                                      await bluetoothPrint.connect(_device!);
+                                    } else {
+                                      setState(() {
+                                        tips = 'please select device';
+                                      });
+                                      print('please select device');
+                                    }
+                                  },
+                          ),
+                          SizedBox(width: 10.0),
+                          OutlinedButton(
+                            child: Text('disconnect'),
+                            onPressed: _connected
+                                ? () async {
+                                    setState(() {
+                                      tips = 'disconnecting...';
+                                    });
+                                    await bluetoothPrint.disconnect();
+                                  }
+                                : null,
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      OutlinedButton(
+                        child: Text('Cetak Retribusi'),
+                        onPressed: _connected
+                            ? () async {
+                                Map<String, dynamic> config = Map();
+
+                                List<LineText> list = [];
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Lembaga Keuangan Desa',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    fontZoom: 1,
+                                    linefeed: 1));
+                                list.add(LineText(linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Desa Sumowono Kec. Sumowono',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Telp.0895601260666',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: '20/12/22, 00:00:00',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+                                list.add(LineText(linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: '--------------------------------',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Karcis Retribusi',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: '--------------------------------',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'No Blok: A001',
+                                    weight: 1,
+                                    align: LineText.ALIGN_LEFT,
+                                    x: 0,
+                                    relativeX: 0,
+                                    linefeed: 0));
+
+                                list.add(LineText(linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Jumlah Retribusi',
+                                    weight: 1,
+                                    align: LineText.ALIGN_LEFT,
+                                    x: 500,
+                                    relativeX: 0,
+                                    linefeed: 1));
+
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Rp.',
+                                    align: LineText.ALIGN_LEFT,
+                                    x: 0,
+                                    relativeX: 0,
+                                    linefeed: 0));
+                                list.add(LineText(linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Saldo',
+                                    weight: 1,
+                                    align: LineText.ALIGN_LEFT,
+                                    x: 500,
+                                    relativeX: 0,
+                                    linefeed: 1));
+
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Rp.',
+                                    align: LineText.ALIGN_LEFT,
+                                    x: 0,
+                                    relativeX: 0,
+                                    linefeed: 0));
+                                list.add(LineText(linefeed: 1));
+
+                                // list.add(LineText(
+                                //     type: LineText.TYPE_TEXT,
+                                //     content: '12.0',
+                                //     align: LineText.ALIGN_LEFT,
+                                //     x: 500,
+                                //     relativeX: 0,
+                                //     linefeed: 1));
+                                list.add(LineText(linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: '-------------- LKD -------------',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Nama Operator',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    linefeed: 1));
+
+                                await bluetoothPrint.printReceipt(config, list);
+                              }
+                            : null,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        floatingActionButton: StreamBuilder<bool>(
+          stream: bluetoothPrint.isScanning,
+          initialData: false,
+          builder: (c, snapshot) {
+            if (snapshot.data == true) {
+              return FloatingActionButton(
+                child: Icon(Icons.stop),
+                onPressed: () => bluetoothPrint.stopScan(),
+                backgroundColor: Colors.red,
+              );
+            } else {
+              return FloatingActionButton(
+                  child: Icon(Icons.search),
+                  onPressed: () =>
+                      bluetoothPrint.startScan(timeout: Duration(seconds: 4)));
+            }
+          },
+        ),
+      ),
+    );
   }
 }

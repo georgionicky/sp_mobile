@@ -174,7 +174,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    RupiahFormat.convertToIdr(int.parse(_retribusi), 0),
+                    RupiahFormat.convertToIdr(_retribusi, 0),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

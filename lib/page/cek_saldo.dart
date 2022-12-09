@@ -171,11 +171,10 @@ class _cek_SaldoState extends State<cek_Saldo> {
                     (saldoBlok != null || dataBlok != null)
                         ? (saldoBlok != null)
                             ? 'Rp. ' +
-                                RupiahFormat.convertToIdr(
-                                    int.parse(saldoBlok!.saldo), 0)
+                                RupiahFormat.convertToIdr(saldoBlok!.saldo, 0)
                             : 'Rp. ' +
                                 RupiahFormat.convertToIdr(
-                                    int.parse(dataBlok!.jumlah_tabungan), 0)
+                                    dataBlok!.jumlah_tabungan, 0)
                         : 'kosong',
                     style: TextStyle(
                       color: Colors.black,

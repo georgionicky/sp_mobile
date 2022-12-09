@@ -61,8 +61,10 @@ class _berandaState extends State<beranda> {
                 ),
                 accountName: new Text("Nama Pegawai"),
                 accountEmail: new Text("Petugas Lapangan"),
-                currentAccountPicture:
-                    Image.asset("assets/profil_pegawai.png", width: 90)),
+                currentAccountPicture: Icon(
+                  Icons.account_circle_outlined,
+                  size: 90,
+                )),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Beranda'),

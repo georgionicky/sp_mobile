@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/tabungApiScan.dart';
 import 'package:sp_mobile/page/konfirmTabung.dart';
 import 'package:sp_mobile/page/scannerTabung.dart';
@@ -176,7 +177,7 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    tabungan,
+                    RupiahFormat.convertToIdr(int.parse(tabungan), 0),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

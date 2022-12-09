@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/cekSaldoApiScan.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
 import 'package:sp_mobile/page/tentang.dart';
@@ -169,8 +170,12 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   Text(
                     (saldoBlok != null || dataBlok != null)
                         ? (saldoBlok != null)
-                            ? 'Rp. ' + saldoBlok!.saldo
-                            : 'Rp. ' + dataBlok!.jumlah_tabungan
+                            ? 'Rp. ' +
+                                RupiahFormat.convertToIdr(
+                                    int.parse(saldoBlok!.saldo), 0)
+                            : 'Rp. ' +
+                                RupiahFormat.convertToIdr(
+                                    int.parse(dataBlok!.jumlah_tabungan), 0)
                         : 'kosong',
                     style: TextStyle(
                       color: Colors.black,

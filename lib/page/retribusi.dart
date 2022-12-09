@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/page/konfirmRetribusi.dart';
 
@@ -170,7 +171,7 @@ class _retribusiState extends State<retribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    retribusi,
+                    RupiahFormat.convertToIdr(int.parse(retribusi), 0),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

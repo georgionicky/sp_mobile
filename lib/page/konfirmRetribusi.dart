@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
 
@@ -169,7 +170,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    _retribusi,
+                    RupiahFormat.convertToIdr(int.parse(_retribusi), 0),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

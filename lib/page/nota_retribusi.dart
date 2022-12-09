@@ -184,13 +184,6 @@ class _MyAppState extends State<MyApp> {
                                     align: LineText.ALIGN_CENTER,
                                     fontZoom: 1,
                                     linefeed: 1));
-                                list.add(LineText(
-                                    type: LineText.TYPE_TEXT,
-                                    content: 'Lembaga Keuangan Desa',
-                                    weight: 1,
-                                    align: LineText.ALIGN_CENTER,
-                                    fontZoom: 1,
-                                    linefeed: 1));
                                 list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
@@ -254,7 +247,7 @@ class _MyAppState extends State<MyApp> {
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content:
-                                        '${RupiahFormat.convertToIdr(int.parse(_retribusi), 0)}',
+                                        '${RupiahFormat.convertToIdr(_retribusi, 0)}',
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,
                                     relativeX: 0,
@@ -272,7 +265,7 @@ class _MyAppState extends State<MyApp> {
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content:
-                                        '${RupiahFormat.convertToIdr(int.parse(_tabungan), 0)}',
+                                        '${RupiahFormat.convertToIdr(_tabungan, 0)}',
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,
                                     relativeX: 0,

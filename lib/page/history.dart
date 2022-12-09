@@ -59,7 +59,9 @@ class _historyAllState extends State<historyAll> {
                         dataRiwayat?.riwayat[index]['simpanan']['no_rek'],
                         dataRiwayat?.riwayat[index]['blok']['kode'],
                         dataRiwayat?.riwayat[index]['anggota']['nama'],
-                        dataRiwayat?.riwayat[index]['jumlah'])));
+                        dataRiwayat?.riwayat[index]['jumlah'],
+                        dataRiwayat?.riwayat[index]['simpanan']
+                            ['nilai_simpanan'])));
               }
             },
             title: Text(dataRiwayat?.riwayat[index]['keterangan'],

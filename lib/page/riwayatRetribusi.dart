@@ -3,22 +3,24 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
-import 'package:sp_mobile/main.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
+import 'package:sp_mobile/page/nota_retribusi.dart';
 
 class riwayatRetribusi extends StatefulWidget {
   final String? noRek;
   final String? noBlok;
   final String? pemilik;
   final String? retribusi;
+  final String? simpanan;
 
-  riwayatRetribusi(this.noRek, this.noBlok, this.pemilik, this.retribusi,
+  riwayatRetribusi(
+      this.noRek, this.noBlok, this.pemilik, this.retribusi, this.simpanan,
       {super.key});
 
   @override
   State<riwayatRetribusi> createState() =>
-      _riwayatRetribusiState(noRek!, noBlok!, pemilik!, retribusi!);
+      _riwayatRetribusiState(noRek!, noBlok!, pemilik!, retribusi!, simpanan!);
 }
 
 class _riwayatRetribusiState extends State<riwayatRetribusi> {
@@ -26,11 +28,12 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
   String _noBlok;
   String _pemilik;
   String _retribusi;
+  String _simpanan;
 
   late BayarRetribusi? dataBayar = null;
 
-  _riwayatRetribusiState(
-      this._noRek, this._noBlok, this._pemilik, this._retribusi);
+  _riwayatRetribusiState(this._noRek, this._noBlok, this._pemilik,
+      this._retribusi, this._simpanan);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +163,8 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new MyApp())),
+                builder: (BuildContext context) =>
+                    new MyApp(_noBlok, _retribusi, _simpanan, 'Operator'))),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/main.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
 
@@ -158,7 +159,8 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new MyApp())),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

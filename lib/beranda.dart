@@ -61,8 +61,11 @@ class _berandaState extends State<beranda> {
                 ),
                 accountName: new Text("Nama Pegawai"),
                 accountEmail: new Text("Petugas Lapangan"),
-                currentAccountPicture:
-                    Image.asset("assets/profil_pegawai.png", width: 90)),
+                currentAccountPicture: Icon(
+                  Icons.account_circle_outlined,
+                  size: 90,
+                  color: Colors.white,
+                )),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Beranda'),
@@ -142,8 +145,11 @@ class _berandaState extends State<beranda> {
                         Padding(
                           padding: EdgeInsets.only(left: 0.0),
                           child: TextButton(
-                            child: new Image.asset("assets/profil_pegawai.png",
-                                width: 90),
+                            child: Icon(
+                              Icons.account_circle_outlined,
+                              size: 90,
+                              color: Colors.white,
+                            ),
                             onPressed: () => Navigator.of(context).push(
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>

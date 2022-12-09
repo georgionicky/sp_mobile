@@ -184,6 +184,13 @@ class _MyAppState extends State<MyApp> {
                                     align: LineText.ALIGN_CENTER,
                                     fontZoom: 1,
                                     linefeed: 1));
+                                list.add(LineText(
+                                    type: LineText.TYPE_TEXT,
+                                    content: 'Lembaga Keuangan Desa',
+                                    weight: 1,
+                                    align: LineText.ALIGN_CENTER,
+                                    fontZoom: 1,
+                                    linefeed: 1));
                                 list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,

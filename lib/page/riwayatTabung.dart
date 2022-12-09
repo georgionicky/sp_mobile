@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/page/nota_tabung.dart';
 
 class riwayatTabung extends StatefulWidget {
   final String? noRek;
@@ -176,9 +177,8 @@ class _riwayatTabungState extends State<riwayatTabung> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () {
-              //task to execute when this button is pressed
-            },
+            onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new MyApp2())),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

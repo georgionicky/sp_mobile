@@ -14,13 +14,15 @@ class konfirmRt extends StatefulWidget {
   final String? pemilik;
   final String? retribusi;
   final bool? check;
+  final String? tabungan;
 
   konfirmRt(this.noRek, this.noBlok, this.pemilik, this.retribusi, this.check,
+      this.tabungan,
       {super.key});
 
   @override
   State<konfirmRt> createState() =>
-      _konfirmRtState(noRek!, noBlok!, pemilik!, retribusi!, check!);
+      _konfirmRtState(noRek!, noBlok!, pemilik!, retribusi!, check!, tabungan!);
 }
 
 class _konfirmRtState extends State<konfirmRt> {
@@ -29,11 +31,12 @@ class _konfirmRtState extends State<konfirmRt> {
   String _pemilik;
   String _retribusi;
   bool _check;
+  String _tabungan;
 
   late BayarRetribusi? dataBayar = null;
 
-  _konfirmRtState(
-      this._noRek, this._noBlok, this._pemilik, this._retribusi, this._check);
+  _konfirmRtState(this._noRek, this._noBlok, this._pemilik, this._retribusi,
+      this._check, this._tabungan);
 
   getData() async {
     BayarRetribusi.connectToAPI(_noBlok, (_check == true) ? '1' : '2')
@@ -220,7 +223,8 @@ class _konfirmRtState extends State<konfirmRt> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new MyApp())),
+                builder: (BuildContext context) =>
+                    new MyApp(_noBlok, _retribusi, _tabungan, "Pegawai"))),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

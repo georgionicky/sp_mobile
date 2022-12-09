@@ -177,7 +177,7 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    RupiahFormat.convertToIdr(int.parse(tabungan), 0),
+                    tabungan,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

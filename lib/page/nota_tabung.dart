@@ -6,12 +6,12 @@ import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp2 extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _MyApp2State createState() => _MyApp2State();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyApp2State extends State<MyApp2> {
   BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
 
   bool _connected = false;
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: new AppBar(
-          title: Text("Print Retribusi",
+          title: Text("Cetak Struk Tabungan",
               style: TextStyle(fontWeight: FontWeight.w700)),
           centerTitle: true,
           backgroundColor: Color.fromRGBO(39, 174, 96, 100),
@@ -155,7 +155,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                       Divider(),
                       OutlinedButton(
-                        child: Text('Cetak Karcis'),
+                        child: Text('Cetak Struk Setoran'),
                         onPressed: _connected
                             ? () async {
                                 Map<String, dynamic> config = Map();
@@ -196,7 +196,7 @@ class _MyAppState extends State<MyApp> {
                                     linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Karcis Retribusi',
+                                    content: 'Struk Setoran',
                                     weight: 1,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
@@ -210,7 +210,7 @@ class _MyAppState extends State<MyApp> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'No Blok: A001',
+                                    content: 'Nama Pemilik: Nicky',
                                     weight: 1,
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,
@@ -220,7 +220,7 @@ class _MyAppState extends State<MyApp> {
                                 list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Jumlah Retribusi',
+                                    content: 'Jumlah Setor',
                                     weight: 1,
                                     align: LineText.ALIGN_LEFT,
                                     x: 500,

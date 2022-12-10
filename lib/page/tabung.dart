@@ -283,6 +283,7 @@ class _tabungState extends State<tabung> {
 
   Widget nomorRekening() {
     return TextFormField(
+        enabled: false,
         controller: _txtRek,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 14.0, height: 0.5),

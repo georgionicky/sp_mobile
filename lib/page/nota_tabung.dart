@@ -79,6 +79,7 @@ class _MyApp2State extends State<MyApp2> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: new AppBar(
           title: Text("Cetak Struk Tabungan",

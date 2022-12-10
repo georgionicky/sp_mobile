@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_mobile/beranda.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
 import 'package:sp_mobile/page/nota_retribusi.dart';
@@ -13,14 +14,16 @@ class riwayatRetribusi extends StatefulWidget {
   final String? pemilik;
   final String? retribusi;
   final String? simpanan;
+  final String? operator;
+  final String? kodeOperator;
 
-  riwayatRetribusi(
-      this.noRek, this.noBlok, this.pemilik, this.retribusi, this.simpanan,
+  riwayatRetribusi(this.noRek, this.noBlok, this.pemilik, this.retribusi,
+      this.simpanan, this.operator, this.kodeOperator,
       {super.key});
 
   @override
-  State<riwayatRetribusi> createState() =>
-      _riwayatRetribusiState(noRek!, noBlok!, pemilik!, retribusi!, simpanan!);
+  State<riwayatRetribusi> createState() => _riwayatRetribusiState(noRek!,
+      noBlok!, pemilik!, retribusi!, simpanan!, operator!, kodeOperator!);
 }
 
 class _riwayatRetribusiState extends State<riwayatRetribusi> {
@@ -29,11 +32,13 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
   String _pemilik;
   String _retribusi;
   String _simpanan;
+  String _operator;
+  String _kodeOperator;
 
   late BayarRetribusi? dataBayar = null;
 
   _riwayatRetribusiState(this._noRek, this._noBlok, this._pemilik,
-      this._retribusi, this._simpanan);
+      this._retribusi, this._simpanan, this._operator, this._kodeOperator);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +89,7 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
                     _noRek,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -100,7 +105,7 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
                     _noBlok,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -116,7 +121,7 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
                     _pemilik,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
 
@@ -130,10 +135,26 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    _retribusi,
+                    RupiahFormat.convertToIdr(_retribusi, 0),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "Operator",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _operator,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -164,7 +185,7 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    new MyApp(_noBlok, _retribusi, _simpanan, 'Operator'))),
+                    new MyApp(_noBlok, _retribusi, _simpanan, _kodeOperator))),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

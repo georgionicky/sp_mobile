@@ -18,14 +18,14 @@ class SetorTabungan {
   }
 
   static Future<SetorTabungan?> connectToAPI(
-      String noRek, String setor, String blok) async {
+      String noRek, String setor, String operator, String blok) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/setor-tabungan";
 
     var apiResult = await http.post(Uri.parse(apiUrl), body: {
       'no_rek': noRek,
       'koperasi_id': '1',
       'jumlah_setor': setor,
-      'operator': 'Carens',
+      'operator': operator,
       'blok': blok
     });
     var jsonObject = json.decode(apiResult.body);

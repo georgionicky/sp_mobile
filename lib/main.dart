@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/model/loginApi.dart';
 import 'beranda.dart';
 import 'package:http/http.dart' as http;
@@ -33,11 +34,37 @@ class LocationApp extends StatefulWidget {
 }
 
 class _LocationAppState extends State<LocationApp> {
-  late DataLogin? dataLogin = null;
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
 
   bool _passwordVisible = false;
+
+  String? finalUsername;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getValidationData().whenComplete(() async {
+      (finalUsername == null)
+          ? MyApp()
+          : Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda()));
+    });
+    super.initState();
+  }
+
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _username = sharedPreferences.getString('username');
+
+    setState(() {
+      finalUsername = _username;
+    });
+
+    print('Final Username');
+    print(finalUsername);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,11 +276,6 @@ class _LocationAppState extends State<LocationApp> {
       return;
     }
 
-    // DataLogin.connectToAPI(txtUsername.text, txtPassword.text).then((value) {
-    //   dataLogin = value;
-    //   setState(() {});
-    // });
-
     try {
       final response = await http.post(
           Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
@@ -261,6 +283,11 @@ class _LocationAppState extends State<LocationApp> {
           headers: {'Accept': 'application/json'});
 
       if (response.statusCode == 200) {
+        // Simpan token
+        final SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString('username', txtUsername.text);
+
         Navigator.of(context).push(new MaterialPageRoute(
             builder: (BuildContext context) => new beranda()));
       } else if (response.statusCode == 500) {

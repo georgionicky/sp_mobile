@@ -11,10 +11,12 @@ class MyApp2 extends StatefulWidget {
   final String? pemilik;
   final String? setor;
   final String? tabungan;
-  MyApp2(this.pemilik, this.setor, this.tabungan);
+  final String? operator;
+  MyApp2(this.pemilik, this.setor, this.tabungan, this.operator);
 
   @override
-  _MyApp2State createState() => _MyApp2State(pemilik!, setor!, tabungan!);
+  _MyApp2State createState() =>
+      _MyApp2State(pemilik!, setor!, tabungan!, operator!);
 }
 
 class _MyApp2State extends State<MyApp2> {
@@ -23,12 +25,13 @@ class _MyApp2State extends State<MyApp2> {
   String _pemilik;
   String _setor;
   String _tabungan;
+  String _operator;
 
   bool _connected = false;
   BluetoothDevice? _device;
   String tips = 'no device connect';
 
-  _MyApp2State(this._pemilik, this._setor, this._tabungan);
+  _MyApp2State(this._pemilik, this._setor, this._tabungan, this._operator);
 
   @override
   void initState() {
@@ -175,32 +178,30 @@ class _MyApp2State extends State<MyApp2> {
                                 List<LineText> list = [];
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Lembaga Keuangan Desa',
+                                    content: 'LEMBAGA KEUANGAN DESA',
                                     weight: 1,
                                     align: LineText.ALIGN_CENTER,
                                     fontZoom: 1,
                                     linefeed: 1));
-                                list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content: 'Desa Sumowono Kec. Sumowono',
-                                    weight: 1,
+                                    weight: 0,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Telp.0895601260666',
-                                    weight: 1,
+                                    content: 'Telp. 0895-6012-60666',
+                                    weight: 0,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content:
                                         DateTime.now().toString().split('.')[0],
-                                    weight: 1,
+                                    weight: 0,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
-                                list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content: '--------------------------------',
@@ -285,7 +286,7 @@ class _MyApp2State extends State<MyApp2> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Operator',
+                                    content: _operator,
                                     weight: 1,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/page/nota_tabung.dart';
@@ -9,14 +10,16 @@ class riwayatTabung extends StatefulWidget {
   final String? pemilik;
   final String? tabungan;
   final String? setor;
+  final String? operator;
+  final String? kodeOperator;
 
-  const riwayatTabung(
-      this.noRek, this.noBlok, this.pemilik, this.tabungan, this.setor,
+  const riwayatTabung(this.noRek, this.noBlok, this.pemilik, this.tabungan,
+      this.setor, this.operator, this.kodeOperator,
       {super.key});
 
   @override
-  State<riwayatTabung> createState() =>
-      _riwayatTabungState(noRek!, noBlok!, pemilik!, tabungan!, setor!);
+  State<riwayatTabung> createState() => _riwayatTabungState(
+      noRek!, noBlok!, pemilik!, tabungan!, setor!, operator!, kodeOperator!);
 }
 
 class _riwayatTabungState extends State<riwayatTabung> {
@@ -27,11 +30,13 @@ class _riwayatTabungState extends State<riwayatTabung> {
   String _pemilik;
   String _tabungan;
   String _setor;
+  String _operator;
+  String _kodeOperator;
 
   late SetorTabungan? dataSetor = null;
 
-  _riwayatTabungState(
-      this._noRek, this._noBlok, this._pemilik, this._tabungan, this._setor);
+  _riwayatTabungState(this._noRek, this._noBlok, this._pemilik, this._tabungan,
+      this._setor, this._operator, this._kodeOperator);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +89,7 @@ class _riwayatTabungState extends State<riwayatTabung> {
                     _noRek,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -100,7 +105,7 @@ class _riwayatTabungState extends State<riwayatTabung> {
                     _noBlok,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -116,7 +121,7 @@ class _riwayatTabungState extends State<riwayatTabung> {
                     _pemilik,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -129,10 +134,10 @@ class _riwayatTabungState extends State<riwayatTabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    _tabungan,
+                    RupiahFormat.convertToIdr(_tabungan, 0),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -145,10 +150,26 @@ class _riwayatTabungState extends State<riwayatTabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    _setor,
+                    RupiahFormat.convertToIdr(_setor, 0),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    "Operator",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _operator,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 10),
@@ -179,7 +200,7 @@ class _riwayatTabungState extends State<riwayatTabung> {
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    new MyApp2(_pemilik, _setor, _tabungan))),
+                    new MyApp2(_pemilik, _setor, _tabungan, _kodeOperator))),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

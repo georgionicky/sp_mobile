@@ -18,14 +18,14 @@ class BayarRetribusi {
   }
 
   static Future<BayarRetribusi> connectToAPI(
-      String blok, String kehadiran) async {
+      String blok, String kehadiran, String operator) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/bayar-retribusi";
 
     var apiResult = await http.post(Uri.parse(apiUrl), body: {
       'blok': blok,
       'koperasi_id': '1',
       'kehadiran': kehadiran,
-      'operator': 'Carens'
+      'operator': operator
     });
     var jsonObject = json.decode(apiResult.body);
 

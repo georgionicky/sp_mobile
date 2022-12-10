@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/model/tabungApiScan.dart';
 import 'package:sp_mobile/page/konfirmTabung.dart';
 import 'package:sp_mobile/page/scannerTabung.dart';
@@ -23,10 +25,23 @@ class _tabungState extends State<tabung> {
   TextEditingController _jmltabung = TextEditingController();
 
   late TabungScan? dataTabung = null;
+  late DataLoginProfil? dataProfil = null;
+
+  var _kodeOperator;
 
   late String blok = '';
 
   _tabungState(this.apiUrl);
+
+  getLogin() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    _kodeOperator = sharedPreferences.getString('username');
+    DataLoginProfil.connectToAPI(_kodeOperator!).then((value) {
+      dataProfil = value;
+      setState(() {});
+    });
+  }
 
   getData() async {
     TabungScan.connectToAPI(apiUrl).then((value) {
@@ -59,6 +74,7 @@ class _tabungState extends State<tabung> {
     if (apiUrl != '') {
       getData();
     }
+    getLogin();
     super.initState();
   }
 
@@ -78,8 +94,9 @@ class _tabungState extends State<tabung> {
     String noRek = (dataTabung != null) ? dataTabung!.no_rek : 'kosong';
     String noBlok = (dataTabung != null) ? '${dataTabung?.no_blok}' : 'kosong';
     String pemilik = (dataTabung != null) ? dataTabung!.pemilik : 'kosong';
-    String tabungan =
-        (dataTabung != null) ? dataTabung!.jumlah_tabungan : 'kosong';
+    String tabungan = (dataTabung != null) ? dataTabung!.jumlah_tabungan : '0';
+    String operator = '${dataProfil?.profil['nama'] ?? "Data Kosong"}';
+    String kodeOperator = '${_kodeOperator ?? "Operator"}';
     (dataTabung != null) ? _txtRek.text = noRek : '';
 
     return Scaffold(
@@ -97,7 +114,7 @@ class _tabungState extends State<tabung> {
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 70, top: 50),
+          margin: EdgeInsets.only(bottom: 80, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
@@ -130,7 +147,7 @@ class _tabungState extends State<tabung> {
                   SizedBox(height: 5),
                   nomorRekening(),
 
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
 
                   Text(
                     "Nama Pemilik Blok",
@@ -144,10 +161,10 @@ class _tabungState extends State<tabung> {
                     pemilik,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
                   Text(
                     "Nomor Blok",
                     style: TextStyle(
@@ -164,10 +181,10 @@ class _tabungState extends State<tabung> {
                             : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
                   Text(
                     "Jumlah Tabungan",
                     style: TextStyle(
@@ -177,13 +194,29 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    tabungan,
+                    RupiahFormat.convertToIdr(tabungan, 0),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
+                  Text(
+                    "Operator",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    operator,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Text(
                     "Jumlah yang akan ditabung",
                     style: TextStyle(
@@ -236,7 +269,9 @@ class _tabungState extends State<tabung> {
                       (blok != '') ? blok : noBlok,
                       pemilik,
                       tabungan,
-                      _jmltabung.text)));
+                      _jmltabung.text,
+                      operator,
+                      _kodeOperator)));
             },
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
@@ -250,7 +285,7 @@ class _tabungState extends State<tabung> {
     return TextFormField(
         controller: _txtRek,
         keyboardType: TextInputType.number,
-        style: TextStyle(fontSize: 12.0, height: 0.5),
+        style: TextStyle(fontSize: 14.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -279,7 +314,7 @@ class _tabungState extends State<tabung> {
     return TextFormField(
         controller: _jmltabung,
         keyboardType: TextInputType.number,
-        style: TextStyle(fontSize: 12.0, height: 0.5),
+        style: TextStyle(fontSize: 14.0, height: 0.5),
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(

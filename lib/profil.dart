@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_returning_null_for_void, unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/profil.dart';
@@ -17,6 +19,28 @@ class _profilState extends State<profil> {
   TextEditingController _psLama = TextEditingController();
   TextEditingController _psBaru = TextEditingController();
   TextEditingController _konfirmasi = TextEditingController();
+
+  late DataLoginProfil? dataProfil = null;
+
+  getLogin() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _kodeAnggota = sharedPreferences.getString('username');
+    print(_kodeAnggota);
+
+    DataLoginProfil.connectToAPI(_kodeAnggota!).then((value) {
+      dataProfil = value;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -59,7 +83,7 @@ class _profilState extends State<profil> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "Georgio Nicky",
+                      '${dataProfil?.profil['nama'] ?? "Data Kosong"}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -75,7 +99,7 @@ class _profilState extends State<profil> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "01.000001",
+                      '${dataProfil?.profil['kode_anggota'] ?? "Data Kosong"}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -91,7 +115,7 @@ class _profilState extends State<profil> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "0812312312",
+                      '${dataProfil?.profil['telepon_rumah'] ?? "Data Kosong"}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -107,7 +131,7 @@ class _profilState extends State<profil> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "Jr. Reksoninten No. 803, Dumai 81838, Banten",
+                      '${dataProfil?.profil['alamat_rumah'] ?? "Data Kosong"}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,

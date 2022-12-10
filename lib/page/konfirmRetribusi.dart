@@ -2,10 +2,12 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/page/nota_retribusi.dart';
 
 class konfirmRt extends StatefulWidget {
@@ -15,14 +17,16 @@ class konfirmRt extends StatefulWidget {
   final String? retribusi;
   final bool? check;
   final String? tabungan;
+  final String? operator;
+  final String? kodeOperator;
 
   konfirmRt(this.noRek, this.noBlok, this.pemilik, this.retribusi, this.check,
-      this.tabungan,
+      this.tabungan, this.operator, this.kodeOperator,
       {super.key});
 
   @override
-  State<konfirmRt> createState() =>
-      _konfirmRtState(noRek!, noBlok!, pemilik!, retribusi!, check!, tabungan!);
+  State<konfirmRt> createState() => _konfirmRtState(noRek!, noBlok!, pemilik!,
+      retribusi!, check!, tabungan!, operator!, kodeOperator!);
 }
 
 class _konfirmRtState extends State<konfirmRt> {
@@ -32,14 +36,18 @@ class _konfirmRtState extends State<konfirmRt> {
   String _retribusi;
   bool _check;
   String _tabungan;
+  String _operator;
+  String _kodeOperator;
 
   late BayarRetribusi? dataBayar = null;
+  late DataLoginProfil? dataProfil = null;
 
   _konfirmRtState(this._noRek, this._noBlok, this._pemilik, this._retribusi,
-      this._check, this._tabungan);
+      this._check, this._tabungan, this._operator, this._kodeOperator);
 
   getData() async {
-    BayarRetribusi.connectToAPI(_noBlok, (_check == true) ? '1' : '2')
+    BayarRetribusi.connectToAPI(
+            _noBlok, (_check == true) ? '1' : '2', _operator)
         .then((value) {
       dataBayar = value;
       setState(() {});
@@ -174,7 +182,30 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    RupiahFormat.convertToIdr(_retribusi, 0),
+                    (_check == true && status != 0)
+                        ? RupiahFormat.convertToIdr(_retribusi, 0)
+                        : 'Rp. 0',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "Sisa Saldo",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    (_check == true && status != 0)
+                        ? RupiahFormat.convertToIdr(
+                            (int.parse(_tabungan) - int.parse(_retribusi))
+                                .toString(),
+                            0)
+                        : RupiahFormat.convertToIdr(_tabungan, 0),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -190,7 +221,7 @@ class _konfirmRtState extends State<konfirmRt> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    _status,
+                    (_check == true) ? _status : 'Lapak Tutup',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -223,8 +254,14 @@ class _konfirmRtState extends State<konfirmRt> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    new MyApp(_noBlok, _retribusi, _tabungan, "Pegawai"))),
+                builder: (BuildContext context) => new MyApp(
+                    _noBlok,
+                    (_check == true && status != 0) ? _retribusi : '0',
+                    (_check == true && status != 0)
+                        ? (int.parse(_tabungan) - int.parse(_retribusi))
+                            .toString()
+                        : _tabungan,
+                    _kodeOperator))),
             backgroundColor: Color.fromRGBO(241, 196, 15, 100),
           ),
         ),

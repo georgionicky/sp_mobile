@@ -20,7 +20,6 @@ class Riwayat {
 
     if (apiResult.statusCode == 200) {
       print('Berhasil API Riwayat');
-      print(apiResult.body);
     } else {
       print('Gagal APi Riwayat');
     }

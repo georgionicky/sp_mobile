@@ -179,32 +179,31 @@ class _MyAppState extends State<MyApp> {
                                 List<LineText> list = [];
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Lembaga Keuangan Desa',
+                                    content: 'LEMBAGA KEUANGAN DESA',
                                     weight: 1,
                                     align: LineText.ALIGN_CENTER,
                                     fontZoom: 1,
                                     linefeed: 1));
-                                list.add(LineText(linefeed: 1));
+                                // list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content: 'Desa Sumowono Kec. Sumowono',
-                                    weight: 1,
+                                    weight: 0,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'Telp.0895601260666',
-                                    weight: 1,
+                                    content: 'Telp. 0895-6012-60666',
+                                    weight: 0,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content:
                                         DateTime.now().toString().split('.')[0],
-                                    weight: 1,
+                                    weight: 0,
                                     align: LineText.ALIGN_CENTER,
                                     linefeed: 1));
-                                list.add(LineText(linefeed: 1));
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
                                     content: '--------------------------------',
@@ -227,7 +226,7 @@ class _MyAppState extends State<MyApp> {
 
                                 list.add(LineText(
                                     type: LineText.TYPE_TEXT,
-                                    content: 'No Blok: ' + _noBlok,
+                                    content: 'No Blok : ' + _noBlok,
                                     weight: 1,
                                     align: LineText.ALIGN_LEFT,
                                     x: 0,

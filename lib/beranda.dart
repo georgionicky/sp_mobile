@@ -1,7 +1,10 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors, unnecessary_new, avoid_returning_null_for_void, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sp_mobile/main.dart';
 import 'package:sp_mobile/model/keteranganDashboard.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/page/cek_lapak.dart';
 import 'package:sp_mobile/page/navfoot.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
@@ -21,6 +24,7 @@ class beranda extends StatefulWidget {
 
 class _berandaState extends State<beranda> {
   late KeteranganDashboard? ketBlok = null;
+  late DataLoginProfil? dataProfil = null;
   final PageStorageBucket bucket = PageStorageBucket();
 
   getData() async {
@@ -30,11 +34,24 @@ class _berandaState extends State<beranda> {
     });
   }
 
+  getLogin() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _kodeAnggota = sharedPreferences.getString('username');
+    print(_kodeAnggota);
+
+    DataLoginProfil.connectToAPI(_kodeAnggota!).then((value) {
+      dataProfil = value;
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    getLogin();
   }
 
   @override
@@ -59,7 +76,8 @@ class _berandaState extends State<beranda> {
               decoration: BoxDecoration(
                 color: Color.fromRGBO(39, 174, 96, 100),
               ),
-              accountName: new Text("Nama Pegawai"),
+              accountName:
+                  new Text('${dataProfil?.profil['nama'] ?? "Nama Pegawai"}'),
               accountEmail: new Text("Petugas Lapangan"),
               currentAccountPicture:
                   new Image.asset("assets/profil_pegawai.png"),
@@ -79,7 +97,13 @@ class _berandaState extends State<beranda> {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Keluar'),
-              onTap: () => null,
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.remove('username');
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new MyApp()));
+              },
             ),
           ],
         ),
@@ -157,7 +181,7 @@ class _berandaState extends State<beranda> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Nama Pegawai",
+                                '${dataProfil?.profil['nama'] ?? "Nama Pegawai"}',
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/model/riwayatApi.dart';
 import 'package:sp_mobile/page/riwayatRetribusi.dart';
 import 'package:sp_mobile/page/riwayatTabung.dart';
@@ -14,6 +16,14 @@ class historyAll extends StatefulWidget {
 class _historyAllState extends State<historyAll> {
   late Riwayat? dataRiwayat = null;
 
+  var _kodeOperator;
+
+  getLogin() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    _kodeOperator = sharedPreferences.getString('username');
+  }
+
   getData() async {
     Riwayat.connectToAPI().then((value) {
       dataRiwayat = value;
@@ -26,6 +36,7 @@ class _historyAllState extends State<historyAll> {
     // TODO: implement initState
     super.initState();
     getData();
+    getLogin();
   }
 
   @override
@@ -34,6 +45,7 @@ class _historyAllState extends State<historyAll> {
     return ListView.builder(
         itemCount: lenTabungan,
         itemBuilder: (context, int index) {
+          String tgl = dataRiwayat?.riwayat[index]['created_at'];
           return Card(
               child: ListTile(
             onTap: () {
@@ -52,7 +64,9 @@ class _historyAllState extends State<historyAll> {
                         dataRiwayat?.riwayat[index]['anggota']['nama'],
                         dataRiwayat?.riwayat[index]['simpanan']
                             ['nilai_simpanan'],
-                        dataRiwayat?.riwayat[index]['jumlah'])));
+                        dataRiwayat?.riwayat[index]['jumlah'],
+                        dataRiwayat?.riwayat[index]['operator'],
+                        '${_kodeOperator ?? "Operator"}')));
               } else {
                 Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new riwayatRetribusi(
@@ -61,7 +75,9 @@ class _historyAllState extends State<historyAll> {
                         dataRiwayat?.riwayat[index]['anggota']['nama'],
                         dataRiwayat?.riwayat[index]['jumlah'],
                         dataRiwayat?.riwayat[index]['simpanan']
-                            ['nilai_simpanan'])));
+                            ['nilai_simpanan'],
+                        dataRiwayat?.riwayat[index]['operator'],
+                        '${_kodeOperator ?? "Operator"}')));
               }
             },
             title: Text(dataRiwayat?.riwayat[index]['keterangan'],
@@ -70,7 +86,7 @@ class _historyAllState extends State<historyAll> {
               SizedBox(height: 5),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(dataRiwayat?.riwayat[index]['created_at']),
+                child: Text(tgl.substring(0, 10) + ' ' + tgl.substring(11, 19)),
               ),
               Align(
                 alignment: Alignment.centerLeft,

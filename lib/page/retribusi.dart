@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/RetribusiModel.dart';
+import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/page/konfirmRetribusi.dart';
 
 class retribusi extends StatefulWidget {
@@ -18,8 +20,20 @@ class _retribusiState extends State<retribusi> {
   String apiUrl;
 
   late RetribusiModel? dataRetribusi = null;
+  late DataLoginProfil? dataProfil = null;
+  var _kodeOperator;
 
   _retribusiState(this.apiUrl);
+
+  getLogin() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    _kodeOperator = sharedPreferences.getString('username');
+    DataLoginProfil.connectToAPI(_kodeOperator!).then((value) {
+      dataProfil = value;
+      setState(() {});
+    });
+  }
 
   getData() async {
     RetribusiModel.connectToAPI(apiUrl).then((value) {
@@ -49,22 +63,25 @@ class _retribusiState extends State<retribusi> {
   @override
   void initState() {
     // TODO: implement initState
-    getData();
     super.initState();
+    getData();
+    getLogin();
   }
 
   bool? check1 = false;
   String selectedValue = "tabungan";
   @override
   Widget build(BuildContext context) {
+    String operator = '${dataProfil?.profil['nama'] ?? "Data Kosong"}';
+    String kodeOperator = '${_kodeOperator ?? "Operator"}';
     String noRek = (dataRetribusi != null) ? dataRetribusi!.no_rek : 'kosong';
     String noBlok = (dataRetribusi != null) ? dataRetribusi!.no_blok : 'kosong';
     String pemilik =
         (dataRetribusi != null) ? dataRetribusi!.pemilik : 'kosong';
     String retribusi =
-        (dataRetribusi != null) ? dataRetribusi!.jumlah_retribusi : 'kosong';
+        (dataRetribusi != null) ? dataRetribusi!.jumlah_retribusi : '0';
     String tabungan =
-        (dataRetribusi != null) ? dataRetribusi!.jumlah_tabungan : 'kosong';
+        (dataRetribusi != null) ? dataRetribusi!.jumlah_tabungan : '0';
 
     return Scaffold(
       appBar: new AppBar(
@@ -81,7 +98,7 @@ class _retribusiState extends State<retribusi> {
       ),
       body: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          margin: EdgeInsets.only(bottom: 50, top: 50),
+          margin: EdgeInsets.only(bottom: 80, top: 50),
           child: Card(
             elevation: 10,
             child: Form(
@@ -114,7 +131,7 @@ class _retribusiState extends State<retribusi> {
                     noRek,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -130,7 +147,7 @@ class _retribusiState extends State<retribusi> {
                     noBlok,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -146,7 +163,7 @@ class _retribusiState extends State<retribusi> {
                     pemilik,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -173,10 +190,26 @@ class _retribusiState extends State<retribusi> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    retribusi,
+                    RupiahFormat.convertToIdr(retribusi, 0),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Text(
+                    'Operator',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    operator,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -218,8 +251,15 @@ class _retribusiState extends State<retribusi> {
                           onPressed: () => Navigator.of(context).push(
                               new MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      new konfirmRt(noRek, noBlok, pemilik,
-                                          retribusi, check1, tabungan))),
+                                      new konfirmRt(
+                                          noRek,
+                                          noBlok,
+                                          pemilik,
+                                          retribusi,
+                                          check1,
+                                          tabungan,
+                                          operator,
+                                          kodeOperator))),
                           child: const Text('Benar'),
                         ),
                         SizedBox(

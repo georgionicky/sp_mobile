@@ -146,6 +146,16 @@ class _tabungState extends State<tabung> {
                   ),
                   SizedBox(height: 5),
                   nomorRekening(),
+                  OutlinedButton(
+                    child: Text(
+                      'Cari Nomor Rekening',
+                      style: TextStyle(color: Color.fromRGBO(39, 174, 96, 100)),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Color.fromRGBO(39, 174, 96, 100)),
+                    ),
+                    onPressed: () {},
+                  ),
 
                   SizedBox(height: 20),
 
@@ -252,27 +262,58 @@ class _tabungState extends State<tabung> {
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () {
-              if (_txtRek.text.isEmpty || _jmltabung.text.isEmpty) {
-                Alert(
-                        context: context,
-                        title:
-                            "Nomor Rekening atau jumlah tabungan tidak boleh kosong",
-                        type: AlertType.warning)
-                    .show();
-                return;
-              }
 
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new konfirmTb(
-                      noRek,
-                      (blok != '') ? blok : noBlok,
-                      pemilik,
-                      tabungan,
-                      _jmltabung.text,
-                      operator,
-                      _kodeOperator)));
-            },
+            onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Apakah data sudah benar ? '),
+                actions: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            if (_txtRek.text.isEmpty ||
+                                _jmltabung.text.isEmpty) {
+                              Alert(
+                                      context: context,
+                                      title:
+                                          "Nomor Rekening atau jumlah tabungan tidak boleh kosong",
+                                      type: AlertType.warning)
+                                  .show();
+                              return;
+                            }
+
+                            Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new konfirmTb(
+                                        noRek,
+                                        (blok != '') ? blok : noBlok,
+                                        pemilik,
+                                        tabungan,
+                                        _jmltabung.text,
+                                        operator,
+                                        _kodeOperator)));
+                          },
+                          child: const Text('Benar'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Periksa Kembali'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
           ),
         ),
@@ -283,7 +324,7 @@ class _tabungState extends State<tabung> {
 
   Widget nomorRekening() {
     return TextFormField(
-        enabled: false,
+        readOnly: true,
         controller: _txtRek,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 14.0, height: 0.5),

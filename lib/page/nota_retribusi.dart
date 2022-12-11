@@ -6,6 +6,7 @@ import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 
 class MyApp extends StatefulWidget {
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
 
   bool _connected = false;
   BluetoothDevice? _device;
-  String tips = 'no device connect';
+  String tips = '';
 
   _MyAppState(this._noBlok, this._retribusi, this._tabungan, this._operator);
 
@@ -54,13 +55,13 @@ class _MyAppState extends State<MyApp> {
         case BluetoothPrint.CONNECTED:
           setState(() {
             _connected = true;
-            tips = 'connect success';
+            tips = 'Berhasil Tersambung';
           });
           break;
         case BluetoothPrint.DISCONNECTED:
           setState(() {
             _connected = false;
-            tips = 'disconnect success';
+            tips = 'Berhasil Memutuskan';
           });
           break;
         default:
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: new AppBar(
-          title: Text("Print Retribusi",
+          title: Text("Cetak Retribusi",
               style: TextStyle(fontWeight: FontWeight.w700)),
           centerTitle: true,
           backgroundColor: Color.fromRGBO(39, 174, 96, 100),
@@ -105,30 +106,32 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
                 Divider(),
-                StreamBuilder<List<BluetoothDevice>>(
-                  stream: bluetoothPrint.scanResults,
-                  initialData: [],
-                  builder: (c, snapshot) => Column(
-                    children: snapshot.data!
-                        .map((d) => ListTile(
-                              title: Text(d.name ?? ''),
-                              subtitle: Text(d.address ?? ''),
-                              onTap: () async {
-                                setState(() {
-                                  _device = d;
-                                });
-                              },
-                              trailing: _device != null &&
-                                      _device!.address == d.address
-                                  ? Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                    )
-                                  : null,
-                            ))
-                        .toList(),
-                  ),
-                ),
+                _connected == false
+                    ? StreamBuilder<List<BluetoothDevice>>(
+                        stream: bluetoothPrint.scanResults,
+                        initialData: [],
+                        builder: (c, snapshot) => Column(
+                          children: snapshot.data!
+                              .map((d) => ListTile(
+                                    title: Text(d.name ?? ''),
+                                    subtitle: Text(d.address ?? ''),
+                                    onTap: () async {
+                                      setState(() {
+                                        _device = d;
+                                      });
+                                    },
+                                    trailing: _device != null &&
+                                            _device!.address == d.address
+                                        ? Icon(
+                                            Icons.check,
+                                            color: Colors.green,
+                                          )
+                                        : null,
+                                  ))
+                              .toList(),
+                        ),
+                      )
+                    : Text("Sudah Tersambung Dengan Print"),
                 Divider(),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
@@ -138,31 +141,31 @@ class _MyAppState extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           OutlinedButton(
-                            child: Text('connect'),
+                            child: Text('Sambungkan'),
                             onPressed: _connected
                                 ? null
                                 : () async {
                                     if (_device != null &&
                                         _device!.address != null) {
                                       setState(() {
-                                        tips = 'connecting...';
+                                        tips = 'Menyambungkan...';
                                       });
                                       await bluetoothPrint.connect(_device!);
                                     } else {
                                       setState(() {
-                                        tips = 'please select device';
+                                        tips = 'Pilih perangkat printer';
                                       });
-                                      print('please select device');
+                                      print('Tolong pilih perangkat printer');
                                     }
                                   },
                           ),
                           SizedBox(width: 10.0),
                           OutlinedButton(
-                            child: Text('disconnect'),
+                            child: Text('Putuskan'),
                             onPressed: _connected
                                 ? () async {
                                     setState(() {
-                                      tips = 'disconnecting...';
+                                      tips = 'Memutuskan...';
                                     });
                                     await bluetoothPrint.disconnect();
                                   }
@@ -295,6 +298,10 @@ class _MyAppState extends State<MyApp> {
                                     linefeed: 1));
 
                                 await bluetoothPrint.printReceipt(config, list);
+                                Navigator.of(context).push(
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            new beranda()));
                               }
                             : null,
                       ),

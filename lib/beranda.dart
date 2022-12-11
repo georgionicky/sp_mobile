@@ -90,7 +90,7 @@ class _berandaState extends State<beranda> {
             ),
             ListTile(
               leading: Icon(Icons.info_rounded),
-              title: Text('Tentang'),
+              title: Text('Panduan'),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) => new tentang())),
             ),

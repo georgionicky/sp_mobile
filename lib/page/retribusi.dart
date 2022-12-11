@@ -181,22 +181,29 @@ class _retribusiState extends State<retribusi> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    "Jumlah Retribusi",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  check1 == true
+                      ? Text(
+                          "Jumlah Retribusi",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        )
+                      : SizedBox(),
+
                   const SizedBox(height: 5),
-                  Text(
-                    RupiahFormat.convertToIdr(retribusi, 0),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: 25),
+                  check1 == true
+                      ? Text(
+                          RupiahFormat.convertToIdr(retribusi, 0),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                          ),
+                        )
+                      : SizedBox(),
+
+                  check1 == true ? SizedBox(height: 25) : SizedBox(),
+
                   Text(
                     'Operator',
                     style: TextStyle(
@@ -228,13 +235,21 @@ class _retribusiState extends State<retribusi> {
                 child: Container(
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: Text(
-                "Bayar",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
+              child: check1 == true
+                  ? Text(
+                      "Bayar",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    )
+                  : Text(
+                      "Lanjut",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
             )), //child widget inside this button
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -279,7 +294,9 @@ class _retribusiState extends State<retribusi> {
               ),
             ),
 
-            backgroundColor: Color.fromRGBO(39, 174, 96, 100),
+            backgroundColor: check1 == true
+                ? Color.fromRGBO(39, 174, 96, 100)
+                : Color.fromARGB(156, 255, 2, 2),
           ),
         ),
       ),

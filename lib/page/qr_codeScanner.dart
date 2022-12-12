@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unnecessary_new
+
 import 'dart:developer';
 import 'dart:io';
 
@@ -73,7 +75,7 @@ class _QRViewExampleState extends State<QRViewExample> {
         color: Color.fromRGBO(39, 174, 96, 100),
         shape: CircularNotchedRectangle(),
         notchMargin: 10,
-        child: Container(
+        child: SizedBox(
           height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -158,7 +160,6 @@ class _QRViewExampleState extends State<QRViewExample> {
       controller.dispose();
       result = scanData;
       String? url = result!.code; //Api
-      print(url);
       // RetribusiApi(url!);
       describeEnum(result!.format);
       Navigator.of(context).push(new MaterialPageRoute(

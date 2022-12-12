@@ -1,10 +1,10 @@
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables, no_logic_in_create_state, library_private_types_in_public_api, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, prefer_collection_literals, prefer_interpolation_to_compose_strings, unnecessary_string_interpolations, unnecessary_new, use_build_context_synchronously
+
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 
@@ -23,10 +23,10 @@ class MyApp2 extends StatefulWidget {
 class _MyApp2State extends State<MyApp2> {
   BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
 
-  String _pemilik;
-  String _setor;
-  String _tabungan;
-  String _operator;
+  final String _pemilik;
+  final String _setor;
+  final String _tabungan;
+  final String _operator;
 
   bool _connected = false;
   BluetoothDevice? _device;
@@ -48,8 +48,6 @@ class _MyApp2State extends State<MyApp2> {
     bool isConnected = await bluetoothPrint.isConnected ?? false;
 
     bluetoothPrint.state.listen((state) {
-      print('******************* cur device status: $state');
-
       switch (state) {
         case BluetoothPrint.CONNECTED:
           setState(() {
@@ -154,7 +152,6 @@ class _MyApp2State extends State<MyApp2> {
                                       setState(() {
                                         tips = 'Pilih perangkat printer';
                                       });
-                                      print('Tolong pilih perangkat printer');
                                     }
                                   },
                           ),

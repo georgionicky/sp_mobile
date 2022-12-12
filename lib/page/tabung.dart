@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, camel_case_types, no_logic_in_create_state, prefer_final_fields, avoid_init_to_null, prefer_typing_uninitialized_variables, no_leading_underscores_for_local_identifiers, prefer_const_constructors, unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,6 +62,7 @@ class _tabungState extends State<tabung> {
                 title: "Nomor rekening atau blok tidak ditemukan!",
                 buttons: [
                   DialogButton(
+                    // ignore: sort_child_properties_last
                     child: Text(
                       "Ok",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -76,6 +79,7 @@ class _tabungState extends State<tabung> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     if (apiUrl != '') {
       getData();
@@ -102,7 +106,6 @@ class _tabungState extends State<tabung> {
     String pemilik = (dataTabung != null) ? dataTabung!.pemilik : 'kosong';
     String tabungan = (dataTabung != null) ? dataTabung!.jumlah_tabungan : '0';
     String operator = '${dataProfil?.profil['nama'] ?? "Data Kosong"}';
-    String kodeOperator = '${_kodeOperator ?? "Operator"}';
     (dataTabung != null) ? _txtRek.text = noRek : '';
 
     return Scaffold(
@@ -153,6 +156,7 @@ class _tabungState extends State<tabung> {
                   SizedBox(height: 5),
                   nomorRekening(),
                   OutlinedButton(
+                    // ignore: sort_child_properties_last
                     child: Text(
                       'Cari Nomor Rekening',
                       style: TextStyle(color: Color.fromRGBO(39, 174, 96, 100)),
@@ -256,6 +260,7 @@ class _tabungState extends State<tabung> {
           height: 50,
           width: 300,
           child: FloatingActionButton(
+            // ignore: sort_child_properties_last
             child: Center(
                 child: Container(
               decoration:
@@ -336,7 +341,7 @@ class _tabungState extends State<tabung> {
     var _token = sharedPreferences.getString('token');
 
     String rek = _txtRek.text;
-    String api = 'http://bumdes-sumowono.si-mantap.com/api/detail?rek=${rek}-1';
+    String api = 'http://bumdes-sumowono.si-mantap.com/api/detail?rek=$rek-1';
 
     TabungScan.connectToAPI(api, _token!).then((value) {
       if (value != null) {
@@ -348,6 +353,7 @@ class _tabungState extends State<tabung> {
                 title: "Nomor rekening tidak ditemukan!",
                 buttons: [
                   DialogButton(
+                    // ignore: sort_child_properties_last
                     child: Text(
                       "Ok",
                       style: TextStyle(color: Colors.white, fontSize: 20),

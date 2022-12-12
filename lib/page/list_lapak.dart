@@ -1,10 +1,8 @@
+// ignore_for_file: camel_case_types, unused_field, prefer_typing_uninitialized_variables, unused_local_variable, prefer_const_constructors, avoid_init_to_null
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sp_mobile/components/rupiahFormat.dart';
-import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/model/riwayatApi.dart';
-import 'package:sp_mobile/page/riwayatRetribusi.dart';
-import 'package:sp_mobile/page/riwayatTabung.dart';
 
 class listLapak extends StatefulWidget {
   const listLapak({super.key});
@@ -33,7 +31,6 @@ class _listLapakState extends State<listLapak> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
     getLogin();
@@ -49,6 +46,7 @@ class _listLapakState extends State<listLapak> {
             children: [
               Container(
                   padding: const EdgeInsets.all(8),
+                  // ignore: sort_child_properties_last
                   child: Center(
                     child: Text("A001",
                         textAlign: TextAlign.center,
@@ -60,6 +58,7 @@ class _listLapakState extends State<listLapak> {
                   color: Color.fromRGBO(39, 174, 96, 100)),
               Container(
                   padding: const EdgeInsets.all(8),
+                  // ignore: sort_child_properties_last
                   child: Center(
                     child: Text("A002",
                         textAlign: TextAlign.center,
@@ -71,6 +70,7 @@ class _listLapakState extends State<listLapak> {
                   color: Color.fromRGBO(39, 174, 96, 100)),
               Container(
                   padding: const EdgeInsets.all(8),
+                  // ignore: sort_child_properties_last
                   child: Center(
                     child: Text("A002",
                         textAlign: TextAlign.center,
@@ -82,6 +82,7 @@ class _listLapakState extends State<listLapak> {
                   color: Color.fromRGBO(39, 174, 96, 100)),
               Container(
                   padding: const EdgeInsets.all(8),
+                  // ignore: sort_child_properties_last
                   child: Center(
                     child: Text("A003",
                         textAlign: TextAlign.center,

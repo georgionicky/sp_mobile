@@ -1,7 +1,8 @@
+// ignore_for_file: file_names, camel_case_types, avoid_init_to_null, prefer_const_constructors, unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/tabungSetor.dart';
-import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/page/nota_tabung.dart';
 
 class riwayatTabung extends StatefulWidget {
@@ -18,6 +19,7 @@ class riwayatTabung extends StatefulWidget {
       {super.key});
 
   @override
+  // ignore: no_logic_in_create_state
   State<riwayatTabung> createState() => _riwayatTabungState(
       noRek!, noBlok!, pemilik!, tabungan!, setor!, operator!, kodeOperator!);
 }
@@ -25,13 +27,13 @@ class riwayatTabung extends StatefulWidget {
 class _riwayatTabungState extends State<riwayatTabung> {
   final _globalkey = GlobalKey<FormState>();
 
-  String _noRek;
-  String _noBlok;
-  String _pemilik;
-  String _tabungan;
-  String _setor;
-  String _operator;
-  String _kodeOperator;
+  final String _noRek;
+  final String _noBlok;
+  final String _pemilik;
+  final String _tabungan;
+  final String _setor;
+  final String _operator;
+  final String _kodeOperator;
 
   late SetorTabungan? dataSetor = null;
 
@@ -184,6 +186,7 @@ class _riwayatTabungState extends State<riwayatTabung> {
           height: 50,
           width: 300,
           child: FloatingActionButton(
+            // ignore: sort_child_properties_last
             child: Center(
                 child: Container(
               decoration:

@@ -1,10 +1,11 @@
+// ignore_for_file: camel_case_types, avoid_init_to_null, file_names, no_leading_underscores_for_local_identifiers, prefer_const_constructors, unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/page/nota_tabung.dart';
-import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 
 class konfirmTb extends StatefulWidget {
@@ -21,6 +22,7 @@ class konfirmTb extends StatefulWidget {
       {super.key});
 
   @override
+  // ignore: no_logic_in_create_state
   State<konfirmTb> createState() => _konfirmTbState(
       noRek!, noBlok!, pemilik!, tabungan!, setor!, operator!, kodeOperator!);
 }
@@ -28,13 +30,13 @@ class konfirmTb extends StatefulWidget {
 class _konfirmTbState extends State<konfirmTb> {
   final _globalkey = GlobalKey<FormState>();
 
-  String _noRek;
-  String _noBlok;
-  String _pemilik;
-  String _tabungan;
-  String _setor;
-  String _operator;
-  String _kodeOperator;
+  final String _noRek;
+  final String _noBlok;
+  final String _pemilik;
+  final String _tabungan;
+  final String _setor;
+  final String _operator;
+  final String _kodeOperator;
 
   late SetorTabungan? dataSetor = null;
 
@@ -57,6 +59,7 @@ class _konfirmTbState extends State<konfirmTb> {
                 title: "Nomor rekening atau blok tidak ditemukan!",
                 buttons: [
                   DialogButton(
+                    // ignore: sort_child_properties_last
                     child: Text(
                       "Ok",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -73,7 +76,6 @@ class _konfirmTbState extends State<konfirmTb> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -253,6 +255,7 @@ class _konfirmTbState extends State<konfirmTb> {
           height: 50,
           width: 300,
           child: FloatingActionButton(
+            // ignore: sort_child_properties_last
             child: Center(
                 child: Container(
               decoration:

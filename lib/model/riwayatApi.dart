@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -11,19 +13,18 @@ class Riwayat {
     return Riwayat(status: object['status'], riwayat: object['riwayat']);
   }
 
-  static Future<Riwayat> connectToAPI(String token) async {
+  static Future<Riwayat?> connectToAPI(String token) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/riwayat-operator";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'koperasi_id': '1'},
-        headers: {'Authorization': 'Bearer ' + token});
+        headers: {'Authorization': 'Bearer $token'});
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil API Riwayat');
+      return Riwayat.getRiwayat(jsonObject);
     } else {
-      print('Gagal APi Riwayat');
+      return null;
     }
-    return Riwayat.getRiwayat(jsonObject);
   }
 }

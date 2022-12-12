@@ -1,8 +1,11 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SetorTabungan {
   final int? status;
+  // ignore: prefer_typing_uninitialized_variables
   final pesan;
 
   const SetorTabungan({
@@ -28,7 +31,7 @@ class SetorTabungan {
       'operator': operator,
       'blok': blok
     }, headers: {
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer $token'
     });
     var jsonObject = json.decode(apiResult.body);
 

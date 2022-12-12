@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, camel_case_types, no_logic_in_create_state, prefer_typing_uninitialized_variables, no_leading_underscores_for_local_identifiers, prefer_const_constructors, unnecessary_new, avoid_init_to_null
+
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,6 +53,7 @@ class _retribusiState extends State<retribusi> {
                 title: "Nomor rekening atau blok tidak ditemukan!",
                 buttons: [
                   DialogButton(
+                    // ignore: sort_child_properties_last
                     child: Text(
                       "Ok",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -67,7 +70,6 @@ class _retribusiState extends State<retribusi> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
     getLogin();
@@ -236,6 +238,7 @@ class _retribusiState extends State<retribusi> {
           height: 50,
           width: 300,
           child: FloatingActionButton(
+            // ignore: sort_child_properties_last
             child: Center(
                 child: Container(
               decoration:

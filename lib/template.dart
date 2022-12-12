@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, camel_case_types, unnecessary_new, prefer_const_constructors, prefer_final_fields, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
@@ -21,6 +23,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
           icon: new Icon(Icons.arrow_back, color: Colors.orange),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        // ignore: prefer_const_literals_to_create_immutables
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -121,6 +124,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
         height: 50,
         width: 300,
         child: FloatingActionButton(
+          // ignore: sort_child_properties_last
           child: Center(
               child: Container(
             decoration: BoxDecoration(

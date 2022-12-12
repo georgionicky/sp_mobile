@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, non_constant_identifier_names
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -28,7 +30,7 @@ class RetribusiModel {
 
   static Future<RetribusiModel?> connectToAPI(String url, String token) async {
     var apiResult = await http
-        .get(Uri.parse(url), headers: {'Authorization': 'Bearer ' + token});
+        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $token'});
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {

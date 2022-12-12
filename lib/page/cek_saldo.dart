@@ -1,10 +1,11 @@
+// ignore_for_file: must_be_immutable, camel_case_types, no_logic_in_create_state, avoid_init_to_null, prefer_final_fields, no_leading_underscores_for_local_identifiers, prefer_const_constructors, unnecessary_new, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/cekSaldoApiScan.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
-import 'package:sp_mobile/page/tentang.dart';
 import 'package:sp_mobile/beranda.dart';
 
 import '../model/cekSaldoApi.dart';
@@ -43,6 +44,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                 title: "Nomor rekening atau blok tidak ditemukan!",
                 buttons: [
                   DialogButton(
+                    // ignore: sort_child_properties_last
                     child: Text(
                       "Ok",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -59,6 +61,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     if (apiUrl != '') {
       getData();
@@ -79,6 +82,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
       }
     }
     return Scaffold(
+      // ignore: unnecessary_new
       appBar: new AppBar(
         title: Text("Menu Cek Saldo",
             style: TextStyle(fontWeight: FontWeight.w700)),
@@ -196,6 +200,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
           height: 50,
           width: 300,
           child: FloatingActionButton(
+            // ignore: sort_child_properties_last
             child: Center(
                 child: Container(
               decoration:
@@ -277,6 +282,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                   title: "Nomor Rekening Tidak Ditemukan",
                   buttons: [
                     DialogButton(
+                      // ignore: sort_child_properties_last
                       child: Text(
                         "Ok",
                         style: TextStyle(color: Colors.white, fontSize: 20),

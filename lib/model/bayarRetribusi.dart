@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +29,7 @@ class BayarRetribusi {
       'kehadiran': kehadiran,
       'operator': operator
     }, headers: {
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer $token'
     });
     var jsonObject = json.decode(apiResult.body);
 

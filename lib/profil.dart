@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_returning_null_for_void, unnecessary_new
+// ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_returning_null_for_void, unnecessary_new, camel_case_types, avoid_init_to_null, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/model/loginApi.dart';
-import 'package:sp_mobile/page/tentang.dart';
-import 'package:sp_mobile/beranda.dart';
-import 'package:sp_mobile/profil.dart';
 
 class profil extends StatefulWidget {
   const profil({super.key});
@@ -16,9 +13,6 @@ class profil extends StatefulWidget {
 
 class _profilState extends State<profil> {
   final _globalkey = GlobalKey<FormState>();
-  TextEditingController _psLama = TextEditingController();
-  TextEditingController _psBaru = TextEditingController();
-  TextEditingController _konfirmasi = TextEditingController();
 
   late DataLoginProfil? dataProfil = null;
 
@@ -36,6 +30,7 @@ class _profilState extends State<profil> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     getLogin();

@@ -1,10 +1,7 @@
-import 'dart:ffi';
+// ignore_for_file: file_names, camel_case_types, no_logic_in_create_state, prefer_const_constructors_in_immutables, avoid_init_to_null, prefer_const_constructors, unnecessary_new
 
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
-import 'package:sp_mobile/model/RetribusiModel.dart';
 import 'package:sp_mobile/model/bayarRetribusi.dart';
 import 'package:sp_mobile/page/nota_retribusi.dart';
 
@@ -27,13 +24,13 @@ class riwayatRetribusi extends StatefulWidget {
 }
 
 class _riwayatRetribusiState extends State<riwayatRetribusi> {
-  String _noRek;
-  String _noBlok;
-  String _pemilik;
-  String _retribusi;
-  String _simpanan;
-  String _operator;
-  String _kodeOperator;
+  final String _noRek;
+  final String _noBlok;
+  final String _pemilik;
+  final String _retribusi;
+  final String _simpanan;
+  final String _operator;
+  final String _kodeOperator;
 
   late BayarRetribusi? dataBayar = null;
 
@@ -169,6 +166,7 @@ class _riwayatRetribusiState extends State<riwayatRetribusi> {
           height: 50,
           width: 300,
           child: FloatingActionButton(
+            // ignore: sort_child_properties_last
             child: Center(
                 child: Container(
               decoration:

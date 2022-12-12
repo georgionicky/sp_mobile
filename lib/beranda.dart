@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, unnecessary_new, avoid_returning_null_for_void, prefer_const_literals_to_create_immutables
+// ignore_for_file: camel_case_types, prefer_const_constructors, unnecessary_new, avoid_returning_null_for_void, prefer_const_literals_to_create_immutables, avoid_init_to_null
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,11 +30,10 @@ class _berandaState extends State<beranda> {
   getLogin() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
+    // ignore: no_leading_underscores_for_local_identifiers
     var _kodeAnggota = sharedPreferences.getString('username');
+    // ignore: no_leading_underscores_for_local_identifiers
     var _token = sharedPreferences.getString('token');
-
-    print('Token');
-    print(_token);
 
     DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) {
       dataProfil = value;
@@ -49,6 +48,7 @@ class _berandaState extends State<beranda> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     getLogin();
@@ -56,8 +56,6 @@ class _berandaState extends State<beranda> {
 
   @override
   Widget build(BuildContext context) {
-    var tutup = ketBlok?.lapakTutup;
-    print('Keterangan');
     return new Scaffold(
       appBar: new AppBar(
         actions: <Widget>[
@@ -109,6 +107,7 @@ class _berandaState extends State<beranda> {
                     await SharedPreferences.getInstance();
                 sharedPreferences.remove('username');
                 sharedPreferences.remove('token');
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new MyApp()));
               },
@@ -251,9 +250,9 @@ class _berandaState extends State<beranda> {
                                                         new cek_Saldo(''))),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
-                                          padding: EdgeInsets.all(10),
-                                          primary:
+                                          backgroundColor:
                                               Color.fromRGBO(39, 174, 96, 100),
+                                          padding: EdgeInsets.all(10),
                                         ),
                                         child: new Icon(
                                           Icons.account_balance_wallet,
@@ -282,9 +281,9 @@ class _berandaState extends State<beranda> {
                                                         new cek_Lapak())),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
-                                          padding: EdgeInsets.all(10),
-                                          primary:
+                                          backgroundColor:
                                               Color.fromRGBO(39, 174, 96, 100),
+                                          padding: EdgeInsets.all(10),
                                         ),
                                         child: new Icon(
                                           Icons.store_sharp,
@@ -313,9 +312,9 @@ class _berandaState extends State<beranda> {
                                                         new qrScan())),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
-                                          padding: EdgeInsets.all(10),
-                                          primary:
+                                          backgroundColor:
                                               Color.fromRGBO(39, 174, 96, 100),
+                                          padding: EdgeInsets.all(10),
                                         ),
                                         child: new Icon(
                                           Icons.qr_code_scanner,
@@ -344,9 +343,9 @@ class _berandaState extends State<beranda> {
                                                         new tabung(''))),
                                         style: ElevatedButton.styleFrom(
                                           shape: CircleBorder(),
-                                          padding: EdgeInsets.all(10),
-                                          primary:
+                                          backgroundColor:
                                               Color.fromRGBO(39, 174, 96, 100),
+                                          padding: EdgeInsets.all(10),
                                         ),
                                         child: new Icon(
                                           Icons.savings_rounded,
@@ -370,19 +369,17 @@ class _berandaState extends State<beranda> {
                     Card(
                       margin: EdgeInsets.only(top: 30, left: 5),
                       elevation: 0,
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              "Keterangan",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w800,
-                              ),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Keterangan",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w800,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Card(
@@ -609,7 +606,7 @@ class _berandaState extends State<beranda> {
         color: Color.fromRGBO(39, 174, 96, 100),
         shape: CircularNotchedRectangle(),
         notchMargin: 10,
-        child: Container(
+        child: SizedBox(
           height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -622,7 +619,7 @@ class _berandaState extends State<beranda> {
                     children: [
                       Icon(
                         Icons.home,
-                        color: Color.fromARGB(171, 255, 255, 255),
+                        color: Color.fromARGB(255, 255, 255, 255),
                         size: 40.0,
                       ),
                     ]),

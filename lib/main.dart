@@ -1,11 +1,11 @@
+// ignore_for_file: unnecessary_new, prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/model/loginToken.dart';
 import 'beranda.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +29,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: use_key_in_widget_constructors
 class LocationApp extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _LocationAppState createState() => _LocationAppState();
 }
 
@@ -44,6 +46,7 @@ class _LocationAppState extends State<LocationApp> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
 
     getValidationData().whenComplete(() async {
@@ -64,11 +67,11 @@ class _LocationAppState extends State<LocationApp> {
       finalToken = _token;
     });
 
-    print('Final Token');
-    print(finalToken);
+    // print('Final Token');
+    // print(finalToken);
   }
 
-  late LoginToken? dataLogin = null;
+  late LoginToken? dataLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +84,7 @@ class _LocationAppState extends State<LocationApp> {
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
+              // ignore: prefer_const_literals_to_create_immutables
               colors: [
                 Color.fromRGBO(39, 174, 96, 100),
                 Color.fromRGBO(39, 174, 96, 100)
@@ -101,6 +105,7 @@ class _LocationAppState extends State<LocationApp> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
                         "Masuk",
@@ -130,6 +135,7 @@ class _LocationAppState extends State<LocationApp> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
+                      // ignore: prefer_const_literals_to_create_immutables
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black,
@@ -244,9 +250,8 @@ class _LocationAppState extends State<LocationApp> {
                           width: 250.0,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromRGBO(
-                                  39, 174, 96, 100), // background
-                              onPrimary: Colors.white,
+                              foregroundColor: Colors.white,
+                              backgroundColor: Color.fromRGBO(39, 174, 96, 100),
                               elevation: 10.0,
 
                               // foreground

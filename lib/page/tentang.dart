@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, unnecessary_new, duplicate_ignore, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:sp_mobile/beranda.dart';
 
@@ -12,8 +14,10 @@ class _tentangState extends State<tentang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ignore: unnecessary_new
       appBar: new AppBar(
         title:
+            // ignore: prefer_const_constructors
             Text("Menu Panduan", style: TextStyle(fontWeight: FontWeight.w700)),
         centerTitle: true,
         leading: new IconButton(
@@ -32,6 +36,7 @@ class _tentangState extends State<tentang> {
             child: Form(
               child: ListView(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                // ignore: prefer_const_literals_to_create_immutables
                 children: <Widget>[
                   Center(
                     child: Text(

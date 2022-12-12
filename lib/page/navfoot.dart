@@ -1,6 +1,6 @@
+// ignore_for_file: camel_case_types, unnecessary_new, prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/page/history.dart';
 

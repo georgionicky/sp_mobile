@@ -78,10 +78,16 @@ class _berandaState extends State<beranda> {
               ),
               accountName:
                   new Text('${dataProfil?.profil['nama'] ?? "Nama Pegawai"}'),
-              accountEmail: new Text("Petugas Lapangan"),
+              accountEmail: new Text("Petugas Retribusi"),
               currentAccountPicture: (dataProfil != null)
-                  ? new Image.network(dataProfil?.foto, width: 40)
-                  : new Image.asset("assets/profil_pegawai.png"),
+                  ? new ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Image.network(dataProfil?.foto, width: 40))
+                  : new Icon(
+                      Icons.account_circle_outlined,
+                      size: 40,
+                      color: Colors.white,
+                    ),
             ),
             ListTile(
               leading: Icon(Icons.home),
@@ -170,9 +176,15 @@ class _berandaState extends State<beranda> {
                           padding: EdgeInsets.only(left: 0.0),
                           child: TextButton(
                             child: (dataProfil != null)
-                                ? new Image.network(dataProfil?.foto, width: 90)
-                                : new Image.asset("assets/profil_pegawai.png",
-                                    width: 90),
+                                ? new ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    child: Image.network(dataProfil?.foto,
+                                        width: 90))
+                                : new Icon(
+                                    Icons.account_circle_outlined,
+                                    size: 90,
+                                    color: Colors.white,
+                                  ),
                             onPressed: () => Navigator.of(context).push(
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -198,7 +210,7 @@ class _berandaState extends State<beranda> {
                                 height: 5.0,
                               ),
                               Text(
-                                "Pegawai Lapangan",
+                                "Petugas Retribusi",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,

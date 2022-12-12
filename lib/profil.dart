@@ -68,8 +68,12 @@ class _profilState extends State<profil> {
                     Center(
                       child: Stack(children: <Widget>[
                         TextButton(
-                          child: new Image.asset("assets/profil_pegawai.png",
-                              width: 150),
+                          child: (dataProfil != null)
+                              ? new Image.network(dataProfil?.foto, width: 140)
+                              : new Image.asset(
+                                  "assets/profil_pegawai.png",
+                                  width: 140,
+                                ),
                           onPressed: () {},
                         ),
                       ]),

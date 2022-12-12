@@ -33,6 +33,9 @@ class _berandaState extends State<beranda> {
     var _kodeAnggota = sharedPreferences.getString('username');
     var _token = sharedPreferences.getString('token');
 
+    print('Token');
+    print(_token);
+
     DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) {
       dataProfil = value;
       setState(() {});
@@ -76,8 +79,9 @@ class _berandaState extends State<beranda> {
               accountName:
                   new Text('${dataProfil?.profil['nama'] ?? "Nama Pegawai"}'),
               accountEmail: new Text("Petugas Lapangan"),
-              currentAccountPicture:
-                  new Image.asset("assets/profil_pegawai.png"),
+              currentAccountPicture: (dataProfil != null)
+                  ? new Image.network(dataProfil?.foto, width: 40)
+                  : new Image.asset("assets/profil_pegawai.png"),
             ),
             ListTile(
               leading: Icon(Icons.home),
@@ -165,8 +169,10 @@ class _berandaState extends State<beranda> {
                         Padding(
                           padding: EdgeInsets.only(left: 0.0),
                           child: TextButton(
-                            child: new Image.asset("assets/profil_pegawai.png",
-                                width: 90),
+                            child: (dataProfil != null)
+                                ? new Image.network(dataProfil?.foto, width: 90)
+                                : new Image.asset("assets/profil_pegawai.png",
+                                    width: 90),
                             onPressed: () => Navigator.of(context).push(
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>

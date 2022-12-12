@@ -3,13 +3,12 @@ import 'package:http/http.dart' as http;
 
 class DataLoginProfil {
   final profil;
+  final foto;
 
-  DataLoginProfil({this.profil});
+  DataLoginProfil({this.profil, this.foto});
 
   factory DataLoginProfil.getDataLoginProfil(Map<String, dynamic> object) {
-    return DataLoginProfil(
-      profil: object['profil'],
-    );
+    return DataLoginProfil(profil: object['profil'], foto: object['foto']);
   }
 
   static Future<DataLoginProfil?> connectToAPI(

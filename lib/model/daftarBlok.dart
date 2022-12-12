@@ -13,7 +13,7 @@ class DaftarBlok {
     return DaftarBlok(daftar: object['daftar'], jmlBlok: len);
   }
 
-  static Future<DaftarBlok> connectToAPI(String token) async {
+  static Future<DaftarBlok?> connectToAPI(String token) async {
     // String apiUrl = Uri.parse('http://localhost:8000/api/cek-saldo');
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/daftar-blok";
 
@@ -23,11 +23,9 @@ class DaftarBlok {
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil API Daftar Blok');
-      print(apiResult.body);
+      return DaftarBlok.getDaftarBlok(jsonObject);
     } else {
-      print('Gagal APi Daftar Blok');
+      return null;
     }
-    return DaftarBlok.getDaftarBlok(jsonObject);
   }
 }

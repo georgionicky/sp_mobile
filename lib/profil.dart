@@ -69,15 +69,20 @@ class _profilState extends State<profil> {
                       child: Stack(children: <Widget>[
                         TextButton(
                           child: (dataProfil != null)
-                              ? new Image.network(dataProfil?.foto, width: 140)
-                              : new Image.asset(
-                                  "assets/profil_pegawai.png",
-                                  width: 140,
+                              ? new ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  child: Image.network(dataProfil?.foto,
+                                      width: 140))
+                              : new Icon(
+                                  Icons.account_circle_outlined,
+                                  size: 140,
+                                  color: Colors.white,
                                 ),
                           onPressed: () {},
                         ),
                       ]),
                     ),
+                    SizedBox(height: 25),
                     Text(
                       "Nama Pegawai",
                       style: TextStyle(

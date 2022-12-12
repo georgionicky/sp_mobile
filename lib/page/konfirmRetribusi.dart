@@ -123,7 +123,7 @@ class _konfirmRtState extends State<konfirmRt> {
                     _noRek,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -139,7 +139,7 @@ class _konfirmRtState extends State<konfirmRt> {
                     _noBlok,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -155,7 +155,7 @@ class _konfirmRtState extends State<konfirmRt> {
                     _pemilik,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
 
@@ -172,7 +172,7 @@ class _konfirmRtState extends State<konfirmRt> {
                     (_check == true) ? 'Hadir' : 'Tidak Hadir',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -190,7 +190,7 @@ class _konfirmRtState extends State<konfirmRt> {
                         : 'Rp. 0',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -211,7 +211,7 @@ class _konfirmRtState extends State<konfirmRt> {
                         : RupiahFormat.convertToIdr(_tabungan, 0),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -227,7 +227,7 @@ class _konfirmRtState extends State<konfirmRt> {
                     (_check == true) ? _status : 'Lapak Tutup',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),

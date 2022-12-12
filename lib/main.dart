@@ -40,14 +40,14 @@ class _LocationAppState extends State<LocationApp> {
 
   bool _passwordVisible = false;
 
-  String? finalUsername;
+  String? finalToken;
 
   @override
   void initState() {
     // TODO: implement initState
 
     getValidationData().whenComplete(() async {
-      (finalUsername == null)
+      (finalToken == null)
           ? MyApp()
           : Navigator.of(context).push(new MaterialPageRoute(
               builder: (BuildContext context) => new beranda()));
@@ -58,14 +58,14 @@ class _LocationAppState extends State<LocationApp> {
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    var _username = sharedPreferences.getString('username');
+    var _token = sharedPreferences.getString('token');
 
     setState(() {
-      finalUsername = _username;
+      finalToken = _token;
     });
 
-    print('Final Username');
-    print(finalUsername);
+    print('Final Token');
+    print(finalToken);
   }
 
   late LoginToken? dataLogin = null;

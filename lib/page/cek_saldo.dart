@@ -140,7 +140,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                             : 'Tidak Memiliki Blok',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -160,7 +160,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                         : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -181,7 +181,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
                         : 'kosong',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(height: 25),

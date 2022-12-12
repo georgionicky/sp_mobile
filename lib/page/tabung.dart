@@ -160,7 +160,9 @@ class _tabungState extends State<tabung> {
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Color.fromRGBO(39, 174, 96, 100)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _doCariRek();
+                    },
                   ),
 
                   SizedBox(height: 20),
@@ -326,6 +328,38 @@ class _tabungState extends State<tabung> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  Future _doCariRek() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    String rek = _txtRek.text;
+    String api = 'http://bumdes-sumowono.si-mantap.com/api/detail?rek=${rek}-1';
+
+    TabungScan.connectToAPI(api, _token!).then((value) {
+      if (value != null) {
+        dataTabung = value;
+        setState(() {});
+      } else {
+        Alert(
+                context: context,
+                title: "Nomor rekening tidak ditemukan!",
+                buttons: [
+                  DialogButton(
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    width: 120,
+                  )
+                ],
+                type: AlertType.error)
+            .show();
+      }
+    });
   }
 
   Widget nomorRekening() {

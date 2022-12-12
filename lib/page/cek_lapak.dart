@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/beranda.dart';
 import 'package:sp_mobile/model/daftarBlok.dart';
 
@@ -16,7 +17,11 @@ class _cek_LapakState extends State<cek_Lapak> {
   TextEditingController _noblok = TextEditingController();
 
   getData() async {
-    DaftarBlok.connectToAPI().then((value) {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    DaftarBlok.connectToAPI(_token!).then((value) {
       daftarBlok = value;
       setState(() {});
     });

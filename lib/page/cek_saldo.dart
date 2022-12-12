@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/cekSaldoApiScan.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
@@ -28,7 +29,11 @@ class _cek_SaldoState extends State<cek_Saldo> {
   _cek_SaldoState(this.apiUrl);
 
   getData() async {
-    SaldoBlokScan.connectToAPI(apiUrl).then((value) {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    SaldoBlokScan.connectToAPI(apiUrl, _token!).then((value) {
       if (value != null) {
         dataBlok = value;
         setState(() {});
@@ -206,47 +211,7 @@ class _cek_SaldoState extends State<cek_Saldo> {
             shape:
                 BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
-              try {
-                dataBlok = null;
-                SaldoBlok.connectToAPI(_norek.text).then((value) {
-                  if (value != null) {
-                    saldoBlok = value;
-                    setState(() {});
-                    // print(saldoBlok!.noBlok);
-                    blok = '';
-                    for (var i = 0; i < saldoBlok!.jml; i++) {
-                      if (i == saldoBlok!.jml - 1) {
-                        blok += saldoBlok!.noBlok[i]['kode'];
-                      } else {
-                        blok += saldoBlok!.noBlok[i]['kode'] + ', ';
-                      }
-                    }
-                  } else {
-                    Alert(
-                            context: context,
-                            title: "Nomor Rekening Tidak Ditemukan",
-                            buttons: [
-                              DialogButton(
-                                child: Text(
-                                  "Ok",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                onPressed: () => Navigator.pop(context),
-                                width: 120,
-                              )
-                            ],
-                            type: AlertType.error)
-                        .show();
-                  }
-                });
-              } catch (e) {
-                Alert(
-                        context: context,
-                        title: "Data Tidak Ditemukan",
-                        type: AlertType.error)
-                    .show();
-              }
+              _doCekSaldo();
               //task to execute when this button is pressed
             },
             backgroundColor: Color.fromRGBO(39, 174, 96, 100),
@@ -284,5 +249,52 @@ class _cek_SaldoState extends State<cek_Saldo> {
             labelText: "Nomor Rekening",
             helperText: "Nomor Rekening Tidak Boleh Kosong",
             hintText: "Nomor Rekening"));
+  }
+
+  Future _doCekSaldo() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    try {
+      dataBlok = null;
+      SaldoBlok.connectToAPI(_norek.text, _token!).then((value) {
+        if (value != null) {
+          saldoBlok = value;
+          setState(() {});
+          // print(saldoBlok!.noBlok);
+          blok = '';
+          for (var i = 0; i < saldoBlok!.jml; i++) {
+            if (i == saldoBlok!.jml - 1) {
+              blok += saldoBlok!.noBlok[i]['kode'];
+            } else {
+              blok += saldoBlok!.noBlok[i]['kode'] + ', ';
+            }
+          }
+        } else {
+          Alert(
+                  context: context,
+                  title: "Nomor Rekening Tidak Ditemukan",
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Ok",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      width: 120,
+                    )
+                  ],
+                  type: AlertType.error)
+              .show();
+        }
+      });
+    } catch (e) {
+      Alert(
+              context: context,
+              title: "Data Tidak Ditemukan",
+              type: AlertType.error)
+          .show();
+    }
   }
 }

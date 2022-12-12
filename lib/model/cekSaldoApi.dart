@@ -21,19 +21,17 @@ class SaldoBlok {
         jml: len);
   }
 
-  static Future<SaldoBlok?> connectToAPI(String no_rek) async {
+  static Future<SaldoBlok?> connectToAPI(String no_rek, String token) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/cek-saldo";
 
-    var apiResult = await http
-        .post(Uri.parse(apiUrl), body: {'no_rek': no_rek, 'koperasi_id': '1'});
+    var apiResult = await http.post(Uri.parse(apiUrl),
+        body: {'no_rek': no_rek, 'koperasi_id': '1'},
+        headers: {'Authorization': 'Bearer ' + token});
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil');
       return SaldoBlok.getSaldoBlok(jsonObject);
     } else {
-      print('Gagal');
-      print(jsonObject['pesan']);
       return null;
     }
   }

@@ -11,11 +11,12 @@ class Riwayat {
     return Riwayat(status: object['status'], riwayat: object['riwayat']);
   }
 
-  static Future<Riwayat> connectToAPI() async {
+  static Future<Riwayat> connectToAPI(String token) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/riwayat-operator";
 
-    var apiResult =
-        await http.post(Uri.parse(apiUrl), body: {'koperasi_id': '1'});
+    var apiResult = await http.post(Uri.parse(apiUrl),
+        body: {'koperasi_id': '1'},
+        headers: {'Authorization': 'Bearer ' + token});
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {

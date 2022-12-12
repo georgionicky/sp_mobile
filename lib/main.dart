@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/model/loginApi.dart';
+import 'package:sp_mobile/model/loginToken.dart';
 import 'beranda.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,6 +45,7 @@ class _LocationAppState extends State<LocationApp> {
   @override
   void initState() {
     // TODO: implement initState
+
     getValidationData().whenComplete(() async {
       (finalUsername == null)
           ? MyApp()
@@ -65,6 +67,8 @@ class _LocationAppState extends State<LocationApp> {
     print('Final Username');
     print(finalUsername);
   }
+
+  late LoginToken? dataLogin = null;
 
   @override
   Widget build(BuildContext context) {
@@ -277,33 +281,29 @@ class _LocationAppState extends State<LocationApp> {
     }
 
     try {
-      final response = await http.post(
-          Uri.parse('http://bumdes-sumowono.si-mantap.com/api/login'),
-          body: {'username': txtUsername.text, 'password': txtPassword.text},
-          headers: {'Accept': 'application/json'});
+      LoginToken.connectToAPI(txtUsername.text, txtPassword.text)
+          .then((value) async {
+        if (value != null) {
+          dataLogin = value;
+          setState(() {});
 
-      if (response.statusCode == 200) {
-        // Simpan token
-        final SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setString('username', txtUsername.text);
+          // Simpan token
+          final SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.setString('username', txtUsername.text);
+          sharedPreferences.setString('token', dataLogin?.api_token);
 
-        Navigator.of(context).push(new MaterialPageRoute(
-            builder: (BuildContext context) => new beranda()));
-      } else if (response.statusCode == 500) {
-        Alert(
-                context: context,
-                title: "Jaringan Internet Terputus!",
-                type: AlertType.error)
-            .show();
-      } else {
-        // Alert jika user dan pass salah
-        Alert(
-                context: context,
-                title: "Login Gagal, Username atau Password salah!",
-                type: AlertType.error)
-            .show();
-      }
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new beranda()));
+        } else {
+          // Alert jika user dan pass salah
+          Alert(
+                  context: context,
+                  title: "Login Gagal, Username atau Password salah!",
+                  type: AlertType.error)
+              .show();
+        }
+      });
     } catch (e) {
       Alert(
               context: context,

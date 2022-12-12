@@ -29,8 +29,9 @@ class SaldoBlokScan {
     );
   }
 
-  static Future<SaldoBlokScan?> connectToAPI(String url) async {
-    var apiResult = await http.get(Uri.parse(url));
+  static Future<SaldoBlokScan?> connectToAPI(String url, String token) async {
+    var apiResult = await http
+        .get(Uri.parse(url), headers: {'Authorization': 'Bearer ' + token});
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {

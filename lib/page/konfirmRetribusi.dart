@@ -46,8 +46,11 @@ class _konfirmRtState extends State<konfirmRt> {
       this._check, this._tabungan, this._operator, this._kodeOperator);
 
   getData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
     BayarRetribusi.connectToAPI(
-            _noBlok, (_check == true) ? '1' : '2', _operator)
+            _noBlok, (_check == true) ? '1' : '2', _operator, _token!)
         .then((value) {
       dataBayar = value;
       setState(() {});

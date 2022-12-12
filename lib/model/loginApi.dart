@@ -12,14 +12,16 @@ class DataLoginProfil {
     );
   }
 
-  static Future<DataLoginProfil?> connectToAPI(String kodeAnggota) async {
+  static Future<DataLoginProfil?> connectToAPI(
+      String kodeAnggota, String token) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/login-profil";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
-        body: {'koperasi_id': '1', 'kode_anggota': kodeAnggota});
-    var jsonObject = json.decode(apiResult.body);
+        body: {'koperasi_id': '1', 'kode_anggota': kodeAnggota},
+        headers: {'Authorization': 'Bearer ' + token});
 
     if (apiResult.statusCode == 200) {
+      var jsonObject = json.decode(apiResult.body);
       return DataLoginProfil.getDataLoginProfil(jsonObject);
     } else {
       return null;

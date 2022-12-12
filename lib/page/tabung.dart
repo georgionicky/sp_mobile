@@ -37,14 +37,20 @@ class _tabungState extends State<tabung> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     _kodeOperator = sharedPreferences.getString('username');
-    DataLoginProfil.connectToAPI(_kodeOperator!).then((value) {
+    var _token = sharedPreferences.getString('token');
+
+    DataLoginProfil.connectToAPI(_kodeOperator!, _token!).then((value) {
       dataProfil = value;
       setState(() {});
     });
   }
 
   getData() async {
-    TabungScan.connectToAPI(apiUrl).then((value) {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    TabungScan.connectToAPI(apiUrl, _token!).then((value) {
       if (value != null) {
         dataTabung = value;
         setState(() {});

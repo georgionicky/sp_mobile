@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
 import 'package:sp_mobile/model/tabungSetor.dart';
 import 'package:sp_mobile/page/nota_tabung.dart';
@@ -41,7 +42,11 @@ class _konfirmTbState extends State<konfirmTb> {
       this._setor, this._operator, this._kodeOperator);
 
   getData() async {
-    SetorTabungan.connectToAPI(_noRek, _setor, _operator, _noBlok)
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    SetorTabungan.connectToAPI(_noRek, _setor, _operator, _noBlok, _token!)
         .then((value) {
       if (value != null) {
         dataSetor = value;

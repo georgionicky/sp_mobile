@@ -17,8 +17,8 @@ class SetorTabungan {
     );
   }
 
-  static Future<SetorTabungan?> connectToAPI(
-      String noRek, String setor, String operator, String blok) async {
+  static Future<SetorTabungan?> connectToAPI(String noRek, String setor,
+      String operator, String blok, String token) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/setor-tabungan";
 
     var apiResult = await http.post(Uri.parse(apiUrl), body: {
@@ -27,6 +27,8 @@ class SetorTabungan {
       'jumlah_setor': setor,
       'operator': operator,
       'blok': blok
+    }, headers: {
+      'Authorization': 'Bearer ' + token
     });
     var jsonObject = json.decode(apiResult.body);
 

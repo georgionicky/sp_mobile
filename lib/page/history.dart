@@ -25,7 +25,11 @@ class _historyAllState extends State<historyAll> {
   }
 
   getData() async {
-    Riwayat.connectToAPI().then((value) {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    Riwayat.connectToAPI(_token!).then((value) {
       dataRiwayat = value;
       setState(() {});
     });

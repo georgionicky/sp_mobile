@@ -17,8 +17,8 @@ class BayarRetribusi {
     );
   }
 
-  static Future<BayarRetribusi> connectToAPI(
-      String blok, String kehadiran, String operator) async {
+  static Future<BayarRetribusi?> connectToAPI(
+      String blok, String kehadiran, String operator, String token) async {
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/bayar-retribusi";
 
     var apiResult = await http.post(Uri.parse(apiUrl), body: {
@@ -26,15 +26,15 @@ class BayarRetribusi {
       'koperasi_id': '1',
       'kehadiran': kehadiran,
       'operator': operator
+    }, headers: {
+      'Authorization': 'Bearer ' + token
     });
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil');
+      return BayarRetribusi.getBayarRetribusi(jsonObject);
     } else {
-      print('Gagal');
-      print(jsonObject['pesan']);
+      return null;
     }
-    return BayarRetribusi.getBayarRetribusi(jsonObject);
   }
 }

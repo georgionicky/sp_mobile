@@ -27,21 +27,19 @@ class _berandaState extends State<beranda> {
   late DataLoginProfil? dataProfil = null;
   final PageStorageBucket bucket = PageStorageBucket();
 
-  getData() async {
-    KeteranganDashboard.connectToAPI().then((value) {
-      ketBlok = value;
-      setState(() {});
-    });
-  }
-
   getLogin() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var _kodeAnggota = sharedPreferences.getString('username');
-    print(_kodeAnggota);
+    var _token = sharedPreferences.getString('token');
 
-    DataLoginProfil.connectToAPI(_kodeAnggota!).then((value) {
+    DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) {
       dataProfil = value;
+      setState(() {});
+    });
+
+    KeteranganDashboard.connectToAPI(_token).then((value) {
+      ketBlok = value;
       setState(() {});
     });
   }
@@ -50,7 +48,6 @@ class _berandaState extends State<beranda> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
     getLogin();
   }
 
@@ -101,6 +98,7 @@ class _berandaState extends State<beranda> {
                 final SharedPreferences sharedPreferences =
                     await SharedPreferences.getInstance();
                 sharedPreferences.remove('username');
+                sharedPreferences.remove('token');
                 Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new MyApp()));
               },

@@ -29,14 +29,19 @@ class _retribusiState extends State<retribusi> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     _kodeOperator = sharedPreferences.getString('username');
-    DataLoginProfil.connectToAPI(_kodeOperator!).then((value) {
+    var _token = sharedPreferences.getString('token');
+    DataLoginProfil.connectToAPI(_kodeOperator!, _token!).then((value) {
       dataProfil = value;
       setState(() {});
     });
   }
 
   getData() async {
-    RetribusiModel.connectToAPI(apiUrl).then((value) {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var _token = sharedPreferences.getString('token');
+
+    RetribusiModel.connectToAPI(apiUrl, _token!).then((value) {
       if (value != null) {
         dataRetribusi = value;
         setState(() {});

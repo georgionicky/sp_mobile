@@ -18,20 +18,20 @@ class KeteranganDashboard {
     );
   }
 
-  static Future<KeteranganDashboard> connectToAPI() async {
+  static Future<KeteranganDashboard?> connectToAPI(String token) async {
     // String apiUrl = Uri.parse('http://localhost:8000/api/cek-saldo');
     String apiUrl =
         "http://bumdes-sumowono.si-mantap.com/api/dashboard-operator";
 
-    var apiResult =
-        await http.post(Uri.parse(apiUrl), body: {'koperasi_id': '1'});
-    var jsonObject = json.decode(apiResult.body);
+    var apiResult = await http.post(Uri.parse(apiUrl),
+        body: {'koperasi_id': '1'},
+        headers: {'Authorization': 'Bearer ' + token});
 
     if (apiResult.statusCode == 200) {
-      print('Berhasil API Dashboard');
+      var jsonObject = json.decode(apiResult.body);
+      return KeteranganDashboard.getKeteranganDashboard(jsonObject);
     } else {
-      print('Gagal APi Dashboard');
+      return null;
     }
-    return KeteranganDashboard.getKeteranganDashboard(jsonObject);
   }
 }

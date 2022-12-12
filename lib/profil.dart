@@ -26,9 +26,9 @@ class _profilState extends State<profil> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var _kodeAnggota = sharedPreferences.getString('username');
-    print(_kodeAnggota);
+    var _token = sharedPreferences.getString('token');
 
-    DataLoginProfil.connectToAPI(_kodeAnggota!).then((value) {
+    DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) {
       dataProfil = value;
       setState(() {});
     });

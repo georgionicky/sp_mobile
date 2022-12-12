@@ -13,12 +13,13 @@ class DaftarBlok {
     return DaftarBlok(daftar: object['daftar'], jmlBlok: len);
   }
 
-  static Future<DaftarBlok> connectToAPI() async {
+  static Future<DaftarBlok> connectToAPI(String token) async {
     // String apiUrl = Uri.parse('http://localhost:8000/api/cek-saldo');
     String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/daftar-blok";
 
-    var apiResult =
-        await http.post(Uri.parse(apiUrl), body: {'koperasi_id': '1'});
+    var apiResult = await http.post(Uri.parse(apiUrl),
+        body: {'koperasi_id': '1'},
+        headers: {'Authorization': 'Bearer ' + token});
     var jsonObject = json.decode(apiResult.body);
 
     if (apiResult.statusCode == 200) {

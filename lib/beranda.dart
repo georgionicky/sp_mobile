@@ -78,9 +78,12 @@ class _berandaState extends State<beranda> {
                   new Text('${dataProfil?.profil['nama'] ?? "Nama Pegawai"}'),
               accountEmail: new Text("Petugas Retribusi"),
               currentAccountPicture: (dataProfil != null)
-                  ? new ClipRRect(
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Image.network(dataProfil?.foto, width: 40))
+                  ? new ClipOval(
+                      child: Image.network(
+                      dataProfil?.foto,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ))
                   : new Icon(
                       Icons.account_circle_outlined,
                       size: 40,
@@ -175,10 +178,13 @@ class _berandaState extends State<beranda> {
                           padding: EdgeInsets.only(left: 0.0),
                           child: TextButton(
                             child: (dataProfil != null)
-                                ? new ClipRRect(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    child: Image.network(dataProfil?.foto,
-                                        width: 90))
+                                ? new ClipOval(
+                                    child: Image.network(
+                                    dataProfil?.foto,
+                                    width: 90,
+                                    height: 90,
+                                    fit: BoxFit.cover,
+                                  ))
                                 : new Icon(
                                     Icons.account_circle_outlined,
                                     size: 90,
@@ -195,16 +201,18 @@ class _berandaState extends State<beranda> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                '${dataProfil?.profil['nama'] ?? "Nama Pegawai"}',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800),
-                                overflow: TextOverflow.fade,
-                                maxLines: 1,
-                                softWrap: false,
-                              ),
+                              SizedBox(
+                                  width: 180,
+                                  child: Text(
+                                    '${dataProfil?.profil['nama'] ?? "Nama Pegawai"}',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800),
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 2,
+                                    softWrap: true,
+                                  )),
                               SizedBox(
                                 height: 5.0,
                               ),

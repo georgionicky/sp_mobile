@@ -20,9 +20,7 @@ class KeteranganDashboard {
   }
 
   static Future<KeteranganDashboard?> connectToAPI(String token) async {
-    // String apiUrl = Uri.parse('http://localhost:8000/api/cek-saldo');
-    String apiUrl =
-        "http://bumdes-sumowono.si-mantap.com/api/dashboard-operator";
+    String apiUrl = "http://www.lkmsumowono.com/api/dashboard-operator";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'koperasi_id': '1'},

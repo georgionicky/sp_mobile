@@ -14,7 +14,7 @@ class Riwayat {
   }
 
   static Future<Riwayat?> connectToAPI(String token) async {
-    String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/riwayat-operator";
+    String apiUrl = "http://www.lkmsumowono.com/api/riwayat-operator";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'koperasi_id': '1'},

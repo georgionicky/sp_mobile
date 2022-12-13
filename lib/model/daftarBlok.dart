@@ -15,8 +15,7 @@ class DaftarBlok {
   }
 
   static Future<DaftarBlok?> connectToAPI(String token) async {
-    // String apiUrl = Uri.parse('http://localhost:8000/api/cek-saldo');
-    String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/daftar-blok";
+    String apiUrl = "http://www.lkmsumowono.com/api/daftar-blok";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'koperasi_id': '1'},

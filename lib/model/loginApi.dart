@@ -15,7 +15,7 @@ class DataLoginProfil {
 
   static Future<DataLoginProfil?> connectToAPI(
       String kodeAnggota, String token) async {
-    String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/login-profil";
+    String apiUrl = "http://www.lkmsumowono.com/api/login-profil";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'koperasi_id': '1', 'kode_anggota': kodeAnggota},

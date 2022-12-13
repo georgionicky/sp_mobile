@@ -22,7 +22,7 @@ class LoginToken {
 
   static Future<LoginToken?> connectToAPI(
       String username, String password) async {
-    String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/login";
+    String apiUrl = "http://www.lkmsumowono.com/api/login";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'username': username, 'password': password});

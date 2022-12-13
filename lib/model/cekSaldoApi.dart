@@ -21,7 +21,7 @@ class SaldoBlok {
   }
 
   static Future<SaldoBlok?> connectToAPI(String noRek, String token) async {
-    String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/cek-saldo";
+    String apiUrl = "http://www.lkmsumowono.com/api/cek-saldo";
 
     var apiResult = await http.post(Uri.parse(apiUrl),
         body: {'no_rek': noRek, 'koperasi_id': '1'},

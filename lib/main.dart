@@ -67,8 +67,8 @@ class _LocationAppState extends State<LocationApp> {
       finalToken = _token;
     });
 
-    // print('Final Token');
-    // print(finalToken);
+    print('Final Token');
+    print(finalToken);
   }
 
   late LoginToken? dataLogin;

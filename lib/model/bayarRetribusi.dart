@@ -21,7 +21,7 @@ class BayarRetribusi {
 
   static Future<BayarRetribusi?> connectToAPI(
       String blok, String kehadiran, String operator, String token) async {
-    String apiUrl = "http://bumdes-sumowono.si-mantap.com/api/bayar-retribusi";
+    String apiUrl = "http://www.lkmsumowono.com/api/bayar-retribusi";
 
     var apiResult = await http.post(Uri.parse(apiUrl), body: {
       'blok': blok,

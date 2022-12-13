@@ -115,60 +115,52 @@ class _cek_LapakState extends State<cek_Lapak> {
               ),
               Expanded(
                 flex: 5,
-                child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: GridView.builder(
-                      primary: false,
-                      itemCount: (search == true) ? list.length : len,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          // ignore: sort_child_properties_last
-                          child: Center(
-                            child: Text(
-                                (search == true)
-                                    ? '${list[index]['kode']}'
-                                    : '${daftarBlok?.daftar[index]['kode']}',
-                                textAlign: TextAlign.center,
-                                // ignore: prefer_const_constructors
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          color: (search != true)
-                              ? (daftarBlok?.daftar[index]['riwayat_retribusi']
-                                          .length ==
-                                      0)
-                                  ? Colors.grey
-                                  : (daftarBlok?.daftar[index]
-                                                  ['riwayat_retribusi'][0]
-                                              ['status_kehadiran'] ==
-                                          "1")
-                                      ? const Color.fromRGBO(39, 174, 96, 100)
-                                      : const Color.fromARGB(156, 255, 2, 2)
-                              : (list[index]['riwayat_retribusi'].length == 0)
-                                  ? Colors.grey
-                                  : (list[index]['riwayat_retribusi'][0]
-                                              ['status_kehadiran'] ==
-                                          "1")
-                                      ? const Color.fromRGBO(39, 174, 96, 100)
-                                      : const Color.fromARGB(156, 255, 2, 2),
-                        );
-                      },
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        crossAxisCount: 5,
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: GridView.builder(
+                    primary: false,
+                    itemCount: (search == true) ? list.length : len,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: const EdgeInsets.all(8),
+                        // ignore: sort_child_properties_last
+                        child: Center(
+                          child: Text(
+                              (search == true)
+                                  ? '${list[index]['kode']}'
+                                  : '${daftarBlok?.daftar[index]['kode']}',
+                              textAlign: TextAlign.center,
+                              // ignore: prefer_const_constructors
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                        color: (search != true)
+                            ? (daftarBlok?.daftar[index]['riwayat_retribusi']
+                                        .length ==
+                                    0)
+                                ? Colors.grey
+                                : (daftarBlok?.daftar[index]
+                                                ['riwayat_retribusi'][0]
+                                            ['status_kehadiran'] ==
+                                        "1")
+                                    ? const Color.fromRGBO(39, 174, 96, 100)
+                                    : const Color.fromARGB(156, 255, 2, 2)
+                            : (list[index]['riwayat_retribusi'].length == 0)
+                                ? Colors.grey
+                                : (list[index]['riwayat_retribusi'][0]
+                                            ['status_kehadiran'] ==
+                                        "1")
+                                    ? const Color.fromRGBO(39, 174, 96, 100)
+                                    : const Color.fromARGB(156, 255, 2, 2),
+                      );
+                    },
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 4,
                     ),
                   ),
                 ),

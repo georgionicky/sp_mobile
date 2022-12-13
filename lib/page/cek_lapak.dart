@@ -65,16 +65,16 @@ class _cek_LapakState extends State<cek_Lapak> {
       body: SingleChildScrollView(
         child: Container(
           constraints: BoxConstraints(
-            maxHeight: 600,
+            maxHeight: 750,
             maxWidth: MediaQuery.of(context).size.width,
           ),
           child: Column(
             children: [
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: 20.0),
+                      vertical: 40.0, horizontal: 20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +160,7 @@ class _cek_LapakState extends State<cek_Lapak> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      crossAxisCount: 4,
+                      crossAxisCount: 5,
                     ),
                   ),
                 ),

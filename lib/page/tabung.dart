@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, camel_case_types, no_logic_in_create_state, prefer_final_fields, avoid_init_to_null, prefer_typing_uninitialized_variables, no_leading_underscores_for_local_identifiers, prefer_const_constructors, unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/beranda.dart';
@@ -88,6 +89,7 @@ class _tabungState extends State<tabung> {
     super.initState();
   }
 
+  bool naik = true;
   @override
   Widget build(BuildContext context) {
     if (dataTabung?.by == 'rekening') {
@@ -109,6 +111,7 @@ class _tabungState extends State<tabung> {
     (dataTabung != null) ? _txtRek.text = noRek : '';
 
     return Scaffold(
+      resizeToAvoidBottomInset: naik,
       appBar: new AppBar(
         title:
             Text("Menu Tabung", style: TextStyle(fontWeight: FontWeight.w700)),
@@ -341,7 +344,7 @@ class _tabungState extends State<tabung> {
     var _token = sharedPreferences.getString('token');
 
     String rek = _txtRek.text;
-    String api = 'http://bumdes-sumowono.si-mantap.com/api/detail?rek=$rek-1';
+    String api = 'http://www.lkmsumowono.com/api/detail?rek=$rek-1';
 
     TabungScan.connectToAPI(api, _token!).then((value) {
       if (value != null) {
@@ -368,12 +371,21 @@ class _tabungState extends State<tabung> {
     });
   }
 
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '##.####.######',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
   Widget nomorRekening() {
     return TextFormField(
         // readOnly: true,
+        onTap: () => setState(() {
+              naik = false;
+            }),
         controller: _txtRek,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 14.0, height: 0.5),
+        inputFormatters: [maskFormatter],
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -400,6 +412,9 @@ class _tabungState extends State<tabung> {
 
   Widget jmlTabung() {
     return TextFormField(
+        onTap: () => setState(() {
+              naik = true;
+            }),
         controller: _jmltabung,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 14.0, height: 0.5),

@@ -6,7 +6,7 @@ import 'package:sp_mobile/main.dart';
 import 'package:sp_mobile/model/keteranganDashboard.dart';
 import 'package:sp_mobile/model/loginApi.dart';
 import 'package:sp_mobile/page/cek_lapak.dart';
-import 'package:sp_mobile/page/navfoot.dart';
+import 'package:sp_mobile/page/history.dart';
 import 'package:sp_mobile/page/scannerCekSaldo.dart';
 import 'package:sp_mobile/page/scannerTabung.dart';
 import 'package:sp_mobile/page/tabung.dart';
@@ -642,7 +642,7 @@ class _berandaState extends State<beranda> {
                 minWidth: 40,
                 onPressed: () => Navigator.of(context).push(
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new navbarFooter())),
+                        builder: (BuildContext context) => new historyAll())),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

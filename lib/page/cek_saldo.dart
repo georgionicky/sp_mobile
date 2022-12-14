@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, camel_case_types, no_logic_in_create_state, avoid_init_to_null, prefer_final_fields, no_leading_underscores_for_local_identifiers, prefer_const_constructors, unnecessary_new, duplicate_ignore
 
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/components/rupiahFormat.dart';
@@ -227,11 +228,17 @@ class _cek_SaldoState extends State<cek_Saldo> {
     );
   }
 
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '##.####.######',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
   Widget nomorRekening() {
     return TextFormField(
         controller: _norek,
         keyboardType: TextInputType.number,
-        style: TextStyle(fontSize: 12.0, height: 0.5),
+        style: TextStyle(fontSize: 14.0, height: 0.5),
+        inputFormatters: [maskFormatter],
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: BorderSide(

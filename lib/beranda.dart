@@ -44,8 +44,6 @@ class _berandaState extends State<beranda> {
       ketBlok = value;
       setState(() {});
     });
-
-    print('tessss');
   }
 
   @override

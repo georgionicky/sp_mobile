@@ -63,7 +63,7 @@ class _berandaState extends State<beranda> {
   Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Ingin Keluar Aplikasi?'),
+          title: Text('Ingin Keluar?'),
           actions: [
             ElevatedButton(
               onPressed: () async {
@@ -73,7 +73,7 @@ class _berandaState extends State<beranda> {
                 sharedPreferences.remove('token');
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new MyApp()));
+                    builder: (BuildContext context) => new LocationApp()));
               },
               child: Text('Ya'),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -143,13 +143,17 @@ class _berandaState extends State<beranda> {
                   leading: Icon(Icons.logout),
                   title: Text('Keluar'),
                   onTap: () async {
-                    final SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    sharedPreferences.remove('username');
-                    sharedPreferences.remove('token');
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyApp()));
+                    final popAlert = await showWarning(context);
+                    if (popAlert == true) {
+                      final SharedPreferences sharedPreferences =
+                          await SharedPreferences.getInstance();
+                      sharedPreferences.remove('username');
+                      sharedPreferences.remove('token');
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new LocationApp()));
+                    }
                   },
                 ),
               ],

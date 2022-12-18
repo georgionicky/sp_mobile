@@ -67,212 +67,235 @@ class _LocationAppState extends State<LocationApp> {
       finalToken = _token;
     });
 
-    print('Final Token');
-    print(finalToken);
+    // print('Final Token');
+    // print(finalToken);
   }
 
   late LoginToken? dataLogin;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height,
-            maxWidth: MediaQuery.of(context).size.width,
-          ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              // ignore: prefer_const_literals_to_create_immutables
-              colors: [
-                Color.fromRGBO(39, 174, 96, 100),
-                Color.fromRGBO(39, 174, 96, 100)
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.centerRight,
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Ingin Keluar Aplikasi?'),
+          actions: [
+            ElevatedButton(
+              onPressed: () =>
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+              child: Text('Ya'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 36.0, horizontal: 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Text(
-                        "Masuk",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 46.0,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Lembaga Keuangan Desa Sumowono",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Tidak'),
+            ),
+          ],
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) => WillPopScope(
+      onWillPop: () async {
+        final popAlert = await showWarning(context);
+        return popAlert ?? false;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+              maxWidth: MediaQuery.of(context).size.width,
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                // ignore: prefer_const_literals_to_create_immutables
+                colors: [
+                  Color.fromRGBO(39, 174, 96, 100),
+                  Color.fromRGBO(39, 174, 96, 100)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.centerRight,
               ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      // ignore: prefer_const_literals_to_create_immutables
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black,
-                          offset: const Offset(
-                            5.0,
-                            5.0,
-                          ),
-                          blurRadius: 10.0,
-                          spreadRadius: 2.0,
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(70),
-                          topRight: Radius.circular(70))),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
                   child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 36.0, horizontal: 24.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // ignore: prefer_const_literals_to_create_immutables
                       children: [
-                        PhysicalModel(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          child: Image.asset("assets/logo_sumowono.png",
-                              width: 150),
-                        ),
                         Text(
-                          "Selamat Datang",
+                          "Masuk",
                           style: TextStyle(
-                            color: Color.fromRGBO(39, 174, 96, 100),
-                            fontSize: 22.0,
+                            color: Colors.white,
+                            fontSize: 46.0,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
                         Text(
-                          "Masuk untuk melanjutkan",
+                          "Lembaga Keuangan Desa Sumowono",
                           style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 12.0,
+                            color: Colors.white,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        PhysicalModel(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.white,
-                          elevation: 10.0,
-                          shadowColor: Colors.black,
-                          child: TextField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: txtUsername,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: "Username",
-                                prefixIcon:
-                                    Icon(Icons.email, color: Colors.grey[600])),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        PhysicalModel(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.white,
-                          elevation: 10.0,
-                          shadowColor: Colors.black,
-                          child: TextField(
-                            obscureText: !_passwordVisible,
-                            keyboardType: TextInputType.emailAddress,
-                            controller: txtPassword,
-                            decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    // Based on passwordVisible state choose the icon
-                                    _passwordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
-                                  onPressed: () {
-                                    // Update the state i.e. toogle the state of passwordVisible variable
-                                    setState(() {
-                                      _passwordVisible = !_passwordVisible;
-                                    });
-                                  },
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: "Kata Sandi",
-                                prefixIcon:
-                                    Icon(Icons.key, color: Colors.grey[600])),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50.0,
-                        ),
-                        SizedBox(
-                          height: 50.0,
-                          width: 250.0,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Color.fromRGBO(39, 174, 96, 100),
-                              elevation: 10.0,
-
-                              // foreground
-                            ),
-                            onPressed: () {
-                              _doLogin();
-                            },
-                            child: Text('Masuk'),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 5,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: const Offset(
+                              5.0,
+                              5.0,
+                            ),
+                            blurRadius: 10.0,
+                            spreadRadius: 2.0,
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(70),
+                            topRight: Radius.circular(70))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          PhysicalModel(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            child: Image.asset("assets/logo_sumowono.png",
+                                width: 150),
+                          ),
+                          Text(
+                            "Selamat Datang",
+                            style: TextStyle(
+                              color: Color.fromRGBO(39, 174, 96, 100),
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          Text(
+                            "Masuk untuk melanjutkan",
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          PhysicalModel(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.white,
+                            elevation: 10.0,
+                            shadowColor: Colors.black,
+                            child: TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: txtUsername,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: "Username",
+                                  prefixIcon: Icon(Icons.email,
+                                      color: Colors.grey[600])),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          PhysicalModel(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.white,
+                            elevation: 10.0,
+                            shadowColor: Colors.black,
+                            child: TextField(
+                              obscureText: !_passwordVisible,
+                              keyboardType: TextInputType.emailAddress,
+                              controller: txtPassword,
+                              decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // Based on passwordVisible state choose the icon
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                    onPressed: () {
+                                      // Update the state i.e. toogle the state of passwordVisible variable
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: "Kata Sandi",
+                                  prefixIcon:
+                                      Icon(Icons.key, color: Colors.grey[600])),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.0,
+                          ),
+                          SizedBox(
+                            height: 50.0,
+                            width: 250.0,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor:
+                                    Color.fromRGBO(39, 174, 96, 100),
+                                elevation: 10.0,
+
+                                // foreground
+                              ),
+                              onPressed: () {
+                                _doLogin();
+                              },
+                              child: Text('Masuk'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      ));
 
   Future _doLogin() async {
     if (txtUsername.text.isEmpty || txtPassword.text.isEmpty) {

@@ -43,29 +43,48 @@ class _retribusiState extends State<retribusi> {
         await SharedPreferences.getInstance();
     var _token = sharedPreferences.getString('token');
 
-    RetribusiModel.connectToAPI(apiUrl, _token!).then((value) {
-      if (value != null) {
-        dataRetribusi = value;
-        setState(() {});
-      } else {
-        Alert(
-                context: context,
-                title: "Nomor rekening atau blok tidak ditemukan!",
-                buttons: [
-                  DialogButton(
-                    // ignore: sort_child_properties_last
-                    child: Text(
-                      "Ok",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    width: 120,
-                  )
-                ],
-                type: AlertType.error)
-            .show();
-      }
-    });
+    try {
+      RetribusiModel.connectToAPI(apiUrl, _token!).then((value) {
+        if (value != null) {
+          dataRetribusi = value;
+          setState(() {});
+        } else {
+          Alert(
+                  context: context,
+                  title: "Nomor rekening atau blok tidak ditemukan!",
+                  buttons: [
+                    DialogButton(
+                      // ignore: sort_child_properties_last
+                      child: Text(
+                        "Ok",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      width: 120,
+                    )
+                  ],
+                  type: AlertType.error)
+              .show();
+        }
+      });
+    } catch (e) {
+      Alert(
+              context: context,
+              title: "Nomor rekening atau blok tidak ditemukan!",
+              buttons: [
+                DialogButton(
+                  // ignore: sort_child_properties_last
+                  child: Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  width: 120,
+                )
+              ],
+              type: AlertType.error)
+          .show();
+    }
   }
 
   @override

@@ -35,14 +35,34 @@ class _berandaState extends State<beranda> {
     // ignore: no_leading_underscores_for_local_identifiers
     var _token = sharedPreferences.getString('token');
 
-    DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) {
-      dataProfil = value;
-      setState(() {});
+    DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) async {
+      if (value != null) {
+        dataProfil = value;
+        setState(() {});
+      } else {
+        final SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.remove('username');
+        sharedPreferences.remove('token');
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).push(new MaterialPageRoute(
+            builder: (BuildContext context) => new LocationApp()));
+      }
     });
 
-    KeteranganDashboard.connectToAPI(_token).then((value) {
-      ketBlok = value;
-      setState(() {});
+    KeteranganDashboard.connectToAPI(_token).then((value) async {
+      if (value != null) {
+        ketBlok = value;
+        setState(() {});
+      } else {
+        final SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.remove('username');
+        sharedPreferences.remove('token');
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).push(new MaterialPageRoute(
+            builder: (BuildContext context) => new LocationApp()));
+      }
     });
   }
 

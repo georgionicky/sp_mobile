@@ -36,18 +36,8 @@ class _berandaState extends State<beranda> {
     var _token = sharedPreferences.getString('token');
 
     DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) async {
-      if (value != null) {
-        dataProfil = value;
-        setState(() {});
-      } else {
-        final SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.remove('username');
-        sharedPreferences.remove('token');
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).push(new MaterialPageRoute(
-            builder: (BuildContext context) => new LocationApp()));
-      }
+      dataProfil = value;
+      setState(() {});
     });
 
     KeteranganDashboard.connectToAPI(_token).then((value) async {

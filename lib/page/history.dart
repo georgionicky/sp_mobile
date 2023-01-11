@@ -146,23 +146,103 @@ class _historyAllState extends State<historyAll> {
         shape: CircularNotchedRectangle(),
         notchMargin: 10,
         child: SizedBox(
-          height: 60,
+          height: 80,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                "Transaksi Hari Ini : ",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Setoran  : ",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Retribusi  : ",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        "Transaksi Hari Ini : ",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              Text(
-                RupiahFormat.convertToIdr(total.toString(), 0),
-                style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          RupiahFormat.convertToIdr(total.toString(), 0),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          RupiahFormat.convertToIdr(total.toString(), 0),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          RupiahFormat.convertToIdr(total.toString(), 0),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
               SizedBox(height: 5),
             ],

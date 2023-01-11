@@ -49,12 +49,12 @@ class _LocationAppState extends State<LocationApp> {
     // ignore: todo
     // TODO: implement initState
 
-    getValidationData().whenComplete(() async {
-      (finalToken == null)
-          ? MyApp()
-          : Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new beranda()));
-    });
+    // getValidationData().whenComplete(() async {
+    //   (finalToken == null)
+    //       ? MyApp()
+    //       : Navigator.of(context).push(new MaterialPageRoute(
+    //           builder: (BuildContext context) => new beranda()));
+    // });
     super.initState();
   }
 

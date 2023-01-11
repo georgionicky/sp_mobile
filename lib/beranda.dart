@@ -1,6 +1,9 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors, unnecessary_new, avoid_returning_null_for_void, prefer_const_literals_to_create_immutables, avoid_init_to_null
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_mobile/main.dart';
 import 'package:sp_mobile/model/keteranganDashboard.dart';
@@ -22,7 +25,9 @@ class beranda extends StatefulWidget {
   State<beranda> createState() => _berandaState();
 }
 
-class _berandaState extends State<beranda> {
+class _berandaState extends State<beranda> with WidgetsBindingObserver {
+  late Timer timer;
+  int count = 0;
   late KeteranganDashboard? ketBlok = null;
   late DataLoginProfil? dataProfil = null;
   final PageStorageBucket bucket = PageStorageBucket();
@@ -36,18 +41,8 @@ class _berandaState extends State<beranda> {
     var _token = sharedPreferences.getString('token');
 
     DataLoginProfil.connectToAPI(_kodeAnggota!, _token!).then((value) async {
-      if (value != null) {
-        dataProfil = value;
-        setState(() {});
-      } else {
-        final SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.remove('username');
-        sharedPreferences.remove('token');
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).push(new MaterialPageRoute(
-            builder: (BuildContext context) => new LocationApp()));
-      }
+      dataProfil = value;
+      setState(() {});
     });
 
     KeteranganDashboard.connectToAPI(_token).then((value) async {
@@ -71,7 +66,74 @@ class _berandaState extends State<beranda> {
     // ignore: todo
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     getLogin();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      print("Resume");
+      if (count >= 180) {
+        // Logout
+        setState(() async {
+          final SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.remove('username');
+          sharedPreferences.remove('token');
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new LocationApp()));
+
+          Alert(
+            context: context,
+            style: AlertStyle(isCloseButton: false),
+            title: "Sesi Anda Telah Berakhir!",
+            desc: "Silahkan Login Kembali.",
+            closeIcon: null,
+            type: AlertType.warning,
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "OK",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+                width: 120,
+              )
+            ],
+          ).show();
+        });
+
+        timer.cancel();
+      } else {
+        // print("============ Tidak Logout ==========");
+        timer.cancel();
+      }
+    } else if (state == AppLifecycleState.inactive) {
+      count = 0;
+      // print("Inactive");
+      timer = Timer.periodic(Duration(seconds: 1), (tm) {
+        setState(() {
+          count += 1;
+        });
+      });
+    } else if (state == AppLifecycleState.detached) {
+      // print("Detached");
+    } else if (state == AppLifecycleState.paused) {
+      // print("Paused");
+    }
   }
 
   Future refresh() async {

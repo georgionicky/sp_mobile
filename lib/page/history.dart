@@ -49,8 +49,18 @@ class _historyAllState extends State<historyAll> {
   Widget build(BuildContext context) {
     int lenTabungan = dataRiwayat?.riwayat.length ?? 0;
     int total = 0;
+    int totalSetoran = 0;
+    int totalRetribusi = 0;
     for (var i = 0; i < lenTabungan; i++) {
       total += int.parse(dataRiwayat?.riwayat[i]['jumlah']);
+
+      if (dataRiwayat?.riwayat[i]['kode'].toString() == "02") {
+        totalSetoran += int.parse(dataRiwayat?.riwayat[i]['jumlah']);
+      }
+
+      if (dataRiwayat?.riwayat[i]['kode'].toString() == "05") {
+        totalRetribusi += int.parse(dataRiwayat?.riwayat[i]['jumlah']);
+      }
     }
 
     return Scaffold(
@@ -152,10 +162,11 @@ class _historyAllState extends State<historyAll> {
             children: [
               Column(
                 children: [
+                  SizedBox(height: 5),
                   Row(
                     children: [
                       Text(
-                        "Setoran  : ",
+                        "Total Setoran : ",
                         style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 16,
@@ -166,7 +177,7 @@ class _historyAllState extends State<historyAll> {
                   Row(
                     children: [
                       Text(
-                        "Retribusi  : ",
+                        "Total Retribusi : ",
                         style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 16,
@@ -174,14 +185,14 @@ class _historyAllState extends State<historyAll> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   Row(
                     children: [
                       Text(
                         "Transaksi Hari Ini : ",
                         style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -190,12 +201,13 @@ class _historyAllState extends State<historyAll> {
               ),
               Column(
                 children: [
+                  SizedBox(height: 5),
                   Row(
                     children: [
                       SizedBox(
                         width: 100,
                         child: Text(
-                          RupiahFormat.convertToIdr(total.toString(), 0),
+                          RupiahFormat.convertToIdr(totalSetoran.toString(), 0),
                           style: TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 16,
@@ -212,7 +224,8 @@ class _historyAllState extends State<historyAll> {
                       SizedBox(
                         width: 100,
                         child: Text(
-                          RupiahFormat.convertToIdr(total.toString(), 0),
+                          RupiahFormat.convertToIdr(
+                              totalRetribusi.toString(), 0),
                           style: TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 16,
@@ -224,7 +237,7 @@ class _historyAllState extends State<historyAll> {
                       )
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   Row(
                     children: [
                       SizedBox(
